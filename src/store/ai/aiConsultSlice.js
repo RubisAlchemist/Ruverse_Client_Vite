@@ -45,6 +45,9 @@ export const aiConsultSlice = createSlice({
       state.modal = initialState.modal;
       state.audio.upload = initialState.audio.upload;
     },
+    clearAudioSrc: (state) => {
+      state.audio.src = "";
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(uploadRequest.pending, (state) => {
@@ -57,7 +60,8 @@ export const aiConsultSlice = createSlice({
       state.audio.upload.error = null;
 
       state.audio.current += 1;
-      state.audio.audioSrc = action.payload;
+      console.log(`uploadRequest result = ${action.payload}`);
+      state.audio.src = action.payload;
 
       state.modal.open = true;
       state.modal.message = "요청 성공";
@@ -74,6 +78,6 @@ export const aiConsultSlice = createSlice({
   },
 });
 
-export const { closeModal } = aiConsultSlice.actions;
+export const { clearAudioSrc, closeModal } = aiConsultSlice.actions;
 
 export default aiConsultSlice.reducer;

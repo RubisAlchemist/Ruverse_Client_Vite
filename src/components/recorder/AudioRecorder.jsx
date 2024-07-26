@@ -1,5 +1,5 @@
 import { Button, Typography } from "@mui/material";
-import { uploadRequest } from "@store/ai/aiConsultSlice";
+import { clearAudioSrc, uploadRequest } from "@store/ai/aiConsultSlice";
 import PropTypes from "prop-types";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,6 +28,7 @@ const AudioRecorder = ({ uname }) => {
       formData.append("audio", blob, `${uname}_오디오_${current}.wav`);
       console.log(formData.get("audio"));
 
+      dispatch(clearAudioSrc());
       dispatch(uploadRequest(formData));
 
       // saveAudioStream(blob);

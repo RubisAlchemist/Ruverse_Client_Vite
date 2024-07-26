@@ -7,6 +7,7 @@ const AiConsultChannelPage = () => {
   const { uname } = useParams();
 
   const src = useSelector((state) => state.aiConsult.audio.src);
+  console.log(`src change ${src}`);
 
   const isLoading = useSelector(
     (state) => state.aiConsult.audio.upload.isLoading
@@ -29,8 +30,8 @@ const AiConsultChannelPage = () => {
             component="video"
             width="100%"
             height="100%"
-            autoPlay
             src={src}
+            autoPlay
           />
         )}
       </Box>
