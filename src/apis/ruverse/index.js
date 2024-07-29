@@ -8,7 +8,6 @@ const ruverseClient = axios.create({
 // 요청 인터셉터
 ruverseClient.interceptors.request.use(
   function (config) {
-    // console.log(format(config));
     return config;
   },
   function (error) {

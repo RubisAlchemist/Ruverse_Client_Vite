@@ -25,8 +25,10 @@ const AudioRecorder = ({ uname }) => {
       const formData = new FormData();
 
       // audio: 서버에서 접근할때 사용하는 키값
-      formData.append("audio", blob, `${uname}_오디오_${current}.wav`);
+      formData.append("audio", blob, `${uname}_audio_${current}.wav`);
+      formData.append("uname", uname);
       console.log(formData.get("audio"));
+      console.log(formData.get("uname"));
 
       dispatch(clearAudioSrc());
       dispatch(uploadRequest(formData));
