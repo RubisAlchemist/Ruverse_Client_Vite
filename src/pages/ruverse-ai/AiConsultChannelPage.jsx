@@ -68,7 +68,7 @@ import { AudioRecorder, LocalUser } from "@components/index";
 import { Box, CircularProgress } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
-import { clearAudioSrc } from "./aiConsultSlice"; // Adjust the import path accordingly
+import { clearAudioSrc } from "@store/ai/aiConsultSlice"; // Adjust the import path accordingly
 
 const AiConsultChannelPage = () => {
   const { uname } = useParams();
