@@ -44,10 +44,10 @@ const AiConsultChannelPage = () => {
             <Fade in={true}>
               <Box
                 position="absolute"
-                zIndex={999}
+                zIndex={1}
                 component="video"
                 width="100%"
-                height="100%"
+                height="90%"
                 src={src}
                 autoPlay
                 onEnded={handleVideoEnd}
@@ -58,14 +58,12 @@ const AiConsultChannelPage = () => {
       }
 
       <Box
-        sx={{
-          position: "absolute",
-          right: 0,
-          bottom: "10%",
-          backgroundColor: "blue",
-          width: { xs: "200px", md: "320px" },
-          height: { xs: "120px", md: "200px" },
-        }}
+        position="absolute"
+        zIndex={2}
+        right={0}
+        bottom={"10%"}
+        width={{ xs: "200px", md: "320px" }}
+        height={{ xs: "120px", md: "200px" }}
       >
         <LocalUser />
       </Box>
