@@ -3,8 +3,8 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   audio: {
-    src: "https://ruverse.snu.ac.kr/video/default.mp4",
-    isWait: false,
+    defaultSrc: "https://ruverse.snu.ac.kr/video/default.mp4",
+    src: "",
     upload: {
       error: null,
       isError: false,
@@ -48,7 +48,6 @@ export const aiConsultSlice = createSlice({
     },
     clearAudioSrc: (state) => {
       state.audio.src = initialState.audio.src;
-      state.audio.isWait = true;
     },
     setAudioSrc: (state, action) => {
       state.audio.src = action.payload;
@@ -57,7 +56,6 @@ export const aiConsultSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(uploadRequest.pending, (state) => {
       state.audio.upload.isLoading = true;
-      state.audio.isWait = true;
     });
     builder.addCase(uploadRequest.fulfilled, (state, action) => {
       state.audio.upload.isSuccess = true;
@@ -69,8 +67,6 @@ export const aiConsultSlice = createSlice({
       state.audio.src = action.payload;
       state.modal.open = true;
       state.modal.message = "요청 성공";
-
-      state.audio.isWait = false;
     });
     builder.addCase(uploadRequest.rejected, (state, action) => {
       state.audio.upload.isSuccess = false;
@@ -79,8 +75,6 @@ export const aiConsultSlice = createSlice({
       state.audio.upload.error = action.error.message;
       state.modal.message = "요청 실패";
       state.modal.open = true;
-
-      state.audio.isWait = true;
     });
   },
 });

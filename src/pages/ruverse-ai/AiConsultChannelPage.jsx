@@ -9,7 +9,14 @@ const AiConsultChannelPage = () => {
   const dispatch = useDispatch();
 
   const src = useSelector((state) => state.aiConsult.audio.src);
+  const defaultSrc = useSelector((state) => state.aiConsult.audio.defaultSrc);
+
   const isWait = useSelector((state) => state.aiConsult.audio.isWait);
+  const isLoading = useSelector(
+    (state) => state.aiConsult.audio.upload.isLoading
+  );
+
+  const play = !isLoading && src !== "";
 
   const handleVideoEnd = () => {
     dispatch(clearAudioSrc());
@@ -26,17 +33,29 @@ const AiConsultChannelPage = () => {
           justifyContent="center"
           alignItems="center"
         >
-          <Fade in={true}>
-            <Box
-              component="video"
-              width="100%"
-              height="100%"
-              src={src}
-              loop={isWait}
-              autoPlay
-              onEnded={handleVideoEnd}
-            />
-          </Fade>
+          <Box
+            component="video"
+            width="100%"
+            height="100%"
+            src={defaultSrc}
+            loop={true}
+            autoPlay={true}
+            onEnded={handleVideoEnd}
+          />
+          {play && (
+            <Fade in={true}>
+              <Box
+                position="absolute"
+                zIndex={999}
+                component="video"
+                width="100%"
+                height="100%"
+                src={src}
+                autoPlay
+                onEnded={handleVideoEnd}
+              />
+            </Fade>
+          )}
         </Box>
       }
 
