@@ -28,7 +28,6 @@ const AiConsultChannelPage = () => {
         >
           <Fade in={true}>
             <Box
-              border={3}
               component="video"
               width="100%"
               height="100%"
