@@ -11,6 +11,10 @@ const AiConsultChannelPage = () => {
   const defaultSrc = useSelector((state) => state.aiConsult.audio.defaultSrc);
   const src = useSelector((state) => state.aiConsult.audio.src);
 
+  const isLoading = useSelector(
+    (state) => state.aiConsult.audio.upload.isLoading
+  );
+
   const handleVideoEnd = () => {
     dispatch(clearAudioSrc());
   };
@@ -26,12 +30,13 @@ const AiConsultChannelPage = () => {
           justifyContent="center"
           alignItems="center"
         >
-          {src === "" ? (
+          {src === "" || isLoading ? (
             <Box
               component="video"
               width="100%"
               height="100%"
               src={defaultSrc}
+              loop={true}
               autoPlay
               onEnded={handleVideoEnd}
             />

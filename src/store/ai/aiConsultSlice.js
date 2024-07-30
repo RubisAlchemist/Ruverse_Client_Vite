@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const initialState = {
   audio: {
     defaultSrc: "https://ruverse.snu.ac.kr/video/default.mp4",
-    src: "https://ruverse.snu.ac.kr/video/default.mp4",
+    src: "",
     upload: {
       error: null,
       isError: false,
@@ -43,11 +43,11 @@ export const aiConsultSlice = createSlice({
   initialState,
   reducers: {
     closeModal: (state) => {
-      state.modal = initialState.modal;
+      state.audio = initialState.audio;
       state.audio.upload = initialState.audio.upload;
     },
     clearAudioSrc: (state) => {
-      state.audio.src = state.audio.defaultSrc;
+      state.audio.src = "";
     },
     setAudioSrc: (state, action) => {
       state.audio.src = action.payload;
