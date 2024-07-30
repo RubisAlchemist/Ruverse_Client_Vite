@@ -10,17 +10,15 @@ const AiConsultChannelPage = () => {
 
   const src = useSelector((state) => state.aiConsult.audio.src);
   const defaultSrc = useSelector((state) => state.aiConsult.audio.defaultSrc);
-
-  const isWait = useSelector((state) => state.aiConsult.audio.isWait);
   const isLoading = useSelector(
     (state) => state.aiConsult.audio.upload.isLoading
   );
 
-  const play = !isLoading && src !== "";
-
   const handleVideoEnd = () => {
     dispatch(clearAudioSrc());
   };
+
+  const play = !isLoading && src !== "";
 
   return (
     <Box width="100%" height="100vh">
