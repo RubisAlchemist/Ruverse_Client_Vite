@@ -3,7 +3,6 @@ import { Box, Fade } from "@mui/material";
 import { clearAudioSrc } from "@store/ai/aiConsultSlice"; // Adjust the import path accordingly
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { clearAudioSrc } from "@store/ai/aiConsultSlice"; // Adjust the import path accordingly
 
 const AiConsultChannelPage = () => {
   const { uname } = useParams();
