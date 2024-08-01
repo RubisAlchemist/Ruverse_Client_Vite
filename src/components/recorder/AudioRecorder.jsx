@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { useDispatch, useSelector } from "react-redux";
 
-const AudioRecorder = ({ uname }) => {
+const AudioRecorder = ({ uname, disabled }) => {
   // const { audioStream, saveAudioStream } = useRecordContext();
   const current = useSelector((state) => state.aiConsult.audio.current);
   const dispatch = useDispatch();

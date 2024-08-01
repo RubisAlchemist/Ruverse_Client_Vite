@@ -85,7 +85,7 @@ export const aiConsultSlice = createSlice({
   },
 });
 
-export const { clearAudioSrc, closeModal, setAudioSrc } =
+export const { clearAudioSrc, closeModal, setAudioSrc, setGreetingsPlayed } =
   aiConsultSlice.actions;
 
 export default aiConsultSlice.reducer;
