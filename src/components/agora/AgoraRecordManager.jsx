@@ -40,32 +40,6 @@ const AgoraRecordManager = ({ children }) => {
     },
   });
 
-  // 로컬 화면 녹화
-  // 아고라 cloud recording 기능 사용으로 인한 주석 처리
-  /*
-  const {
-    status: screenStatus,
-    startRecording: startScreenRecording,
-    stopRecording: stopScreenRecording,
-    error: screenError,
-  } = useReactMediaRecorder({
-    screen: true,
-    audio: true,
-    blobPropertyBag: {
-      type: "video/mp4",
-    },
-    askPermissionOnMount: false,
-    onStart: () => {
-      console.log(`[RECORDER] screen record start = ${screenStatus}`);
-    },
-    onStop: (url, blob) => {
-      console.log("[RECORDER] screen record stop");
-      console.log(`[RECORDER] result: ${blob}`);
-      setScreenRecordBlob(blob);
-    },
-  });
-  */
-
   // 녹화 시작 할 때 webgazer 실행
   const startRecording = () => {
     try {
