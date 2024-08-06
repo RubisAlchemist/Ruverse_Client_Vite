@@ -1,5 +1,4 @@
 import axios from "axios";
-import format from "pretty-format";
 
 const ruverseClient = axios.create({
   baseURL: import.meta.env.VITE_RUVERSE_SERVER_URL,
