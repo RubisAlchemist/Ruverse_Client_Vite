@@ -1,4 +1,5 @@
 import { Button, Typography } from "@mui/material";
+import { resetAgoraSlice } from "@store/agora/agoraSlice";
 import { resetLogger } from "@store/logger/loggerSlice";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -22,6 +23,7 @@ const ChannelLeaveButton = () => {
     // webgazer.end();
 
     dispatch(resetLogger());
+    dispatch(resetAgoraSlice());
     // dispatch(resetUpload());
     navigate("/consultEntry", { replace: true });
   };
