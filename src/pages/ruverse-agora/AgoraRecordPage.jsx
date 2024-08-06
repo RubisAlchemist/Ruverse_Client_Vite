@@ -1,4 +1,4 @@
-import AgoraRecordManager from "@components/agora/AgoraRecordManager";
+import { AgoraWebRecordManager } from "@components/index";
 import { Box, Typography } from "@mui/material";
 import AgoraRTC, { AgoraRTCProvider, useRTCClient } from "agora-rtc-react";
 import { useMemo, useState } from "react";
@@ -77,9 +77,9 @@ const AgoraRecordPage = () => {
   }
 
   return (
-    <Box width="100%" height="100%">
+    <Box width="100%" height="100vh">
       <AgoraRTCProvider client={client}>
-        <AgoraRecordManager config={config} />
+        <AgoraWebRecordManager config={config} />
       </AgoraRTCProvider>
     </Box>
   );
