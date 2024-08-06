@@ -3,11 +3,13 @@ import { Box, CircularProgress, Stack, Typography } from "@mui/material";
 import {
   LocalVideoTrack,
   RemoteUser,
+  useClientEvent,
   useJoin,
   useLocalCameraTrack,
   useLocalMicrophoneTrack,
   usePublish,
   useRemoteUsers,
+  useRTCClient,
 } from "agora-rtc-react";
 import PropTypes from "prop-types";
 import { useEffect } from "react";
@@ -15,6 +17,9 @@ import { useEffect } from "react";
 const APP_ID = import.meta.env.VITE_AGORA_RTC_APP_KEY;
 
 const AgoraManager = ({ config, children }) => {
+  // 채널 상태 관련
+  const agoraEngine = useRTCClient();
+
   // 로컬 사용자 카메라 트랙
   const { isLoading: isLoadingCam, localCameraTrack } = useLocalCameraTrack();
   // 로컬 사용자 마이크 트랙
@@ -31,6 +36,15 @@ const AgoraManager = ({ config, children }) => {
     },
     true
   );
+
+  useClientEvent(agoraEngine, "user-joined", (user) => {
+    console.log("The user", user.uid, " has joined the channel");
+  });
+
+  useClientEvent(agoraEngine, "user-left", (user) => {
+    console.log("The user", user.uid, " has left the channel");
+    console.log(user);
+  });
 
   useEffect(() => {
     return () => {
