@@ -12,6 +12,7 @@ import StartRecordingButton from "./agora/buttons/StartRecordingButton";
 import VirtualBackground from "./agora/VirtualBackground";
 import UploadInfoModal from "./agora/modals/UploadInfoModal";
 import AgoraModal from "./agora/modals/AgoraModal";
+import AgoraWebRecordManager from "./agora/AgoraWebRecordManager";
 
 export {
   UploadInfoModal,
@@ -23,5 +24,6 @@ export {
   StartRecordingButton,
   VirtualBackground,
   AgoraModal,
+  AgoraWebRecordManager,
   MODAL_TYPES,
 };
