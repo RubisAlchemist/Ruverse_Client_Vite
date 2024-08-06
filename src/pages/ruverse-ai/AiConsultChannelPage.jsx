@@ -1,61 +1,84 @@
+import React, { useState, useEffect } from "react";
 import { AudioRecorder, LocalUser } from "@components/index";
 import { Box, Fade } from "@mui/material";
-import { clearAudioSrc } from "@store/ai/aiConsultSlice"; // Adjust the import path accordingly
+import { clearAudioSrc, setGreetingsPlayed } from "@store/ai/aiConsultSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 const AiConsultChannelPage = () => {
   const { uname } = useParams();
   const dispatch = useDispatch();
+  const [overlayVideo, setOverlayVideo] = useState(null);
 
   const src = useSelector((state) => state.aiConsult.audio.src);
   const defaultSrc = useSelector((state) => state.aiConsult.audio.defaultSrc);
+  const greetingsSrc = useSelector(
+    (state) => state.aiConsult.audio.greetingsSrc
+  );
+  const isGreetingsPlaying = useSelector(
+    (state) => state.aiConsult.audio.isGreetingsPlaying
+  );
   const isLoading = useSelector(
     (state) => state.aiConsult.audio.upload.isLoading
   );
 
-  const handleVideoEnd = () => {
-    dispatch(clearAudioSrc());
-  };
+  useEffect(() => {
+    if (isGreetingsPlaying) {
+      setOverlayVideo(greetingsSrc);
+    } else if (src) {
+      setOverlayVideo(src);
+    } else {
+      setOverlayVideo(null);
+    }
+  }, [isGreetingsPlaying, src, greetingsSrc]);
 
-  const play = !isLoading && src !== "";
+  const handleOverlayVideoEnd = () => {
+    if (isGreetingsPlaying) {
+      dispatch(setGreetingsPlayed());
+    } else {
+      dispatch(clearAudioSrc());
+    }
+    setOverlayVideo(null);
+  };
 
   return (
     <Box width="100%" height="100vh">
-      {/* remote user */}
-      {
+      <Box
+        width="100%"
+        height="90%"
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        position="relative"
+      >
+        {/* Background default video */}
         <Box
+          component="video"
           width="100%"
-          height="90%"
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Box
-            component="video"
-            width="100%"
-            height="100%"
-            src={defaultSrc}
-            loop={true}
-            autoPlay={true}
-            onEnded={handleVideoEnd}
-          />
-          {play && (
-            <Fade in={true}>
-              <Box
-                position="absolute"
-                zIndex={1}
-                component="video"
-                width="100%"
-                height="90%"
-                src={src}
-                autoPlay
-                onEnded={handleVideoEnd}
-              />
-            </Fade>
-          )}
-        </Box>
-      }
+          height="100%"
+          src={defaultSrc}
+          loop
+          autoPlay
+          muted
+        />
+
+        {/* Overlay video (greetings or response) */}
+        {overlayVideo && (
+          <Fade in={true}>
+            <Box
+              position="absolute"
+              top={0}
+              left={0}
+              width="100%"
+              height="100%"
+              component="video"
+              src={overlayVideo}
+              autoPlay
+              onEnded={handleOverlayVideoEnd}
+            />
+          </Fade>
+        )}
+      </Box>
 
       <Box
         position="absolute"
@@ -75,9 +98,11 @@ const AiConsultChannelPage = () => {
         borderTop={1}
         borderColor={"#ccc"}
       >
-        <AudioRecorder uname={uname} />
+        <AudioRecorder
+          uname={uname}
+          disabled={isGreetingsPlaying || !!overlayVideo}
+        />
       </Box>
-      {/* <UploadInfoModal /> */}
     </Box>
   );
 };

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { useDispatch, useSelector } from "react-redux";
 
-const AudioRecorder = ({ uname }) => {
+const AudioRecorder = ({ uname, disabled }) => {
   // const { audioStream, saveAudioStream } = useRecordContext();
   const current = useSelector((state) => state.aiConsult.audio.current);
   const dispatch = useDispatch();
@@ -40,7 +40,12 @@ const AudioRecorder = ({ uname }) => {
   return (
     <>
       {status === "recording" ? (
-        <Button onClick={stopRecording} color="primary" variant="contained">
+        <Button
+          onClick={stopRecording}
+          color="primary"
+          variant="contained"
+          disabled={disabled}
+        >
           <Typography
             sx={{
               fontSize: { xs: "12px", md: "16px", lg: "18px" },
@@ -50,7 +55,12 @@ const AudioRecorder = ({ uname }) => {
           </Typography>
         </Button>
       ) : (
-        <Button onClick={startRecording} color="primary" variant="contained">
+        <Button
+          onClick={startRecording}
+          color="primary"
+          variant="contained"
+          disabled={disabled}
+        >
           <Typography
             sx={{
               fontSize: { xs: "12px", md: "16px", lg: "18px" },
@@ -66,6 +76,7 @@ const AudioRecorder = ({ uname }) => {
 
 AudioRecorder.propTypes = {
   uname: PropTypes.string,
+  disabled: PropTypes.bool,
 };
 
 export default AudioRecorder;
