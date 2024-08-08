@@ -8,6 +8,7 @@ import RealTimeConsultEntryPage from "./ruverse-agora/RealTimeConsultEntryPage";
 // with ai
 import AiConsultEntryPage from "./ruverse-ai/AiConsultEntryPage";
 import AiConsultChannelPage from "./ruverse-ai/AiConsultChannelPage";
+import KlleonAvatar from "./ruverse-ai/klleonAvatar";
 
 export {
   LandingPage,
@@ -16,4 +17,5 @@ export {
   RealTimeConsultEntryPage,
   AiConsultEntryPage,
   AiConsultChannelPage,
+  KlleonAvatar,
 };

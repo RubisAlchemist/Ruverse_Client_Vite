@@ -5,6 +5,7 @@ import {
   PermissionsPage,
   RealTimeConsultChannelPage,
   RealTimeConsultEntryPage,
+  KlleonAvatar,
 } from "@pages/index.js";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -20,6 +21,7 @@ function App() {
         <Route path="/consult/" element={<RealTimeConsultChannelPage />} />
         <Route path="/ai-consultEntry" element={<AiConsultEntryPage />} />
         <Route path="/ai-consult/:uname" element={<AiConsultChannelPage />} />
+        <Route path="/klleonAvatar" element={<KlleonAvatar />} />
       </Routes>
     </BrowserRouter>
   );

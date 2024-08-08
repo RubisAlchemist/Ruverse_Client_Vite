@@ -22,6 +22,24 @@ const initialState = {
   },
 };
 
+export const uploadKlleonRequest = createAsyncThunk(
+  "asyncThunk/uploadAudioRequest",
+  async (audioForm) => {
+    const response = await ruverseClient.post(
+      "/counseling/get_klleon_response",
+      audioForm,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+    const data = response.data;
+
+    return data;
+  }
+);
+
 export const uploadRequest = createAsyncThunk(
   "asyncThunk/uploadAudioRequest",
   async (audioForm) => {
