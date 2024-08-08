@@ -6,7 +6,6 @@ import { useReactMediaRecorder } from "react-media-recorder";
 import PropTypes from "prop-types";
 
 const KlleonAvatar = () => {
-  const VITE_KLLEON_TRIAL_KEY = import.meta.env.VITE_KLLEON_TRIAL_KEY;
   const audioRef = useRef(null);
   const current = useSelector((state) => state.aiConsult.audio.current);
   const dispatch = useDispatch();
@@ -22,21 +21,22 @@ const KlleonAvatar = () => {
 
       dispatch(clearAudioSrc());
       const response = await dispatch(uploadKlleonRequest(formData));
-      const audioUrl = response.payload; // 서버로부터 받은 오디오 URL
+      //const audioUrl = response.payload; // 서버로부터 받은 오디오 URL
+      KlleonChat.echo(response.payload);
 
       // 오디오 파일 다운로드 및 Base64 인코딩
-      fetch(audioUrl)
-        .then((res) => res.blob())
-        .then((blob) => {
-          const reader = new FileReader();
-          reader.onloadend = () => {
-            const base64AudioMessage = reader.result.split(",")[1];
-            // 클레온에 오디오 전송
-            window.KlleonChat.startAudioEcho(base64AudioMessage);
-          };
-          reader.readAsDataURL(blob);
-        })
-        .catch(console.error);
+      //   fetch(audioUrl)
+      //     .then((res) => res.blob())
+      //     .then((blob) => {
+      //       const reader = new FileReader();
+      //       reader.onloadend = () => {
+      //         const base64AudioMessage = reader.result.split(",")[1];
+      //         // 클레온에 오디오 전송
+      //         window.KlleonChat.startAudioEcho(base64AudioMessage);
+      //       };
+      //       reader.readAsDataURL(blob);
+      //     })
+      //     .catch(console.error);
     },
   });
 
@@ -47,7 +47,7 @@ const KlleonAvatar = () => {
     document.body.appendChild(script);
 
     script.onload = () => {
-      const sdkOption = { sdk_key: VITE_KLLEON_TRIAL_KEY };
+      const sdkOption = { sdk_key: import.meta.env.VITE_KLLEON_TRIAL_KEY };
       const avatarOption = {
         avatar_id: "a5fe629d-0090-11ef-8ee1-0abbf354c5cc",
       };
