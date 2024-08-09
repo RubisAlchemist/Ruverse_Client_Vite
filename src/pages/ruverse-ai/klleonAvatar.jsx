@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAudioSrc, uploadKlleonRequest } from "@store/ai/aiConsultSlice";
 import { useReactMediaRecorder } from "react-media-recorder";
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
-import MicIcon from "@mui/icons-material/Mic"; // Example icon, replace with image if needed
+import { useNavigate, useLocation } from "react-router-dom";
+import MicIcon from "@mui/icons-material/Mic";
 
 // Import your exit image
-import ExitImage from "@assets/images/exit.png"; // Adjust the path as necessary
+import ExitImage from "@assets/images/exit.png";
 
 const KlleonAvatar = () => {
   const audioRef = useRef(null);
@@ -17,15 +17,23 @@ const KlleonAvatar = () => {
   const navigate = useNavigate();
   const [isEchoRunning, setIsEchoRunning] = useState(false);
   const [isGreeting, setIsGreeting] = useState(false);
-  const { status, startRecording, stopRecording } = useReactMediaRecorder({
-    audio: true,
-    blobPropertyBag: { type: "audio/wav" },
-    onStart: () => console.log(`[RECORDER] video record start = ${status}`),
-    onStop: async (url, blob) => {
+
+  const location = useLocation();
+  const [uname, setUname] = useState(location.state?.uname || "");
+
+  const onRecordingStop = useCallback(
+    async (url, blob) => {
       console.log("[RECORDER] video record stop");
       const formData = new FormData();
       formData.append("audio", blob, `audio_${current}.wav`);
-      formData.append("uname", "user");
+      formData.append("uname", uname);
+
+      // formData 내용 확인
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+
+      console.log("formData uname:", formData.get("uname"));
 
       dispatch(clearAudioSrc());
       const response = await dispatch(uploadKlleonRequest(formData));
@@ -37,9 +45,20 @@ const KlleonAvatar = () => {
         setIsEchoRunning(false);
       }, 5000);
     },
+    [current, uname, dispatch]
+  );
+
+  const { status, startRecording, stopRecording } = useReactMediaRecorder({
+    audio: true,
+    blobPropertyBag: { type: "audio/wav" },
+    onStart: () => console.log(`[RECORDER] video record start = ${status}`),
+    onStop: onRecordingStop,
   });
 
   useEffect(() => {
+    console.log("Received uname:", uname);
+    setUname(location.state?.uname || "");
+
     const script = document.createElement("script");
     script.src = "https://sdk.klleon.io/klleon-chat/0.9.0/klleon_chat_sdk.js";
     script.async = true;
@@ -60,7 +79,7 @@ const KlleonAvatar = () => {
     return () => {
       document.body.removeChild(script);
     };
-  }, [isGreeting]);
+  }, [location.state?.uname]);
 
   const handleEndConsultation = () => {
     navigate("/AvatarChoosePage");
@@ -96,17 +115,14 @@ const KlleonAvatar = () => {
         borderColor={"#ccc"}
         position="relative"
       >
-        {/* Wrapping the MicIcon and Typography together */}
         <Box display="flex" flexDirection="column" alignItems="center">
-          {/* Microphone Icon above the text */}
-          <MicIcon sx={{ fontSize: 50, mb: 1 }} />{" "}
-          {/* Adjust size and margin as needed */}
+          <MicIcon sx={{ fontSize: 50, mb: 1 }} />
           <Typography
-            onClick={handleRecordingToggle} // Attach the onClick event
+            onClick={handleRecordingToggle}
             sx={{
               fontSize: { xs: "15px", md: "20px", lg: "25px" },
-              cursor: "pointer", // Add pointer cursor to indicate it's clickable
-              color: "primary.main", // Adjust color as needed
+              cursor: "pointer",
+              color: "primary.main",
               textAlign: "center",
             }}
           >
@@ -114,19 +130,18 @@ const KlleonAvatar = () => {
           </Typography>
         </Box>
 
-        {/* Exit Image at the bottom-right corner */}
         <Box
           component="img"
-          src={ExitImage} // Ensure this path is correct
+          src={ExitImage}
           alt="Exit"
-          onClick={handleEndConsultation} // Attach the same onClick event
+          onClick={handleEndConsultation}
           sx={{
             position: "absolute",
-            bottom: "35px", // Distance from the bottom of the box
-            right: "20px", // Distance from the right of the box
-            width: "50px", // Adjust size as needed
+            bottom: "35px",
+            right: "20px",
+            width: "50px",
             height: "50px",
-            cursor: "pointer", // Add pointer cursor to indicate it's clickable
+            cursor: "pointer",
           }}
         />
       </Box>

@@ -16,22 +16,36 @@ import { Header } from "@components/index";
 import avatarJiho from "@assets/images/avatar_jiho.png";
 import avatarJennie from "@assets/images/avatar_jennie.png";
 import avatarJungkook from "@assets/images/avatar_jungkook.png";
+import { KlleonAvatar } from "..";
 
 const HEADER_HEIGHT = "64px";
 
-const AiConsultEntryPage = () => {
+const allowedUsernames = [
+  "client1",
+  "client2",
+  "client3",
+  "client4",
+  "client5",
+];
+
+const AvatarChoosePage = () => {
   const [uname, setUname] = useState({ value: "", error: false });
   const [selectedAvatar, setSelectedAvatar] = useState(null);
   const [openPopup, setOpenPopup] = useState(false);
   const navigate = useNavigate();
 
   const onChangeUname = (e) => {
+    // name check validation
+    // const value = e.target.value;
+    // const valid = e.target.validity.valid;
+    // setUname({ value, error: !valid });
     const value = e.target.value;
-    const valid = e.target.validity.valid;
-    setUname({ value, error: !valid });
+    const isAllowed = allowedUsernames.includes(value);
+    setUname({ value, error: !isAllowed });
   };
 
-  const onClickStart = () => navigate(`/klleonAvatar`);
+  const onClickStart = () =>
+    navigate(`/klleonAvatar`, { state: { uname: uname.value } });
 
   const handleAvatarClick = (avatar) => {
     if (avatar === "jiho") {
@@ -65,7 +79,8 @@ const AiConsultEntryPage = () => {
           paddingTop: HEADER_HEIGHT, // 헤더 높이만큼 패딩 추가
         }}
       >
-        <Stack spacing={{ xs: 3, md: 4 }} alignItems="center">
+        {/* name check validation  */}
+        {/* <Stack spacing={{ xs: 3, md: 4 }} alignItems="center">
           <Box sx={{ width: "100%", maxWidth: "500px", mb: { xs: 2, md: 4 } }}>
             <TextField
               fullWidth
@@ -79,6 +94,31 @@ const AiConsultEntryPage = () => {
               onChange={onChangeUname}
               inputProps={{
                 pattern: "[A-Za-z0-9]+",
+                style: { fontSize: "clamp(14px, 2vw, 18px)" },
+              }}
+              InputLabelProps={{
+                style: { fontSize: "clamp(14px, 2vw, 18px)" },
+              }}
+              FormHelperTextProps={{
+                style: { fontSize: "clamp(10px, 1.5vw, 14px)" },
+              }}
+            />
+          </Box> */}
+        <Stack spacing={{ xs: 3, md: 4 }} alignItems="center">
+          <Box sx={{ width: "100%", maxWidth: "500px", mb: { xs: 2, md: 4 } }}>
+            <TextField
+              fullWidth
+              required
+              error={uname.error}
+              value={uname.value}
+              helperText={
+                uname.error
+                  ? "유저 이름은 client1, client2, client3, client4, client5 만 가능합니다."
+                  : ""
+              }
+              label="이름을 입력해주세요"
+              onChange={onChangeUname}
+              inputProps={{
                 style: { fontSize: "clamp(14px, 2vw, 18px)" },
               }}
               InputLabelProps={{
@@ -157,4 +197,4 @@ const AiConsultEntryPage = () => {
   );
 };
 
-export default AiConsultEntryPage;
+export default AvatarChoosePage;
