@@ -1,5 +1,7 @@
 import LandingPage from "./common/LandingPage";
 import PermissionsPage from "./common/PermissionsPage";
+import HomePage from "./common/home";
+import AvatarChoosePage from "./common/AvatarChoose";
 
 // with agora rtc
 import RealTimeConsultChannelPage from "./ruverse-agora/RealTimeConsultChannelPage";
@@ -18,4 +20,6 @@ export {
   AiConsultEntryPage,
   AiConsultChannelPage,
   KlleonAvatar,
+  HomePage,
+  AvatarChoosePage,
 };

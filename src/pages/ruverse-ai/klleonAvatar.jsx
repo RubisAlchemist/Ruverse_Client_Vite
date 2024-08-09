@@ -1,16 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { clearAudioSrc, uploadKlleonRequest } from "@store/ai/aiConsultSlice";
 import { useReactMediaRecorder } from "react-media-recorder";
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
+import MicIcon from "@mui/icons-material/Mic"; // Example icon, replace with image if needed
+
+// Import your exit image
+import ExitImage from "@assets/images/exit.png"; // Adjust the path as necessary
 
 const KlleonAvatar = () => {
   const audioRef = useRef(null);
   const current = useSelector((state) => state.aiConsult.audio.current);
   const dispatch = useDispatch();
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
   const [isEchoRunning, setIsEchoRunning] = useState(false);
   const [isGreeting, setIsGreeting] = useState(false);
   const { status, startRecording, stopRecording } = useReactMediaRecorder({
@@ -27,10 +31,8 @@ const KlleonAvatar = () => {
       const response = await dispatch(uploadKlleonRequest(formData));
       window.KlleonChat.echo(response.payload);
 
-      // Disabling "대답하기" button during echo execution
       setIsEchoRunning(true);
 
-      // Mocking the duration of KlleonChat.echo for demo purposes
       setTimeout(() => {
         setIsEchoRunning(false);
       }, 5000);
@@ -46,29 +48,12 @@ const KlleonAvatar = () => {
     script.onload = () => {
       const sdkOption = { sdk_key: import.meta.env.VITE_KLLEON_TRIAL_KEY };
       const avatarOption = {
-        avatar_id: "a6124155-0090-11ef-8ee1-0abbf354c5cc",
+        avatar_id: "a57d4b8e-0090-11ef-8ee1-0abbf354c5cc",
       };
 
       if (window.KlleonChat) {
         window.KlleonChat.init(sdkOption);
         window.KlleonChat.showStreaming(avatarOption);
-
-        // Polling for the readiness of showStreaming
-        // const checkStreamingReady = setInterval(() => {
-        //   if (window.KlleonChat.isStreamingReady && !isGreeting) {
-        //     clearInterval(checkStreamingReady);
-        // window.KlleonChat.echo(
-        //   "안녕하세요, 저는 오늘 함께 이야기를 나눌 에코입니다. 여러 일들로 마음이 불편하고 자기 감정을 알기 어려울 때 상담을 통해 마음의 안정을 찾도록 돕는 일을 하고 있어요. 간단하게 자기 소개를 부탁해도 될까요?"
-        // );
-        //     setIsGreeting(true);
-        //   }
-        // }, 500); // Check every 500ms
-
-        // setTimeout(() => {
-        //   window.KlleonChat.echo(
-        //     "안녕하세요, 저는 오늘 함께 이야기를 나눌 에코입니다. 여러 일들로 마음이 불편하고 자기 감정을 알기 어려울 때 상담을 통해 마음의 안정을 찾도록 돕는 일을 하고 있어요. 간단하게 자기 소개를 부탁해도 될까요?"
-        //   );
-        // }, 100);
       }
     };
 
@@ -78,7 +63,15 @@ const KlleonAvatar = () => {
   }, [isGreeting]);
 
   const handleEndConsultation = () => {
-    navigate("/ai-consultentry"); // Redirect to /ai-consultentry
+    navigate("/AvatarChoosePage");
+  };
+
+  const handleRecordingToggle = () => {
+    if (status === "recording") {
+      stopRecording();
+    } else {
+      startRecording();
+    }
   };
 
   return (
@@ -101,39 +94,41 @@ const KlleonAvatar = () => {
         height="10%"
         borderTop={1}
         borderColor={"#ccc"}
+        position="relative"
       >
-        {status === "recording" ? (
-          <Button onClick={stopRecording} color="primary" variant="contained">
-            <Typography
-              sx={{ fontSize: { xs: "12px", md: "16px", lg: "18px" } }}
-            >
-              대답 끝내기
-            </Typography>
-          </Button>
-        ) : (
-          <Button
-            onClick={startRecording}
-            color="primary"
-            variant="contained"
-            disabled={isEchoRunning}
+        {/* Wrapping the MicIcon and Typography together */}
+        <Box display="flex" flexDirection="column" alignItems="center">
+          {/* Microphone Icon above the text */}
+          <MicIcon sx={{ fontSize: 50, mb: 1 }} />{" "}
+          {/* Adjust size and margin as needed */}
+          <Typography
+            onClick={handleRecordingToggle} // Attach the onClick event
+            sx={{
+              fontSize: { xs: "15px", md: "20px", lg: "25px" },
+              cursor: "pointer", // Add pointer cursor to indicate it's clickable
+              color: "primary.main", // Adjust color as needed
+              textAlign: "center",
+            }}
           >
-            <Typography
-              sx={{ fontSize: { xs: "12px", md: "16px", lg: "18px" } }}
-            >
-              대답하기
-            </Typography>
-          </Button>
-        )}
-        <Button
-          onClick={handleEndConsultation} // Trigger redirection
-          color="primary"
-          variant="contained"
-          sx={{ ml: 2 }} // Add some left margin
-        >
-          <Typography sx={{ fontSize: { xs: "12px", md: "16px", lg: "18px" } }}>
-            상담 끝내기
+            {status === "recording" ? "말 끝내기" : "말 시작하기"}
           </Typography>
-        </Button>
+        </Box>
+
+        {/* Exit Image at the bottom-right corner */}
+        <Box
+          component="img"
+          src={ExitImage} // Ensure this path is correct
+          alt="Exit"
+          onClick={handleEndConsultation} // Attach the same onClick event
+          sx={{
+            position: "absolute",
+            bottom: "35px", // Distance from the bottom of the box
+            right: "20px", // Distance from the right of the box
+            width: "50px", // Adjust size as needed
+            height: "50px",
+            cursor: "pointer", // Add pointer cursor to indicate it's clickable
+          }}
+        />
       </Box>
     </Box>
   );
