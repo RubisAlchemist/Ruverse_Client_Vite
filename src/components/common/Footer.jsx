@@ -13,12 +13,12 @@ import ifland from "@assets/images/ifland.png";
 const Footer = () => {
   const logos = [
     aiis,
+    snuh,
+    korea,
     threeR,
     virnect,
-    snuh,
     ktcloud,
     kakao,
-    korea,
     education,
     ifland,
   ];
