@@ -116,7 +116,7 @@ const AvatarChoosePage = () => {
                   ? "유저 이름은 client1, client2, client3, client4, client5 만 가능합니다."
                   : ""
               }
-              label="이름을 입력해주세요"
+              label="부여받은 아이디를 입력해주세요."
               onChange={onChangeUname}
               inputProps={{
                 style: { fontSize: "clamp(14px, 2vw, 18px)" },
