@@ -25,7 +25,7 @@ const AnimatedText = styled.div`
   text-align: center;
   position: absolute;
   left: 50%;
-  top: 18%;
+  top: 20vh;
   width: 100%;
   margin-bottom: 50px; // Add spacing below the text
 `;

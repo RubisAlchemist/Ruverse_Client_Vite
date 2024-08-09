@@ -1,7 +1,9 @@
 import React from "react";
 import { AppBar, Toolbar, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import logo from "@assets/images/logo.png"; // 로고 이미지 경로를 확인하세요
+import logo from "@assets/images/logo.png";
+
+export const HEADER_HEIGHT = "calc(8vh + 30px)";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -13,13 +15,13 @@ const Header = () => {
       position="fixed"
       color="transparent"
       elevation={0}
-      sx={{ top: 30 }} // 상단에 16px의 여백 추가
+      sx={{ top: 30, height: HEADER_HEIGHT }}
     >
-      <Toolbar sx={{ justifyContent: "center", minHeight: "48px" }}>
+      <Toolbar sx={{ justifyContent: "center", minHeight: "8vh" }}>
         <Box
           component="img"
           sx={{
-            height: 70,
+            height: "8vh",
             cursor: "pointer",
           }}
           alt="Logo"
