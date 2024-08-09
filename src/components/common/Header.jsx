@@ -17,7 +17,7 @@ const Header = () => {
       elevation={0}
       sx={{ top: 30, height: HEADER_HEIGHT }}
     >
-      <Toolbar sx={{ justifyContent: "center", minHeight: "8vh" }}>
+      <Toolbar sx={{ justifyContent: "flex-start", minHeight: "8vh" }}>
         <Box
           component="img"
           sx={{

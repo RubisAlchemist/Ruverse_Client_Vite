@@ -9,12 +9,14 @@ import kakao from "@assets/images/kakao.png";
 import korea from "@assets/images/korea.png";
 import education from "@assets/images/education.png";
 import ifland from "@assets/images/ifland.png";
+import harvard from "@assets/images/harvard.png";
 
 const Footer = () => {
   const logos = [
     aiis,
     snuh,
     korea,
+    harvard,
     threeR,
     virnect,
     ktcloud,
