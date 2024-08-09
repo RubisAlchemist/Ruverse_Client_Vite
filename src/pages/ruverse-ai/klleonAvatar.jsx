@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { clearAudioSrc, uploadKlleonRequest } from "@store/ai/aiConsultSlice";
 import { useReactMediaRecorder } from "react-media-recorder";
 import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 const KlleonAvatar = () => {
   const audioRef = useRef(null);
   const current = useSelector((state) => state.aiConsult.audio.current);
   const dispatch = useDispatch();
+  const navigate = useNavigate(); // Initialize useNavigate
   const [isEchoRunning, setIsEchoRunning] = useState(false);
   const [isGreeting, setIsGreeting] = useState(false);
   const { status, startRecording, stopRecording } = useReactMediaRecorder({
@@ -32,25 +34,6 @@ const KlleonAvatar = () => {
       setTimeout(() => {
         setIsEchoRunning(false);
       }, 5000);
-
-      // Uncomment the following if KlleonChat.echo provides a callback
-      // window.KlleonChat.echo(response.payload, () => {
-      //   setIsEchoRunning(false);
-      // });
-
-      // 오디오 파일 다운로드 및 Base64 인코딩
-      //   fetch(audioUrl)
-      //     .then((res) => res.blob())
-      //     .then((blob) => {
-      //       const reader = new FileReader();
-      //       reader.onloadend = () => {
-      //         const base64AudioMessage = reader.result.split(",")[1];
-      //         // 클레온에 오디오 전송
-      //         window.KlleonChat.startAudioEcho(base64AudioMessage);
-      //       };
-      //       reader.readAsDataURL(blob);
-      //     })
-      //     .catch(console.error);
     },
   });
 
@@ -94,6 +77,10 @@ const KlleonAvatar = () => {
     };
   }, [isGreeting]);
 
+  const handleEndConsultation = () => {
+    navigate("/ai-consultentry"); // Redirect to /ai-consultentry
+  };
+
   return (
     <Box width="100%" height="100vh">
       <Box
@@ -104,7 +91,7 @@ const KlleonAvatar = () => {
         alignItems="center"
         position="relative"
       >
-        <div id="klleon_chat" style={{ width: "50%", height: "100%" }}></div>
+        <div id="klleon_chat" style={{ width: "100%", height: "100%" }}></div>
       </Box>
 
       <Box
@@ -137,6 +124,16 @@ const KlleonAvatar = () => {
             </Typography>
           </Button>
         )}
+        <Button
+          onClick={handleEndConsultation} // Trigger redirection
+          color="primary"
+          variant="contained"
+          sx={{ ml: 2 }} // Add some left margin
+        >
+          <Typography sx={{ fontSize: { xs: "12px", md: "16px", lg: "18px" } }}>
+            상담 끝내기
+          </Typography>
+        </Button>
       </Box>
     </Box>
   );
