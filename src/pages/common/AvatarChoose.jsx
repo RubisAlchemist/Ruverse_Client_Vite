@@ -86,7 +86,7 @@ const AvatarChoosePage = () => {
                 md: `calc(${HEADER_HEIGHT} + 40px)`,
               },
               position: "relative",
-              zIndex: 1000,
+              zIndex: 1200,
             }}
           >
             <TextField
