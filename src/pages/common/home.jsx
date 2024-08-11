@@ -87,9 +87,9 @@ const HomePage = () => {
         </Container>
       </Box>
 
-      <Box sx={{ mt: 4, mb: 6 }}>
+      {/* <Box sx={{ mt: 4, mb: 6 }}>
         <Footer />
-      </Box>
+      </Box> */}
     </Box>
   );
 };

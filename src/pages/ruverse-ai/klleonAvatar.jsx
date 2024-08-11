@@ -17,6 +17,7 @@ const KlleonAvatar = () => {
   const navigate = useNavigate();
   const [isEchoRunning, setIsEchoRunning] = useState(false);
   const [isGreeting, setIsGreeting] = useState(false);
+  const [showInstruction, setShowInstruction] = useState(true); // State to manage the visibility of the instruction
 
   const location = useLocation();
   const [uname, setUname] = useState(location.state?.uname || "");
@@ -90,6 +91,7 @@ const KlleonAvatar = () => {
       stopRecording();
     } else {
       startRecording();
+      setShowInstruction(false); // Hide the instruction text after the first click
     }
   };
 
@@ -115,10 +117,33 @@ const KlleonAvatar = () => {
         borderColor={"#ccc"}
         position="relative"
       >
-        <Box display="flex" flexDirection="column" alignItems="center">
+        {showInstruction && (
+          <Typography
+            sx={{
+              fontSize: { xs: "12px", md: "15px", lg: "20px" },
+              color: "primary.main",
+              position: "absolute",
+              left: "20px", // Positioning the instruction to the left
+              bottom: "35px", // Aligning with the MicIcon's vertical position
+              textAlign: "center",
+            }}
+          >
+            말시작하기 버튼을 눌러 이름과 상담목적을
+            <br />
+            간단히 말씀해주시고 말끝내기 버튼을 눌러주세요
+          </Typography>
+        )}
+
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          onClick={handleRecordingToggle} // MicIcon 클릭 시 녹음 토글
+          sx={{ cursor: "pointer" }} // Pointer로 변경하여 클릭 가능하다는 느낌을 줌
+        >
           <MicIcon sx={{ fontSize: 50, mb: 1 }} />
           <Typography
-            onClick={handleRecordingToggle}
+            // onClick={handleRecordingToggle}
             sx={{
               fontSize: { xs: "15px", md: "20px", lg: "25px" },
               cursor: "pointer",
