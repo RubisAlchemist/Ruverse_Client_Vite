@@ -59,6 +59,7 @@ const AvatarChoosePage = () => {
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
+        position: "relative", // 상대적인 포지션 추가
       }}
     >
       <Header />
@@ -72,7 +73,6 @@ const AvatarChoosePage = () => {
           paddingTop: `calc(${HEADER_HEIGHT} + 2vh)`,
           paddingBottom: "2vh",
           boxSizing: "border-box",
-          marginTop: HEADER_HEIGHT, // 헤더 높이만큼 마진 추가
         }}
       >
         <Stack spacing={{ xs: 3, md: 4 }} alignItems="center">
@@ -84,7 +84,9 @@ const AvatarChoosePage = () => {
               mt: {
                 xs: `${HEADER_HEIGHT}`,
                 md: `calc(${HEADER_HEIGHT} + 2vh)`,
-              }, // 헤더 아래 공간 확보
+              },
+              position: "relative", // 상대적인 포지션 추가
+              zIndex: 1000, // 높은 z-index로 항상 위에 배치
             }}
           >
             <TextField
