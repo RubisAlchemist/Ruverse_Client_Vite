@@ -165,10 +165,11 @@ const KlleonAvatar = () => {
             alt="Describe 2"
             sx={{
               position: "absolute",
-              bottom: "35px",
+              top: "50%",
               right: "80px",
               height: "50px",
               objectFit: "contain",
+              transform: "translateY(-50%)",
             }}
           />
         )}
@@ -180,11 +181,12 @@ const KlleonAvatar = () => {
           onClick={handleEndConsultation}
           sx={{
             position: "absolute",
-            bottom: "35px",
+            top: "50%",
             right: "20px",
             width: "50px",
             height: "50px",
             cursor: "pointer",
+            transform: "translateY(-50%)",
           }}
         />
       </Box>
