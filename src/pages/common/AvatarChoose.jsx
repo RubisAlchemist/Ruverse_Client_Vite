@@ -35,10 +35,6 @@ const AvatarChoosePage = () => {
   const navigate = useNavigate();
 
   const onChangeUname = (e) => {
-    // name check validation
-    // const value = e.target.value;
-    // const valid = e.target.validity.valid;
-    // setUname({ value, error: !valid });
     const value = e.target.value;
     const isAllowed = allowedUsernames.includes(value);
     setUname({ value, error: !isAllowed });
@@ -76,36 +72,21 @@ const AvatarChoosePage = () => {
           paddingTop: `calc(${HEADER_HEIGHT} + 2vh)`,
           paddingBottom: "2vh",
           boxSizing: "border-box",
-          paddingTop: HEADER_HEIGHT, // 헤더 높이만큼 패딩 추가
+          marginTop: HEADER_HEIGHT, // 헤더 높이만큼 마진 추가
         }}
       >
-        {/* name check validation  */}
-        {/* <Stack spacing={{ xs: 3, md: 4 }} alignItems="center">
-          <Box sx={{ width: "100%", maxWidth: "500px", mb: { xs: 2, md: 4 } }}>
-            <TextField
-              fullWidth
-              required
-              error={uname.error}
-              value={uname.value}
-              helperText={
-                uname.error ? "유저 이름은 숫자, 영문만 가능합니다." : ""
-              }
-              label="이름을 영어로 입력해주세요"
-              onChange={onChangeUname}
-              inputProps={{
-                pattern: "[A-Za-z0-9]+",
-                style: { fontSize: "clamp(14px, 2vw, 18px)" },
-              }}
-              InputLabelProps={{
-                style: { fontSize: "clamp(14px, 2vw, 18px)" },
-              }}
-              FormHelperTextProps={{
-                style: { fontSize: "clamp(10px, 1.5vw, 14px)" },
-              }}
-            />
-          </Box> */}
         <Stack spacing={{ xs: 3, md: 4 }} alignItems="center">
-          <Box sx={{ width: "100%", maxWidth: "500px", mb: { xs: 2, md: 4 } }}>
+          <Box
+            sx={{
+              width: "100%",
+              maxWidth: "500px",
+              mb: { xs: 2, md: 4 },
+              mt: {
+                xs: `${HEADER_HEIGHT}`,
+                md: `calc(${HEADER_HEIGHT} + 2vh)`,
+              }, // 헤더 아래 공간 확보
+            }}
+          >
             <TextField
               fullWidth
               required
