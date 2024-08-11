@@ -105,7 +105,7 @@ const KlleonAvatar = () => {
         alignItems="center"
         position="relative"
       >
-        <div id="klleon_chat" style={{ width: "100%", height: "100%" }}></div>
+        <div id="klleon_chat" style={{ width: "100%", height: "90%" }}></div>
       </Box>
 
       <Box
@@ -113,7 +113,7 @@ const KlleonAvatar = () => {
         justifyContent="center"
         alignItems="center"
         height="10%"
-        borderTop={1}
+        // borderTop={1}
         borderColor={"#ccc"}
         position="relative"
       >
