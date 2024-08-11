@@ -7,8 +7,10 @@ import PropTypes from "prop-types";
 import { useNavigate, useLocation } from "react-router-dom";
 import MicIcon from "@mui/icons-material/Mic";
 
-// Import your exit image
+// Import your images
 import ExitImage from "@assets/images/exit.png";
+import Describe1Image from "@assets/images/describe1.png";
+import Describe2Image from "@assets/images/describe2.png";
 
 const KlleonAvatar = () => {
   const audioRef = useRef(null);
@@ -17,7 +19,7 @@ const KlleonAvatar = () => {
   const navigate = useNavigate();
   const [isEchoRunning, setIsEchoRunning] = useState(false);
   const [isGreeting, setIsGreeting] = useState(false);
-  const [showInstruction, setShowInstruction] = useState(true); // State to manage the visibility of the instruction
+  const [showInstruction, setShowInstruction] = useState(true);
 
   const location = useLocation();
   const [uname, setUname] = useState(location.state?.uname || "");
@@ -29,7 +31,6 @@ const KlleonAvatar = () => {
       formData.append("audio", blob, `audio_${current}.wav`);
       formData.append("uname", uname);
 
-      // formData 내용 확인
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }
@@ -91,7 +92,7 @@ const KlleonAvatar = () => {
       stopRecording();
     } else {
       startRecording();
-      setShowInstruction(false); // Hide the instruction text after the first click
+      setShowInstruction(false);
     }
   };
 
@@ -105,7 +106,7 @@ const KlleonAvatar = () => {
         alignItems="center"
         position="relative"
       >
-        <div id="klleon_chat" style={{ width: "100%", height: "90%" }}></div>
+        <div id="klleon_chat" style={{ width: "100%", height: "100%" }}></div>
       </Box>
 
       <Box
@@ -113,37 +114,39 @@ const KlleonAvatar = () => {
         justifyContent="center"
         alignItems="center"
         height="10%"
-        // borderTop={1}
         borderColor={"#ccc"}
         position="relative"
       >
         {showInstruction && (
-          <Typography
+          <Box
+            component="img"
+            src={Describe1Image}
+            alt="Describe 1"
             sx={{
-              fontSize: { xs: "12px", md: "15px", lg: "20px" },
-              color: "primary.main",
+              height: "50px",
+              objectFit: "contain",
+              mr: 2,
               position: "absolute",
-              left: "20px", // Positioning the instruction to the left
-              bottom: "35px", // Aligning with the MicIcon's vertical position
-              textAlign: "center",
+              left: "50%",
+              transform: "translateX(-120%)",
             }}
-          >
-            말시작하기 버튼을 눌러 이름과 상담목적을
-            <br />
-            간단히 말씀해주시고 말끝내기 버튼을 눌러주세요
-          </Typography>
+          />
         )}
 
         <Box
           display="flex"
           flexDirection="column"
           alignItems="center"
-          onClick={handleRecordingToggle} // MicIcon 클릭 시 녹음 토글
-          sx={{ cursor: "pointer" }} // Pointer로 변경하여 클릭 가능하다는 느낌을 줌
+          onClick={handleRecordingToggle}
+          sx={{
+            cursor: "pointer",
+            position: "absolute",
+            left: "50%",
+            transform: "translateX(-50%)",
+          }}
         >
           <MicIcon sx={{ fontSize: 50, mb: 1 }} />
           <Typography
-            // onClick={handleRecordingToggle}
             sx={{
               fontSize: { xs: "15px", md: "20px", lg: "25px" },
               cursor: "pointer",
@@ -154,6 +157,21 @@ const KlleonAvatar = () => {
             {status === "recording" ? "말 끝내기" : "말 시작하기"}
           </Typography>
         </Box>
+
+        {showInstruction && (
+          <Box
+            component="img"
+            src={Describe2Image}
+            alt="Describe 2"
+            sx={{
+              position: "absolute",
+              bottom: "35px",
+              right: "80px",
+              height: "50px",
+              objectFit: "contain",
+            }}
+          />
+        )}
 
         <Box
           component="img"
