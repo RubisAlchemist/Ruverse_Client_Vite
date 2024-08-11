@@ -41,7 +41,7 @@ const Header = () => {
             <Box
               component="img"
               sx={{
-                height: "5vh", // Adjust height as needed
+                height: "8vh", // Adjust height as needed
               }}
               alt="AIIS"
               src={aiisImage}
@@ -55,7 +55,7 @@ const Header = () => {
             <Box
               component="img"
               sx={{
-                height: "5vh", // Adjust height as needed
+                height: "8vh", // Adjust height as needed
               }}
               alt="Korea"
               src={koreaImage}
