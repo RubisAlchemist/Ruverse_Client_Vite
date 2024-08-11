@@ -59,10 +59,10 @@ const AvatarChoosePage = () => {
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
-        position: "relative", // 상대적인 포지션 추가
+        position: "relative",
       }}
     >
-      <Header />
+      <Header sx={{ zIndex: 1100 }} />
       <Container
         maxWidth="md"
         sx={{
@@ -82,11 +82,11 @@ const AvatarChoosePage = () => {
               maxWidth: "500px",
               mb: { xs: 2, md: 4 },
               mt: {
-                xs: `${HEADER_HEIGHT}`,
-                md: `calc(${HEADER_HEIGHT} + 2vh)`,
+                xs: `calc(${HEADER_HEIGHT} + 20px)`,
+                md: `calc(${HEADER_HEIGHT} + 40px)`,
               },
-              position: "relative", // 상대적인 포지션 추가
-              zIndex: 1000, // 높은 z-index로 항상 위에 배치
+              position: "relative",
+              zIndex: 1000,
             }}
           >
             <TextField
