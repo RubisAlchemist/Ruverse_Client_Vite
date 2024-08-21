@@ -11,6 +11,7 @@ import RealTimeConsultEntryPage from "./ruverse-agora/RealTimeConsultEntryPage";
 import AiConsultEntryPage from "./ruverse-ai/AiConsultEntryPage";
 import AiConsultChannelPage from "./ruverse-ai/AiConsultChannelPage";
 import KlleonAvatar from "./ruverse-ai/klleonAvatar";
+import SeamlessVideoStreamer from "./test";
 
 export {
   LandingPage,
@@ -22,4 +23,5 @@ export {
   KlleonAvatar,
   HomePage,
   AvatarChoosePage,
+  SeamlessVideoStreamer,
 };
