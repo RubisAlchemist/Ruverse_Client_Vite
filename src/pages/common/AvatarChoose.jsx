@@ -21,11 +21,18 @@ import { KlleonAvatar } from "..";
 const HEADER_HEIGHT = "64px";
 
 const allowedUsernames = [
+  "client0",
   "client1",
   "client2",
   "client3",
   "client4",
   "client5",
+  "client6",
+  "client7",
+  "client8",
+  "client9",
+  "client10",
+  "client11",
 ];
 
 const AvatarChoosePage = () => {
@@ -96,7 +103,7 @@ const AvatarChoosePage = () => {
               value={uname.value}
               helperText={
                 uname.error
-                  ? "유저 이름은 client1, client2, client3, client4, client5 만 가능합니다."
+                  ? "유저 이름은 client1 ~ client11 만 가능합니다."
                   : ""
               }
               label="부여받은 아이디를 입력해주세요."
