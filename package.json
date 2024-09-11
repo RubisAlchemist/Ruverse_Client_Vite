@@ -13,7 +13,7 @@
     "@aws-sdk/client-s3": "^3.278.0",
     "@aws-sdk/credential-providers": "^3.278.0",
     "@aws-sdk/lib-storage": "^3.540.0",
-    "@emotion/react": "^11.11.3",
+    "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.11.0",
     "@ffmpeg/ffmpeg": "^0.12.10",
     "@ffmpeg/util": "^0.12.1",
