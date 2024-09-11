@@ -25,7 +25,7 @@ function saveTimestampsToCSV(timestamps) {
   link.click();
   // Cleanup
   document.body.removeChild(link);
-  window.URL.revokeObjectURL(url);
+  window.URL.revokeObjectURL(url);  
 }
 //
 

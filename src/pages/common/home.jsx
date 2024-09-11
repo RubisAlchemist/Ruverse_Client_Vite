@@ -33,7 +33,9 @@ const AnimatedText = styled.div`
 const HomePage = () => {
   const navigate = useNavigate();
 
-  const onClickNavigate = () => navigate("/AvatarChoosePage");
+  // const onClickNavigate = () => navigate("/AvatarChoosePage");
+
+  const onClickNavigate = () => navigate("/ai-consultEntry");
   const onClickLogo = () => navigate("/");
 
   return (
