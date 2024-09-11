@@ -9,7 +9,8 @@ export default defineConfig({
     react(),
     commonjs({
       include: /node_modules/, // node_modules 내부의 CommonJS 모듈 처리
-      transformMixedEsModules: true, // ES 모듈과 CommonJS 모듈을 함께 처리
+      // transformMixedEsModules: true, // ES 모듈과 CommonJS 모듈을 함께 처리
+      requireReturnsDefault: "auto", // or 'preferred' if you're dealing with CJS interop issues
     }),
   ],
   server: {
