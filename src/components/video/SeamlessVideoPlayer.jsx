@@ -120,7 +120,7 @@ const SeamlessVideoPlayer = ({
     console.log("Current url: ", url);
     const mediaSource = mediaSourceRef.current;
 
-    const fetchWithRetry = async (retryCount = 5) => {
+    const fetchWithRetry = async (retryCount = 30) => {
       try {
         console.log(
           `Attempting to fetch video ${index}, Retry count: ${retryCount}`
