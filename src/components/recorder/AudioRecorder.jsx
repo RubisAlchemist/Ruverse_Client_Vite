@@ -3,28 +3,54 @@ import { clearAudioSrc, uploadRequest } from "@store/ai/aiConsultSlice";
 import PropTypes from "prop-types";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { useDispatch, useSelector } from "react-redux";
+// for profiling
+function saveTimestampsToCSV(timestamps) {
+  const fields = ["requestSentTime", "firstVideoPlayedTime"];
+  // Create CSV header and content
+  const csvRows = [];
+  csvRows.push(fields.join(",")); // Add header
+  csvRows.push(
+    [timestamps.requestSentTime, timestamps.firstVideoPlayedTime].join(",")
+  ); // Add row
+  // Convert CSV array to a Blob
+  const csvContent = csvRows.join("\n");
+  const blob = new Blob([csvContent], { type: "text/csv" });
+  // Create a downloadable link for the CSV
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = "timestamps_profiling_0911_requestSent.csv";
+  // Programmatically click the link to trigger the download
+  document.body.appendChild(link);
+  link.click();
+  // Cleanup
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(url);
+}
+//
 
-const AudioRecorder = ({ uname, disabled }) => {
-  // const { audioStream, saveAudioStream } = useRecordContext();
+const AudioRecorder = ({ uname, disabled, onRecordingStart }) => {
   const current = useSelector((state) => state.aiConsult.audio.current);
   const dispatch = useDispatch();
 
   const { status, startRecording, stopRecording } = useReactMediaRecorder({
-    // video: true,
     audio: true,
     blobPropertyBag: {
       type: "audio/wav",
     },
     onStart: () => {
-      console.log(`[RECORDER] video record start = ${status}`);
+      console.log(`[RECORDER] audio record start = ${status}`);
+      onRecordingStart();
     },
     onStop: async (url, blob) => {
-      console.log("[RECORDER] video record stop");
+      const requestSentTime = Date.now(); // profiling
+      const timestamps = { requestSentTime, firstVideoPlayedTime: -1 };
+      saveTimestampsToCSV(timestamps);
+      console.log("대답끝내기: ", requestSentTime);
+      console.log("[RECORDER] audio record stop");
       console.log(blob);
 
       const formData = new FormData();
-
-      // audio: 서버에서 접근할때 사용하는 키값
       formData.append("audio", blob, `${uname}_audio_${current}.wav`);
       formData.append("uname", uname);
       console.log(formData.get("audio"));
@@ -32,8 +58,6 @@ const AudioRecorder = ({ uname, disabled }) => {
 
       dispatch(clearAudioSrc());
       dispatch(uploadRequest(formData));
-
-      // saveAudioStream(blob);
     },
   });
 
@@ -77,6 +101,7 @@ const AudioRecorder = ({ uname, disabled }) => {
 AudioRecorder.propTypes = {
   uname: PropTypes.string,
   disabled: PropTypes.bool,
+  onRecordingStart: PropTypes.func,
 };
 
 export default AudioRecorder;

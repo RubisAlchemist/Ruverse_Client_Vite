@@ -5,5 +5,13 @@ import AudioRecorder from "./recorder/AudioRecorder";
 import LocalUser from "./video/LocalUser";
 import Footer from "./common/Footer";
 import Header from "./common/Header";
+import SeamlessVideoPlayer from "./video/SeamlessVideoPlayer";
 
-export { UploadInfoModal, AudioRecorder, LocalUser, Footer, Header };
+export {
+  UploadInfoModal,
+  AudioRecorder,
+  LocalUser,
+  Footer,
+  Header,
+  SeamlessVideoPlayer,
+};

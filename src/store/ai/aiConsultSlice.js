@@ -43,6 +43,7 @@ export const uploadKlleonRequest = createAsyncThunk(
 export const uploadRequest = createAsyncThunk(
   "asyncThunk/uploadAudioRequest",
   async (audioForm) => {
+    console.log(audioForm);
     const response = await ruverseClient.post(
       "/counseling/get_response",
       audioForm,
@@ -53,7 +54,7 @@ export const uploadRequest = createAsyncThunk(
       }
     );
     const data = response.data;
-
+    console.log("response data: ", response);
     return data;
   }
 );

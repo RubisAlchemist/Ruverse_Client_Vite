@@ -28,10 +28,10 @@ const AiConsultEntryPage = () => {
     });
   };
 
-  // const onClickStart = () => navigate(`/ai-consult/${uname.value}`);
+  const onClickStart = () => navigate(`/ai-consult/${uname.value}`);
 
   //Klleon
-  const onClickStart = () => navigate(`/klleonAvatar`);
+  // const onClickStart = () => navigate(`/klleonAvatar`);
 
   return (
     <Container maxWidth="md">

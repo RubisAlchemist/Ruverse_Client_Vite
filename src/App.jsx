@@ -9,6 +9,7 @@ import {
   HomePage,
   AvatarChoosePage,
   SeamlessVideoStreamer,
+  SeamlessVideoPlayer,
 } from "@pages/index.js";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -19,7 +20,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* <Route path="/" element={<LandingPage />} /> */}
-        <Route path="/test" element={<SeamlessVideoStreamer />} />
+        <Route path="/test" element={<SeamlessVideoPlayer />} />
         <Route path="/" element={<HomePage />} />
         <Route path="/permissions" element={<PermissionsPage />} />
         <Route path="/consultEntry" element={<RealTimeConsultEntryPage />} />

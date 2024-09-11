@@ -5,6 +5,16 @@ import path from "path";
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
+  server: {
+    proxy: {
+      "/video": {
+        target: "https://ruverse.snu.ac.kr",
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/video/, "/video"),
+      },
+    },
+  },
   resolve: {
     alias: {
       "@apis": path.resolve(__dirname, "./src/apis"),
@@ -16,6 +26,14 @@ export default defineConfig({
       "@routes": path.resolve(__dirname, "./src/routes"),
       "@store": path.resolve(__dirname, "./src/store"),
       "@utils": path.resolve(__dirname, "./src/utils"),
+    },
+  },
+  optimizeDeps: {
+    include: ["@ffmpeg/ffmpeg", "@ffmpeg/util"],
+  },
+  build: {
+    commonjsOptions: {
+      include: [/@ffmpeg\/ffmpeg/, /@ffmpeg\/util/],
     },
   },
 });
