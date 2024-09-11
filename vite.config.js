@@ -9,6 +9,7 @@ export default defineConfig({
     react(),
     commonjs({
       include: /node_modules/, // node_modules 내부의 CommonJS 모듈 처리
+      transformMixedEsModules: true, // ES 모듈과 CommonJS 모듈을 함께 처리
     }),
   ],
   server: {
@@ -38,7 +39,7 @@ export default defineConfig({
     include: ["@ffmpeg/ffmpeg", "@ffmpeg/util"],
   },
   build: {
-    minify: false,
+    minify: true,
     sourcemap: true,
     commonjsOptions: {
       include: [/@ffmpeg\/ffmpeg/, /@ffmpeg\/util/, /node_modules/],

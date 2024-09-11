@@ -48,6 +48,7 @@
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
     "pretty-format": "^29.7.0",
+    "rollup-plugin-terser": "^7.0.2",
     "vite": "^5.3.4"
   }
 }
