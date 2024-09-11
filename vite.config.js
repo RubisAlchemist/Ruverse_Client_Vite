@@ -40,7 +40,7 @@ export default defineConfig({
   },
   build: {
     minify: false,
-    sourcemap: true,
+    sourcemap: false,
     commonjsOptions: {
       include: [/@ffmpeg\/ffmpeg/, /@ffmpeg\/util/, /node_modules/],
       transformMixedEsModules: true,
