@@ -40,7 +40,16 @@ export default defineConfig({
   build: {
     commonjsOptions: {
       include: [/@ffmpeg\/ffmpeg/, /@ffmpeg\/util/, /node_modules/],
-      minify: false, // 코드 압축 비활성화
+      transformMixedEsModules: true,
+    },
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            return "vendor";
+          }
+        },
+      },
     },
   },
 });
