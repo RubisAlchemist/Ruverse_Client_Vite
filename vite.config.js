@@ -39,7 +39,7 @@ export default defineConfig({
     include: ["@ffmpeg/ffmpeg", "@ffmpeg/util"],
   },
   build: {
-    minify: true,
+    minify: false,
     sourcemap: true,
     commonjsOptions: {
       include: [/@ffmpeg\/ffmpeg/, /@ffmpeg\/util/, /node_modules/],
