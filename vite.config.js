@@ -1,17 +1,17 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
-import commonjs from "@rollup/plugin-commonjs";
+// import commonjs from "@rollup/plugin-commonjs";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
-    commonjs({
-      include: /node_modules/, // node_modules 내부의 CommonJS 모듈 처리
-      // transformMixedEsModules: true, // ES 모듈과 CommonJS 모듈을 함께 처리
-      requireReturnsDefault: "auto", // or 'preferred' if you're dealing with CJS interop issues
-    }),
+    // commonjs({
+    //   include: /node_modules/, // node_modules 내부의 CommonJS 모듈 처리
+    //   // transformMixedEsModules: true, // ES 모듈과 CommonJS 모듈을 함께 처리
+    //   requireReturnsDefault: "auto", // or 'preferred' if you're dealing with CJS interop issues
+    // }),
   ],
   server: {
     proxy: {
