@@ -5,7 +5,7 @@ import { clearAudioSrc, uploadKlleonRequest } from "@store/ai/aiConsultSlice";
 import { useReactMediaRecorder } from "react-media-recorder";
 import PropTypes from "prop-types";
 import { useNavigate, useLocation } from "react-router-dom";
-import MicIcon from "@mui/icons-material/Mic";
+import { MicIcon } from "@mui/icons-material/Mic";
 
 // Import your images
 import ExitImage from "@assets/images/exit.png";
