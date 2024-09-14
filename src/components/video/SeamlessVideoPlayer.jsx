@@ -50,13 +50,13 @@ const SeamlessVideoPlayer = ({
   useEffect(() => {
     console.log(initialVideoUrl.videoPath);
     if (!initialUrlSet.current && initialVideoUrl) {
-      const urlPart = initialVideoUrl.videoPath
-        .split("/video/")[1]
-        .split("_0")[0];
-      baseUrl.current = `${PROXY}/video/${urlPart}`;
-      initialUrlSet.current = true;
-      // baseUrl.current = initialVideoUrl.videoPath;
+      // const urlPart = initialVideoUrl.videoPath
+      //   .split("/video/")[1]
+      //   .split("_0")[0];
+      // baseUrl.current = `${PROXY}/video/${urlPart}`;
       // initialUrlSet.current = true;
+      baseUrl.current = initialVideoUrl.videoPath;
+      initialUrlSet.current = true;
     }
   }, [initialVideoUrl]);
 
@@ -130,7 +130,7 @@ const SeamlessVideoPlayer = ({
         console.log(
           `Attempting to fetch video ${index}, Retry count: ${retryCount}`
         );
-        const response = await fetch(url);
+        const response = await fetch(url, { mode: "no-cors" });
 
         if (!response.ok) {
           throw new Error(`Failed to fetch video: ${response.statusText}`);
