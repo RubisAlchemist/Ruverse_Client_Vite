@@ -150,6 +150,7 @@ const SeamlessVideoPlayer = ({
           appendNextVideo();
         }
       } catch (error) {
+        console.log(error);
         console.error(`Error fetching video ${index}:`, error);
 
         if (retryCount > 0) {
