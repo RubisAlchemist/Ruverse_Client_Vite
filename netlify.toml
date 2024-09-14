@@ -3,7 +3,7 @@
   to = "/index.html"
   status = 200
 [[headers]]
-  from = "/:splat"
+  for = "/*"
   to = "https://ruverse.netlify.app/:splat"
   [headers.values]
     Access-Control-Allow-Origin = "*"
