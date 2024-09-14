@@ -53,7 +53,7 @@ const SeamlessVideoPlayer = ({
       const urlPart = initialVideoUrl.videoPath
         .split("/video/")[1]
         .split("_0")[0];
-      baseUrl.current = `/video/${urlPart}`;
+      baseUrl.current = `${PROXY}/video/${urlPart}`;
       initialUrlSet.current = true;
       // baseUrl.current = initialVideoUrl.videoPath;
       // initialUrlSet.current = true;
@@ -61,7 +61,7 @@ const SeamlessVideoPlayer = ({
   }, [initialVideoUrl]);
 
   const getVideoUrl = (index) => {
-    return `${PROXY}${baseUrl.current}${index}.webm`;
+    return `${baseUrl.current}${index}.webm`;
   };
 
   const sourceOpen = useCallback((e) => {
