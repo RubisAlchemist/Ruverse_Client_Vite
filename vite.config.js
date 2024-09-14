@@ -13,16 +13,16 @@ export default defineConfig({
     //   requireReturnsDefault: "auto", // or 'preferred' if you're dealing with CJS interop issues
     // }),
   ],
-  server: {
-    proxy: {
-      "/video": {
-        target: "https://ruverse.snu.ac.kr",
-        changeOrigin: true,
-        secure: false,
-        rewrite: (path) => path.replace(/^\/video/, "/video"),
-      },
-    },
-  },
+  // server: {
+  //   proxy: {
+  //     "/video": {
+  //       target: "https://ruverse.snu.ac.kr",
+  //       changeOrigin: true,
+  //       secure: false,
+  //       rewrite: (path) => path.replace(/^\/video/, "/video"),
+  //     },
+  //   },
+  // },
   resolve: {
     alias: {
       "@apis": path.resolve(__dirname, "./src/apis"),
