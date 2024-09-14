@@ -50,13 +50,13 @@ const SeamlessVideoPlayer = ({
   useEffect(() => {
     console.log(initialVideoUrl.videoPath);
     if (!initialUrlSet.current && initialVideoUrl) {
-      const urlPart = initialVideoUrl.videoPath
-        .split("/video/")[1]
-        .split("_0")[0];
-      baseUrl.current = `https://main--ruverse.netlify.app/video/${urlPart}`;
-      initialUrlSet.current = true;
-      // baseUrl.current = initialVideoUrl.videoPath;
+      // const urlPart = initialVideoUrl.videoPath
+      //   .split("/video/")[1]
+      //   .split("_0")[0];
+      // baseUrl.current = `/video/${urlPart}`;
       // initialUrlSet.current = true;
+      baseUrl.current = initialVideoUrl.videoPath;
+      initialUrlSet.current = true;
     }
   }, [initialVideoUrl]);
 
