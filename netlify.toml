@@ -1,5 +1,4 @@
 [[redirects]]
-  from = "/proxy/*"
-  to = "https://ruverse.snu.ac.kr/:splat"
+  from = "/*"
+  to = "/index.html"
   status = 200
-  force = true
