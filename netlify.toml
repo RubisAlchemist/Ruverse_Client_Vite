@@ -2,9 +2,8 @@
   from = "/*"
   to = "/index.html"
   status = 200
-[[headers]]
-  for = "/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "*"
-    Access-Control-Allow-Methods = "GET, PUT, POST, DELETE, OPTIONS, FETCH"
-    Access-Control-Allow-Headers = "Content-Type, Authorization, Content-length, X-Requested-With, Accept"
+[[redirects]]
+  force = true
+  from = "video/*"
+  to = "https://ruverse.snu.ac.kr/video/:splat"
+  status = 200
