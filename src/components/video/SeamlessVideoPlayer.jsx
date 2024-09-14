@@ -155,7 +155,7 @@ const SeamlessVideoPlayer = ({
 
         if (retryCount > 0) {
           console.log(`Retrying to fetch video ${index} in 1 seconds...`);
-          setTimeout(() => fetchWithRetry(retryCount - 1), 100); // Retry after 1 second
+          setTimeout(() => fetchWithRetry(retryCount - 1), 300); // Retry after 1 second
         } else {
           console.error(
             `Failed to fetch video ${index} after multiple attempts.`
