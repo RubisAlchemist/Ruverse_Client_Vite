@@ -1,9 +1,5 @@
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-[[redirects]]
-  from = "/video/*"
-  to = "/.netlify/functions/cors-proxy/video/:splat"
+  from = "/proxy/*"
+  to = "https://ruverse.snu.ac.kr/:splat"
   status = 200
   force = true
