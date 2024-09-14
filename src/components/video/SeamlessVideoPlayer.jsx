@@ -50,13 +50,13 @@ const SeamlessVideoPlayer = ({
   useEffect(() => {
     console.log(initialVideoUrl.videoPath);
     if (!initialUrlSet.current && initialVideoUrl) {
-      // const urlPart = initialVideoUrl.videoPath
-      //   .split("/video/")[1]
-      //   .split("_0")[0];
-      // baseUrl.current = `${PROXY}/video/${urlPart}`;
-      // initialUrlSet.current = true;
-      baseUrl.current = initialVideoUrl.videoPath;
+      const urlPart = initialVideoUrl.videoPath
+        .split("/video/")[1]
+        .split("_0")[0];
+      baseUrl.current = `${PROXY}/video/${urlPart}`;
       initialUrlSet.current = true;
+      // baseUrl.current = initialVideoUrl.videoPath;
+      // initialUrlSet.current = true;
     }
   }, [initialVideoUrl]);
 
@@ -150,7 +150,6 @@ const SeamlessVideoPlayer = ({
           appendNextVideo();
         }
       } catch (error) {
-        console.log(error);
         console.error(`Error fetching video ${index}:`, error);
 
         if (retryCount > 0) {
