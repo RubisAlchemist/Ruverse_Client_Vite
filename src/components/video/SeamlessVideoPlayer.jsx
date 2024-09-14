@@ -106,7 +106,7 @@ const SeamlessVideoPlayer = ({
         console.log("videoIndexRef.current: ", videoIndexRef.current);
         console.log("numVideos: ", numVideos);
         if (videoIndexRef.current < numVideos) {
-          fetchAndAppendVideo(videoIndex);
+          fetchAndAppendVideo(videoIndexRef.current);
           // videoIndex++;
         } else {
           clearInterval(fetchInterval);
@@ -128,10 +128,11 @@ const SeamlessVideoPlayer = ({
 
     const fetchWithRetry = async (retryCount = 50) => {
       try {
-        const response = await fetch(url);
         console.log(
           `Attempting to fetch video ${index}, Retry count: ${retryCount}`
         );
+
+        const response = await fetch(url);
 
         if (!response.ok) {
           throw new Error(`Failed to fetch video: ${response.statusText}`);
