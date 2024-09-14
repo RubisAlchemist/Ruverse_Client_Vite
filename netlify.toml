@@ -1,6 +1,6 @@
 
 [[redirects]]
-  from = "https://main--ruverse.netlify.app/proxy/*"
+  from = "/proxy/*"
   to = "https://ruverse.snu.ac.kr/:splat"
   status = 200
   force = true
