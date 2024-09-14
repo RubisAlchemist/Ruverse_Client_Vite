@@ -2,3 +2,13 @@
   from = "/*"
   to = "/index.html"
   status = 200
+[[redirects]]
+  from = "/*"
+  to = "<cross-origin-url>"
+  status = 200
+  force = true
+  headers = {X-From = "Netlify"}
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
