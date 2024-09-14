@@ -2,8 +2,9 @@
   from = "/*"
   to = "/index.html"
   status = 200
+
 [[redirects]]
   force = true
-  from = "video/*"
+  from = "/video/*"
   to = "https://ruverse.snu.ac.kr/video/:splat"
   status = 200
