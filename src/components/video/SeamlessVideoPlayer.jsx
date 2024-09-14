@@ -105,7 +105,7 @@ const SeamlessVideoPlayer = ({
       const fetchInterval = setInterval(() => {
         console.log("videoIndexRef.current: ", videoIndexRef.current);
         console.log("numVideos: ", numVideos);
-        if (videoIndexRef.current <= numVideos) {
+        if (videoIndexRef.current < numVideos) {
           fetchAndAppendVideo(videoIndexRef.current);
           // videoIndex++;
         } else {
