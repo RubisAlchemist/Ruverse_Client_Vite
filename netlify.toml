@@ -7,14 +7,4 @@
   to = "https://ruverse.snu.ac.kr/video/:splat"
   status = 200
   force = true
-  headers = {
-    X-Forwarded-Host = "ruvserse.netlify.app",
-    Access-Control-Allow-Origin = "*"
-  }
-[[headers]]
-  # Global headers for all routes
-  for = "/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "*"
-    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
-    Access-Control-Allow-Headers = "Content-Type, Authorization"
+  headers = {X-From = "Netlify"}
