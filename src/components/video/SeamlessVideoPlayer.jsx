@@ -130,7 +130,8 @@ const SeamlessVideoPlayer = ({
         console.log(
           `Attempting to fetch video ${index}, Retry count: ${retryCount}`
         );
-        const response = await fetch(url);
+        setTimeout(() => 500);
+        // const response = await fetch(url);
 
         if (!response.ok) {
           throw new Error(`Failed to fetch video: ${response.statusText}`);
