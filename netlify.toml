@@ -4,7 +4,6 @@
   status = 200
 [[headers]]
   for = "/*"
-  to = "https://ruverse.netlify.app/:splat"
   [headers.values]
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Methods = "GET, PUT, POST, DELETE, OPTIONS, FETCH"
