@@ -3,12 +3,18 @@
   to = "/index.html"
   status = 200
 [[redirects]]
-  from = "/*"
-  to = "<cross-origin-url>"
+  from = "/video/*"
+  to = "https://ruverse.snu.ac.kr/video/:splat"
   status = 200
   force = true
-  headers = {X-From = "Netlify"}
+  headers = {
+    X-Forwarded-Host = "ruvserse.netlify.app",
+    Access-Control-Allow-Origin = "*"
+  }
 [[headers]]
+  # Global headers for all routes
   for = "/*"
   [headers.values]
     Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
