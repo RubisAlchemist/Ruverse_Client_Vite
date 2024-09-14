@@ -4,10 +4,6 @@
   status = 200
 [[redirects]]
   from = "/video/*"
-  to = "https://ruverse.snu.ac.kr/video/:splat"
+  to = "/.netlify/functions/cors-proxy/video/:splat"
   status = 200
   force = true
-  headers = { 
-    X-From = "Netlify",
-    Access-Control-Allow-Origin = "*" 
-  }
