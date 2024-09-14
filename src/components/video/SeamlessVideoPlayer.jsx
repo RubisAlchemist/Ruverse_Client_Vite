@@ -53,7 +53,7 @@ const SeamlessVideoPlayer = ({
       const urlPart = initialVideoUrl.videoPath
         .split("/video/")[1]
         .split("_0")[0];
-      baseUrl.current = `${PROXY}/video/${urlPart}`;
+      baseUrl.current = `/video/${urlPart}`;
       initialUrlSet.current = true;
       // baseUrl.current = initialVideoUrl.videoPath;
       // initialUrlSet.current = true;
@@ -151,6 +151,7 @@ const SeamlessVideoPlayer = ({
         }
       } catch (error) {
         console.error(`Error fetching video ${index}:`, error);
+        console.error("Error details:", error.message, error.stack);
 
         if (retryCount > 0) {
           console.log(`Retrying to fetch video ${index} in 1 seconds...`);
