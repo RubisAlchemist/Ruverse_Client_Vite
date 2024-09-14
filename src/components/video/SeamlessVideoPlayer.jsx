@@ -122,7 +122,7 @@ const SeamlessVideoPlayer = ({
     const url = getVideoUrl(index);
     // const proxyUrl = `/api/fetch-video?url=${encodeURIComponent(url)}`;
 
-    console.log("Current url: ", url);
+    console.log("Current url with proxy: ", url);
     const mediaSource = mediaSourceRef.current;
 
     const fetchWithRetry = async (retryCount = 30) => {
