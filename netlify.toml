@@ -4,7 +4,7 @@
   status = 200
 
 [[redirects]]
-  force = true
-  from = "/video/:splat"
-  to = "https://ruverse.snu.ac.kr/video/:splat"
+  from = "/proxy/*"
+  to = "https://ruverse.snu.ac.kr/:splat"
   status = 200
+  force = true
