@@ -127,9 +127,7 @@ const SeamlessVideoPlayer = ({
         console.log(
           `Attempting to fetch video ${index}, Retry count: ${retryCount}`
         );
-        const response = await fetch(url, {
-          mode: "no-cors",
-        });
+        const response = await fetch(url);
 
         if (!response.ok) {
           throw new Error(`Failed to fetch video: ${response.statusText}`);
