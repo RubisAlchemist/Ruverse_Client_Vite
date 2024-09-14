@@ -3,8 +3,3 @@
   to = "/index.html"
   status = 200
 
-[[redirects]]
-  from = "https://ruverse.snu.ac.kr/*"
-  to = " https://main--ruverse.netlify.app/:splat"
-  status = 200
-  force = true
