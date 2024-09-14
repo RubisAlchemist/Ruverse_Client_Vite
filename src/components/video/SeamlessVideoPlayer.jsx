@@ -86,6 +86,7 @@ const SeamlessVideoPlayer = ({
         console.log(e);
       });
       sourceBufferRef.current.addEventListener("updatestart", () => {
+        videoIndexRef.current = videoIndexRef.current + 1;
         console.log("sourceBuffer event : updatestart");
       });
 
@@ -102,11 +103,11 @@ const SeamlessVideoPlayer = ({
       // Start fetching videos at 1-second intervals
       let videoIndex = 0;
       const fetchInterval = setInterval(() => {
-        console.log("videoIndex: ", videoIndex);
+        console.log("videoIndexRef.current: ", videoIndexRef.current);
         console.log("numVideos: ", numVideos);
-        if (videoIndex < numVideos) {
+        if (videoIndexRef.current < numVideos) {
           fetchAndAppendVideo(videoIndex);
-          videoIndex++;
+          // videoIndex++;
         } else {
           clearInterval(fetchInterval);
           setIsLoading(false);
