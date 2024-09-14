@@ -5,7 +5,6 @@
   status = 200
   force = true
   # Logging level for Netlify
-  headers = { "X-Logging": "true" }
 
 [[redirects]]
   from = "/*"
