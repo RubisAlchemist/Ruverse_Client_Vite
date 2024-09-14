@@ -125,12 +125,11 @@ const SeamlessVideoPlayer = ({
     console.log("Current url with proxy!: ", url);
     const mediaSource = mediaSourceRef.current;
 
-    const fetchWithRetry = async (retryCount = 30) => {
+    const fetchWithRetry = async (retryCount = 50) => {
       try {
         console.log(
           `Attempting to fetch video ${index}, Retry count: ${retryCount}`
         );
-        setTimeout(() => 500);
         // const response = await fetch(url);
 
         if (!response.ok) {
@@ -156,7 +155,7 @@ const SeamlessVideoPlayer = ({
 
         if (retryCount > 0) {
           console.log(`Retrying to fetch video ${index} in 1 seconds...`);
-          setTimeout(() => fetchWithRetry(retryCount - 1), 1000); // Retry after 1 second
+          setTimeout(() => fetchWithRetry(retryCount - 1), 100); // Retry after 1 second
         } else {
           console.error(
             `Failed to fetch video ${index} after multiple attempts.`
@@ -257,7 +256,7 @@ const SeamlessVideoPlayer = ({
           .then(() => {
             const firstVideoPlayedTime = Date.now(); // profiling
             const timestamps = { requestSentTime: -1, firstVideoPlayedTime };
-            saveTimestampsToCSV(timestamps);
+            // saveTimestampsToCSV(timestamps);
             console.log(
               "First video started playing at:",
               firstVideoPlayedTime

@@ -25,7 +25,7 @@ function saveTimestampsToCSV(timestamps) {
   link.click();
   // Cleanup
   document.body.removeChild(link);
-  window.URL.revokeObjectURL(url);  
+  window.URL.revokeObjectURL(url);
 }
 //
 
@@ -45,7 +45,7 @@ const AudioRecorder = ({ uname, disabled, onRecordingStart }) => {
     onStop: async (url, blob) => {
       const requestSentTime = Date.now(); // profiling
       const timestamps = { requestSentTime, firstVideoPlayedTime: -1 };
-      saveTimestampsToCSV(timestamps);
+      // saveTimestampsToCSV(timestamps);
       console.log("대답끝내기: ", requestSentTime);
       console.log("[RECORDER] audio record stop");
       console.log(blob);
