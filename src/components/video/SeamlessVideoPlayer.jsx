@@ -53,7 +53,7 @@ const SeamlessVideoPlayer = ({
       const urlPart = initialVideoUrl.videoPath
         .split("/video/")[1]
         .split("_0")[0];
-      baseUrl.current = `${PROXY}/video/${urlPart}`;
+      baseUrl.current = `proxy/video/${urlPart}`;
       initialUrlSet.current = true;
       // baseUrl.current = initialVideoUrl.videoPath;
       // initialUrlSet.current = true;
