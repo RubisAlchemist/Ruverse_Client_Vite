@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState, useCallback } from "react";
 
 // for profiling
 function saveTimestampsToCSV(timestamps) {
-  const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
   const fields = ["requestSentTime", "firstVideoPlayedTime"];
   // Create CSV header and content
   const csvRows = [];
@@ -34,6 +33,7 @@ const SeamlessVideoPlayer = ({
   onStart,
   onAllVideosEnded,
 }) => {
+  const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
   const videoRef = useRef(null);
   const mediaSourceRef = useRef(null);
   const sourceBufferRef = useRef(null);
@@ -50,13 +50,13 @@ const SeamlessVideoPlayer = ({
   useEffect(() => {
     console.log(initialVideoUrl.videoPath);
     if (!initialUrlSet.current && initialVideoUrl) {
-      // const urlPart = initialVideoUrl.videoPath
-      //   .split("/video/")[1]
-      //   .split("_0")[0];
-      // baseUrl.current = `/video/${urlPart}`;
-      // initialUrlSet.current = true;
-      baseUrl.current = initialVideoUrl.videoPath;
+      const urlPart = initialVideoUrl.videoPath
+        .split("/video/")[1]
+        .split("_0")[0];
+      baseUrl.current = `${PROXY}/video/${urlPart}`;
       initialUrlSet.current = true;
+      // baseUrl.current = initialVideoUrl.videoPath;
+      // initialUrlSet.current = true;
     }
   }, [initialVideoUrl]);
 
@@ -118,65 +118,27 @@ const SeamlessVideoPlayer = ({
     }
   }, []);
 
-  // const fetchAndAppendVideo = useCallback(async (index) => {
-  //   const url = getVideoUrl(index);
-  //   console.log("Current url: ", url);
-  //   const mediaSource = mediaSourceRef.current;
-
-  //   const fetchWithRetry = async (retryCount = 30) => {
-  //     try {
-  //       console.log(
-  //         `Attempting to fetch video ${index}, Retry count: ${retryCount}`
-  //       );
-  //       const response = await fetch(url);
-
-  //       if (!response.ok) {
-  //         throw new Error(`Failed to fetch video: ${response.statusText}`);
-  //       }
-
-  //       console.log("response, ", response);
-  //       const arrayBuffer = await response.arrayBuffer();
-  //       console.log("arrayBuffer, ", arrayBuffer);
-  //       queuedVideos.current.push(arrayBuffer);
-
-  //       if (
-  //         mediaSource &&
-  //         mediaSource.readyState === "open" &&
-  //         sourceBufferRef.current &&
-  //         !sourceBufferRef.current.updating
-  //       ) {
-  //         appendNextVideo();
-  //       }
-  //     } catch (error) {
-  //       console.error(`Error fetching video ${index}:`, error);
-
-  //       if (retryCount > 0) {
-  //         console.log(`Retrying to fetch video ${index} in 1 seconds...`);
-  //         setTimeout(() => fetchWithRetry(retryCount - 1), 1000); // Retry after 1 second
-  //       } else {
-  //         console.error(
-  //           `Failed to fetch video ${index} after multiple attempts.`
-  //         );
-  //         setIsLoading(false);
-  //       }
-  //     }
-  //   };
-
-  //   fetchWithRetry();
-  // }, []);
   const fetchAndAppendVideo = useCallback(async (index) => {
     const url = getVideoUrl(index);
-    const proxyUrl = `/api/fetch-video?url=${encodeURIComponent(url)}`;
+    // const proxyUrl = `/api/fetch-video?url=${encodeURIComponent(url)}`;
 
-    // Netlify 함수로 프록시 요청
+    console.log("Current url: ", url);
+    const mediaSource = mediaSourceRef.current;
+
     const fetchWithRetry = async (retryCount = 30) => {
       try {
-        const response = await fetch(proxyUrl);
+        console.log(
+          `Attempting to fetch video ${index}, Retry count: ${retryCount}`
+        );
+        const response = await fetch(url);
+
         if (!response.ok) {
           throw new Error(`Failed to fetch video: ${response.statusText}`);
         }
 
+        console.log("response, ", response);
         const arrayBuffer = await response.arrayBuffer();
+        console.log("arrayBuffer, ", arrayBuffer);
         queuedVideos.current.push(arrayBuffer);
 
         if (
@@ -188,9 +150,15 @@ const SeamlessVideoPlayer = ({
           appendNextVideo();
         }
       } catch (error) {
+        console.error(`Error fetching video ${index}:`, error);
+
         if (retryCount > 0) {
-          setTimeout(() => fetchWithRetry(retryCount - 1), 1000);
+          console.log(`Retrying to fetch video ${index} in 1 seconds...`);
+          setTimeout(() => fetchWithRetry(retryCount - 1), 1000); // Retry after 1 second
         } else {
+          console.error(
+            `Failed to fetch video ${index} after multiple attempts.`
+          );
           setIsLoading(false);
         }
       }
