@@ -1,13 +1,21 @@
+ // 클레온 아바타 하단바 디자인 적용 버전
+
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   AudioRecorder,
   LocalUser,
   SeamlessVideoPlayer,
 } from "@components/index";
-import { Box, Fade, CircularProgress } from "@mui/material";
+import { Button, Box, Fade, CircularProgress } from "@mui/material";
 import { clearAudioSrc, setGreetingsPlayed } from "@store/ai/aiConsultSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+// Icon import
+import Exit from "@assets/images/exit.png";
+import Describe1Image from "@assets/images/describe1.png";
+import Describe2Image from "@assets/images/describe2.png"
 
 const AiConsultChannelPage = () => {
   const { uname } = useParams();
@@ -115,6 +123,13 @@ const AiConsultChannelPage = () => {
     console.log("Recording stopped");
   };
 
+  const navigate = useNavigate();
+
+  // 종료 버튼 클릭 시 동작할 함수
+  const handleEndConsultation = () => {
+    navigate("/");
+  };
+
   return (
     <Box width="100%" height="100vh">
       <Box
@@ -196,7 +211,10 @@ const AiConsultChannelPage = () => {
       >
         <LocalUser />
       </Box>
+
+      {/* 여기서부터 하단바 코드인 듯 */}
       <Box
+        position="relative"
         display="flex"
         justifyContent="center"
         alignItems="center"
@@ -204,21 +222,83 @@ const AiConsultChannelPage = () => {
         borderTop={1}
         borderColor={"#ccc"}
       >
-        <AudioRecorder
-          uname={uname}
-          disabled={
-            isGreetingsPlaying ||
-            !!overlayVideo ||
-            isSeamlessPlaying ||
-            isUploading ||
-            isLoading ||
-            !isAnswerButtonEnabled
-          }
-          onRecordingStart={handleRecordingStart}
-          onRecordingStop={handleRecordingStop}
-        />
+        <Box position="absolute" margin="auto" display="flex"
+             sx={{
+              transform: "translateX(-65%)",
+              height: { xs: "24px", sm: "40px", md: "50px", lg: "60px" },
+             }}
+        >
+          <img src={Describe1Image} alt="describe1"
+               style={{
+                width: "auto",   // 너비는 자동, 높이는 반응형으로 조정됨
+                height: "100%",  // 부모 Box의 높이에 맞게 이미지 크기 조정
+              }} 
+          />
+        </Box>
+
+          <AudioRecorder
+            uname={uname}
+            disabled={
+              isGreetingsPlaying ||
+              !!overlayVideo ||
+              isSeamlessPlaying ||
+              isUploading ||
+              isLoading ||
+              !isAnswerButtonEnabled
+            }
+            onRecordingStart={handleRecordingStart}
+            onRecordingStop={handleRecordingStop}
+          />
+
+        <Box 
+          position="absolute" 
+          right="2px" 
+          display="flex" 
+          alignItems="center" 
+          sx={{
+                gap: { xs: "2px", sm: "3px", md: "4px", lg: "5px" },  // 반응형 간격
+          }}
+        >
+          <Box
+             sx={{
+              height: { xs: "24px", sm: "40px", md: "50px", lg: "60px" }   // 반응형 크기
+            }}
+          >
+            <img src={Describe2Image} alt="describe2"
+               style={{
+                width: "auto",   // 너비는 자동, 높이는 반응형으로 조정됨
+                height: "100%",  // 부모 Box의 높이에 맞게 이미지 크기 조정
+              }}
+            />
+          </Box>
+        
+          <Button
+            // variant="contained"
+            onClick={handleEndConsultation}
+            sx={{
+              // position: "absolute", // 절대 위치
+              // right: "2px", // 오른쪽 끝에 위치
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: { xs: "35px", sm: "45px", md: "55px", lg: "65px" },
+              //width: { xs: "35px", sm: "45px", md: "55px", lg: "65px" },
+              //padding: 0,
+              minWidth: 0,
+            }}
+          >
+            <img
+              src={Exit}
+              alt="exit icon"
+              style={{
+                width: "auto",
+                height: "100%",  // 버튼 크기에 맞게 아이콘 크기 조정
+              }}
+            />
+          </Button>
+        </Box>
       </Box>
-    </Box>
+      </Box>
   );
 };
 
