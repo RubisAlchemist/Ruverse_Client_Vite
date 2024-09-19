@@ -26,6 +26,8 @@ const AiConsultChannelPage = () => {
   const [isAnswerButtonEnabled, setIsAnswerButtonEnabled] = useState(true);
   const greetingsVideoRef = useRef(null);
 
+  const [showInstruction, setShowInstruction] = useState(true);  // describe 이미지 렌더링
+
   const src = useSelector((state) => state.aiConsult.audio.src);
   const defaultSrc = useSelector((state) => state.aiConsult.audio.defaultSrc);
   const greetingsSrc = useSelector(
@@ -117,6 +119,7 @@ const AiConsultChannelPage = () => {
 
   const handleRecordingStart = () => {
     console.log("Recording started");
+    setShowInstruction(false);  // 녹음 시작 시 describe 이미지 숨김
   };
 
   const handleRecordingStop = () => {
@@ -222,19 +225,22 @@ const AiConsultChannelPage = () => {
         borderTop={1}
         borderColor={"#ccc"}
       >
-        <Box position="absolute" margin="auto" display="flex"
+
+        {showInstruction && (
+          <Box position="absolute" margin="auto" display="flex"
              sx={{
               transform: "translateX(-65%)",
               height: { xs: "24px", sm: "40px", md: "50px", lg: "60px" },
              }}
-        >
-          <img src={Describe1Image} alt="describe1"
-               style={{
-                width: "auto",   // 너비는 자동, 높이는 반응형으로 조정됨
-                height: "100%",  // 부모 Box의 높이에 맞게 이미지 크기 조정
-              }} 
-          />
-        </Box>
+          >
+            <img src={Describe1Image} alt="describe1"
+                 style={{
+                  width: "auto",   // 너비는 자동, 높이는 반응형으로 조정됨
+                  height: "100%",  // 부모 Box의 높이에 맞게 이미지 크기 조정
+                }} 
+            />
+          </Box>
+        )}
 
           <AudioRecorder
             uname={uname}
@@ -259,18 +265,20 @@ const AiConsultChannelPage = () => {
                 gap: { xs: "2px", sm: "3px", md: "4px", lg: "5px" },  // 반응형 간격
           }}
         >
-          <Box
-             sx={{
-              height: { xs: "24px", sm: "40px", md: "50px", lg: "60px" }   // 반응형 크기
+          {showInstruction && (
+            <Box
+            sx={{
+             height: { xs: "24px", sm: "40px", md: "50px", lg: "60px" }   // 반응형 크기
             }}
-          >
-            <img src={Describe2Image} alt="describe2"
-               style={{
-                width: "auto",   // 너비는 자동, 높이는 반응형으로 조정됨
-                height: "100%",  // 부모 Box의 높이에 맞게 이미지 크기 조정
-              }}
-            />
-          </Box>
+            >
+              <img src={Describe2Image} alt="describe2"
+                  style={{
+                    width: "auto",   // 너비는 자동, 높이는 반응형으로 조정됨
+                    height: "100%",  // 부모 Box의 높이에 맞게 이미지 크기 조정
+                  }}
+              />
+            </Box>
+          )}
         
           <Button
             // variant="contained"
