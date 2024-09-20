@@ -4,6 +4,11 @@
     {
       "src": "/proxy/(.*)",
       "dest": "https://ruverse.snu.ac.kr/$1"
+    },
+    {
+      "src": "/[^.]+",
+      "dest": "/",
+      "status": 200
     }
   ]
 }
