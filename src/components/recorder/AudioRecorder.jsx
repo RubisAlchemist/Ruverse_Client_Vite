@@ -1,8 +1,15 @@
+// // 클레온 아바타 하단바 디자인 적용 버전
+
 import { Button, Typography } from "@mui/material";
 import { clearAudioSrc, uploadRequest } from "@store/ai/aiConsultSlice";
 import PropTypes from "prop-types";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { useDispatch, useSelector } from "react-redux";
+
+// Icon import
+import Mic from "@assets/images/mic_blue.png";
+import Pause from "@assets/images/pause_blue.png";
+
 // for profiling
 function saveTimestampsToCSV(timestamps) {
   const fields = ["requestSentTime", "firstVideoPlayedTime"];
@@ -66,32 +73,62 @@ const AudioRecorder = ({ uname, disabled, onRecordingStart }) => {
       {status === "recording" ? (
         <Button
           onClick={stopRecording}
-          color="primary"
-          variant="contained"
           disabled={disabled}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: 0,
+            // width: { xs: "30px", sm: "40px", md: "50px", lg: "60px" },  // 반응형 너비
+            height: { xs: "30px", sm: "40px", md: "50px", lg: "60px" },   // 반응형 높이
+          }}
         >
-          <Typography
-            sx={{
-              fontSize: { xs: "12px", md: "16px", lg: "18px" },
+          <img
+            src={Pause}
+            alt="pause icon"
+            style={{
+              width: "auto",  // 부모 버튼의 크기에 맞춰 이미지 크기 조정
+              height: "100%",
             }}
-          >
-            대답 끝내기
-          </Typography>
+          />
+            <Typography
+              sx={{
+                fontSize: { xs: "10px", sm: "12px", md: "14px", lg: "16px" },  // 반응형 폰트 크기
+                fontWeight: "800",
+              }}
+            >
+              말 끝내기
+            </Typography>
         </Button>
       ) : (
         <Button
           onClick={startRecording}
-          color="primary"
-          variant="contained"
           disabled={disabled}
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            padding: 0,
+            // width: { xs: "30px", sm: "40px", md: "50px", lg: "60px" },  // 반응형 너비
+            height: { xs: "30px", sm: "40px", md: "50px", lg: "60px" },   // 반응형 높이
+          }}
         >
-          <Typography
-            sx={{
-              fontSize: { xs: "12px", md: "16px", lg: "18px" },
+          <img
+            src={Mic}
+            alt="mic icon"
+            style={{
+              width: "auto",  // 부모 버튼의 크기에 맞춰 이미지 크기 조정
+              height: "100%",
             }}
-          >
-            대답하기
-          </Typography>
+          />
+            <Typography
+              sx={{
+                fontSize: { xs: "10px", sm: "12px", md: "14px", lg: "16px" },  // 반응형 폰트 크기
+                fontWeight: "800",
+              }}
+            >
+              말 시작하기
+            </Typography>
         </Button>
       )}
     </>

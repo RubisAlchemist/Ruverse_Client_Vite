@@ -55,14 +55,21 @@ const AiConsultEntryPage = () => {
             inputProps={{
               pattern: "[A-Za-z0-9]+",
             }}
+            sx={{
+              fontSize: { xs: '14px', md: '16px' },
+            }}
           />
 
           <Box
             component="img"
             sx={{
-              maxHeight: { xs: 300, md: 360 },
-              maxWidth: { xs: 400, md: 420 },
+              // maxHeight: { xs: 300, md: 360 },
+              // maxWidth: { xs: 400, md: 420 },
+              // objectFit: "cover",
+              maxHeight: { xs: 200, sm: 300, md: 360 },
+              maxWidth: { xs: 300, sm: 400, md: 420 },
               objectFit: "cover",
+              margin: '0 auto',
             }}
             alt="The house from the offer."
             src={VideoCallImage}
@@ -71,8 +78,24 @@ const AiConsultEntryPage = () => {
             <Button
               onClick={onClickStart}
               disabled={uname.value === "" || uname.error}
+              variant="contained"
+              sx={{
+                fontFamily: 'SUIT Variable',
+                backgroundColor: "#1976d2",
+                color: "white",
+                borderRadius: "25px",
+                boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
+                transition: "transform 0.3s ease-in-out, background-color 0.3s",
+                "&:hover": {
+                  backgroundColor: "#1565c0", // 호버 시 더 진한 색상
+                  transform: "scale(1.03)", // 호버 시 살짝 커짐
+                },
+                padding: { xs: "6px 14px", sm: "8px 16px", md: "10px 20px" },
+                fontWeight: "bold",
+                fontSize: { xs: "14px", sm: "16px", md: "20px" },
+              }}
             >
-              <Typography>상담 시작하기</Typography>
+              상담 시작하기
             </Button>
           </Box>
         </Stack>

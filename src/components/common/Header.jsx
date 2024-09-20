@@ -2,8 +2,9 @@ import React from "react";
 import { AppBar, Toolbar, Box, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import logo from "@assets/images/logo.png";
-import aiisImage from "@assets/images/aiis.png";
-import koreaImage from "@assets/images/korea.png";
+// import aiisImage from "@assets/images/aiis.png";
+import aiisImage from "@assets/images/snu_aiis_below.png";
+// import koreaImage from "@assets/images/korea.png";
 
 export const HEADER_HEIGHT = "calc(16vh + 30px)";
 
@@ -21,22 +22,33 @@ const Header = () => {
     >
       <Toolbar
         sx={{
-          flexDirection: "column",
-          alignItems: "flex-start",
+          width: "100%",
+          justifyContent: "space-between", // 좌우 끝에 고정
+          alignItems: "center",
           minHeight: "16vh",
         }}
       >
         <Box
           component="img"
           sx={{
-            height: "8vh",
+            height: { xs: "5vh", md: "8vh" },
             cursor: "pointer",
           }}
           alt="Logo"
           src={logo}
           onClick={onClickLogo}
         />
-        <Grid container sx={{ width: "100%", mt: 1 }}>
+        <Box
+          component="img"
+          sx={{
+            height: { xs: "10vh", md: "18vh" },
+            objectFit: "contain",
+            maxWidth: "100%",
+          }}
+          alt="AIIS"
+          src={aiisImage}
+        />
+        {/* <Grid container sx={{ width: "100%", mt: 1 }}>
           <Grid item xs={6}>
             <Box
               component="img"
@@ -61,7 +73,7 @@ const Header = () => {
               src={koreaImage}
             />
           </Grid>
-        </Grid>
+        </Grid> */}
       </Toolbar>
     </AppBar>
   );
