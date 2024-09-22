@@ -36,7 +36,7 @@ function saveTimestampsToCSV(timestamps) {
 }
 //
 
-const AudioRecorder = ({ uname, disabled, onRecordingStart }) => {
+const AudioRecorder = ({ uname, phoneNumber, disabled, onRecordingStart }) => {
   const current = useSelector((state) => state.aiConsult.audio.current);
   const dispatch = useDispatch();
 
@@ -60,8 +60,10 @@ const AudioRecorder = ({ uname, disabled, onRecordingStart }) => {
       const formData = new FormData();
       formData.append("audio", blob, `${uname}_audio_${current}.wav`);
       formData.append("uname", uname);
+      formData.append("phoneNumber", phoneNumber);
       console.log(formData.get("audio"));
       console.log(formData.get("uname"));
+      console.log(formData.get("phoneNumber"));
 
       dispatch(clearAudioSrc());
       dispatch(uploadRequest(formData));
@@ -80,25 +82,25 @@ const AudioRecorder = ({ uname, disabled, onRecordingStart }) => {
             alignItems: "center",
             padding: 0,
             // width: { xs: "30px", sm: "40px", md: "50px", lg: "60px" },  // 반응형 너비
-            height: { xs: "30px", sm: "40px", md: "50px", lg: "60px" },   // 반응형 높이
+            height: { xs: "30px", sm: "40px", md: "50px", lg: "60px" }, // 반응형 높이
           }}
         >
           <img
             src={Pause}
             alt="pause icon"
             style={{
-              width: "auto",  // 부모 버튼의 크기에 맞춰 이미지 크기 조정
+              width: "auto", // 부모 버튼의 크기에 맞춰 이미지 크기 조정
               height: "100%",
             }}
           />
-            <Typography
-              sx={{
-                fontSize: { xs: "10px", sm: "12px", md: "14px", lg: "16px" },  // 반응형 폰트 크기
-                fontWeight: "800",
-              }}
-            >
-              말 끝내기
-            </Typography>
+          <Typography
+            sx={{
+              fontSize: { xs: "10px", sm: "12px", md: "14px", lg: "16px" }, // 반응형 폰트 크기
+              fontWeight: "800",
+            }}
+          >
+            말 끝내기
+          </Typography>
         </Button>
       ) : (
         <Button
@@ -110,25 +112,25 @@ const AudioRecorder = ({ uname, disabled, onRecordingStart }) => {
             alignItems: "center",
             padding: 0,
             // width: { xs: "30px", sm: "40px", md: "50px", lg: "60px" },  // 반응형 너비
-            height: { xs: "30px", sm: "40px", md: "50px", lg: "60px" },   // 반응형 높이
+            height: { xs: "30px", sm: "40px", md: "50px", lg: "60px" }, // 반응형 높이
           }}
         >
           <img
             src={Mic}
             alt="mic icon"
             style={{
-              width: "auto",  // 부모 버튼의 크기에 맞춰 이미지 크기 조정
+              width: "auto", // 부모 버튼의 크기에 맞춰 이미지 크기 조정
               height: "100%",
             }}
           />
-            <Typography
-              sx={{
-                fontSize: { xs: "10px", sm: "12px", md: "14px", lg: "16px" },  // 반응형 폰트 크기
-                fontWeight: "800",
-              }}
-            >
-              말 시작하기
-            </Typography>
+          <Typography
+            sx={{
+              fontSize: { xs: "10px", sm: "12px", md: "14px", lg: "16px" }, // 반응형 폰트 크기
+              fontWeight: "800",
+            }}
+          >
+            말 시작하기
+          </Typography>
         </Button>
       )}
     </>
@@ -137,6 +139,7 @@ const AudioRecorder = ({ uname, disabled, onRecordingStart }) => {
 
 AudioRecorder.propTypes = {
   uname: PropTypes.string,
+  phoneNumber: PropTypes.string,
   disabled: PropTypes.bool,
   onRecordingStart: PropTypes.func,
 };

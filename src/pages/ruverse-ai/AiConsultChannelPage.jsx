@@ -1,4 +1,4 @@
- // 클레온 아바타 하단바 디자인 적용 버전
+// 클레온 아바타 하단바 디자인 적용 버전
 
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
@@ -9,16 +9,23 @@ import {
 import { Button, Box, Fade, CircularProgress } from "@mui/material";
 import { clearAudioSrc, setGreetingsPlayed } from "@store/ai/aiConsultSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 // Icon import
 import Exit from "@assets/images/exit.png";
 import Describe1Image from "@assets/images/describe1.png";
-import Describe2Image from "@assets/images/describe2.png"
+import Describe2Image from "@assets/images/describe2.png";
+const useQuery = () => {
+  return new URLSearchParams(useLocation().search);
+};
 
 const AiConsultChannelPage = () => {
+  // URLSearchParams를 사용하여 쿼리 스트링에서 데이터를 추출
+
   const { uname } = useParams();
+  const query = useQuery(); // 쿼리 스트링 추출
+  const phoneNumber = query.get("phoneNumber"); // 전화번호 추출
   const dispatch = useDispatch();
   const [overlayVideo, setOverlayVideo] = useState(null);
   const [isSeamlessPlaying, setIsSeamlessPlaying] = useState(false);
@@ -26,7 +33,7 @@ const AiConsultChannelPage = () => {
   const [isAnswerButtonEnabled, setIsAnswerButtonEnabled] = useState(true);
   const greetingsVideoRef = useRef(null);
 
-  const [showInstruction, setShowInstruction] = useState(true);  // describe 이미지 렌더링
+  const [showInstruction, setShowInstruction] = useState(true); // describe 이미지 렌더링
 
   const src = useSelector((state) => state.aiConsult.audio.src);
   const defaultSrc = useSelector((state) => state.aiConsult.audio.defaultSrc);
@@ -119,7 +126,7 @@ const AiConsultChannelPage = () => {
 
   const handleRecordingStart = () => {
     console.log("Recording started");
-    setShowInstruction(false);  // 녹음 시작 시 describe 이미지 숨김
+    setShowInstruction(false); // 녹음 시작 시 describe 이미지 숨김
   };
 
   const handleRecordingStop = () => {
@@ -162,6 +169,7 @@ const AiConsultChannelPage = () => {
               isVisible={isSeamlessPlaying}
               onEnded={handleAllVideosEnded}
               onStart={handleSeamlessVideoStart}
+              onAllVideosEnded={handleAllVideosEnded}
             />
           </Box>
         )}
@@ -225,61 +233,68 @@ const AiConsultChannelPage = () => {
         borderTop={1}
         borderColor={"#ccc"}
       >
-
         {showInstruction && (
-          <Box position="absolute" margin="auto" display="flex"
-             sx={{
+          <Box
+            position="absolute"
+            margin="auto"
+            display="flex"
+            sx={{
               transform: "translateX(-65%)",
               height: { xs: "24px", sm: "40px", md: "50px", lg: "60px" },
-             }}
+            }}
           >
-            <img src={Describe1Image} alt="describe1"
-                 style={{
-                  width: "auto",   // 너비는 자동, 높이는 반응형으로 조정됨
-                  height: "100%",  // 부모 Box의 높이에 맞게 이미지 크기 조정
-                }} 
+            <img
+              src={Describe1Image}
+              alt="describe1"
+              style={{
+                width: "auto", // 너비는 자동, 높이는 반응형으로 조정됨
+                height: "100%", // 부모 Box의 높이에 맞게 이미지 크기 조정
+              }}
             />
           </Box>
         )}
 
-          <AudioRecorder
-            uname={uname}
-            disabled={
-              isGreetingsPlaying ||
-              !!overlayVideo ||
-              isSeamlessPlaying ||
-              isUploading ||
-              isLoading ||
-              !isAnswerButtonEnabled
-            }
-            onRecordingStart={handleRecordingStart}
-            onRecordingStop={handleRecordingStop}
-          />
+        <AudioRecorder
+          uname={uname}
+          phoneNumber={phoneNumber}
+          disabled={
+            isGreetingsPlaying ||
+            !!overlayVideo ||
+            isSeamlessPlaying ||
+            isUploading ||
+            isLoading ||
+            !isAnswerButtonEnabled
+          }
+          onRecordingStart={handleRecordingStart}
+          onRecordingStop={handleRecordingStop}
+        />
 
-        <Box 
-          position="absolute" 
-          right="2px" 
-          display="flex" 
-          alignItems="center" 
+        <Box
+          position="absolute"
+          right="2px"
+          display="flex"
+          alignItems="center"
           sx={{
-                gap: { xs: "2px", sm: "3px", md: "4px", lg: "5px" },  // 반응형 간격
+            gap: { xs: "2px", sm: "3px", md: "4px", lg: "5px" }, // 반응형 간격
           }}
         >
           {showInstruction && (
             <Box
-            sx={{
-             height: { xs: "24px", sm: "40px", md: "50px", lg: "60px" }   // 반응형 크기
-            }}
+              sx={{
+                height: { xs: "24px", sm: "40px", md: "50px", lg: "60px" }, // 반응형 크기
+              }}
             >
-              <img src={Describe2Image} alt="describe2"
-                  style={{
-                    width: "auto",   // 너비는 자동, 높이는 반응형으로 조정됨
-                    height: "100%",  // 부모 Box의 높이에 맞게 이미지 크기 조정
-                  }}
+              <img
+                src={Describe2Image}
+                alt="describe2"
+                style={{
+                  width: "auto", // 너비는 자동, 높이는 반응형으로 조정됨
+                  height: "100%", // 부모 Box의 높이에 맞게 이미지 크기 조정
+                }}
               />
             </Box>
           )}
-        
+
           <Button
             // variant="contained"
             onClick={handleEndConsultation}
@@ -300,13 +315,13 @@ const AiConsultChannelPage = () => {
               alt="exit icon"
               style={{
                 width: "auto",
-                height: "100%",  // 버튼 크기에 맞게 아이콘 크기 조정
+                height: "100%", // 버튼 크기에 맞게 아이콘 크기 조정
               }}
             />
           </Button>
         </Box>
       </Box>
-      </Box>
+    </Box>
   );
 };
 
