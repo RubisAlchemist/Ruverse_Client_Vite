@@ -41,11 +41,12 @@ const AiConsultEntryPage = () => {
   // Handler for phone number input
   const onChangePhoneNumber = (e) => {
     const value = e.target.value;
-    const valid = e.target.validity.valid;
+    // const valid = e.target.validity.valid;
+    const isValid = /^[0-9]{11}$/.test(value);
 
     setPhoneNumber({
       value,
-      error: !valid && value !== "",
+      error: value !== "" && !isValid,
     });
   };
 
@@ -97,12 +98,16 @@ const AiConsultEntryPage = () => {
             error={phoneNumber.error}
             value={phoneNumber.value}
             helperText={
-              phoneNumber.error ? "전화번호는 숫자만 입력 가능합니다." : ""
+              phoneNumber.error
+                ? "전화번호는 11자리의 숫자만 입력 가능합니다."
+                : ""
             }
             label="전화번호"
             onChange={onChangePhoneNumber}
             inputProps={{
-              pattern: "[0-9]+", // Only numbers allowed
+              pattern: "[0-9]{11}",
+              maxLength: 11,
+              inputMode: "numeric",
             }}
             placeholder="01012345678" // Added placeholder
             sx={{
