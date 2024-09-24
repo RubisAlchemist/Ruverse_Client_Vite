@@ -9,9 +9,10 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { convert } from "hangul-romanization";
 
 const AiConsultEntryPage = () => {
-  // 상태 변수: uname과 phoneNumber 각각 관리
+  // State variables for username and phone number
   const [uname, setUname] = useState({
     value: "",
     error: false,
@@ -24,31 +25,43 @@ const AiConsultEntryPage = () => {
 
   const navigate = useNavigate();
 
-  // 유저 이름 입력 핸들러
+  // Handler for username input
   const onChangeUname = (e) => {
     const value = e.target.value;
-    const valid = e.target.validity.valid;
+    // Regex to allow English letters, numbers, and Korean characters
+    const regex = /^[A-Za-z0-9ㄱ-ㅎㅏ-ㅣ가-힣]+$/;
+    const valid = regex.test(value);
 
     setUname({
       value,
-      error: !valid,
+      error: !valid && value !== "",
     });
   };
 
-  // 전화번호 입력 핸들러
+  // Handler for phone number input
   const onChangePhoneNumber = (e) => {
     const value = e.target.value;
     const valid = e.target.validity.valid;
 
     setPhoneNumber({
       value,
-      error: !valid,
+      error: !valid && value !== "",
     });
   };
 
-  // 시작 버튼 클릭 시
-  const onClickStart = () =>
-    navigate(`/ai-consult/${uname.value}?phoneNumber=${phoneNumber.value}`);
+  // Handler for the start button click
+  const onClickStart = () => {
+    let unameToUse = uname.value;
+
+    // Check if username contains Korean characters
+    const containsKorean = /[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(uname.value);
+    if (containsKorean) {
+      // Transliterate Korean to English
+      unameToUse = convert(uname.value).replace(/\s+/g, "");
+    }
+
+    navigate(`/ai-consult/${unameToUse}?phoneNumber=${phoneNumber.value}`);
+  };
 
   return (
     <Container maxWidth="md">
@@ -59,26 +72,25 @@ const AiConsultEntryPage = () => {
         height="100vh"
       >
         <Stack spacing={3}>
-          {/* 유저 이름 입력 필드 */}
+          {/* Username input field */}
           <TextField
             fullWidth
             required
             error={uname.error}
             value={uname.value}
             helperText={
-              uname.error ? "유저 이름은 숫자, 영문만 가능합니다." : ""
+              uname.error ? "이름은 숫자, 영문, 한글만 가능합니다." : ""
             }
-            label="유저 이름"
+            label="이름"
             onChange={onChangeUname}
-            inputProps={{
-              pattern: "[A-Za-z0-9]+",
-            }}
+            // Removed pattern from inputProps
+            inputProps={{}}
             sx={{
               fontSize: { xs: "14px", md: "16px" },
             }}
           />
 
-          {/* 전화번호 입력 필드 */}
+          {/* Phone number input field */}
           <TextField
             fullWidth
             required
@@ -90,14 +102,15 @@ const AiConsultEntryPage = () => {
             label="전화번호"
             onChange={onChangePhoneNumber}
             inputProps={{
-              pattern: "[0-9]+", // 숫자만 허용
+              pattern: "[0-9]+", // Only numbers allowed
             }}
+            placeholder="01012345678" // Added placeholder
             sx={{
               fontSize: { xs: "14px", md: "16px" },
             }}
           />
 
-          {/* 이미지 */}
+          {/* Image */}
           <Box
             component="img"
             sx={{
@@ -110,7 +123,7 @@ const AiConsultEntryPage = () => {
             src={VideoCallImage}
           />
 
-          {/* 상담 시작하기 버튼 */}
+          {/* Start Consultation Button */}
           <Box display="flex" justifyContent="center">
             <Button
               onClick={onClickStart}
@@ -129,8 +142,8 @@ const AiConsultEntryPage = () => {
                 boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
                 transition: "transform 0.3s ease-in-out, background-color 0.3s",
                 "&:hover": {
-                  backgroundColor: "#1565c0", // 호버 시 더 진한 색상
-                  transform: "scale(1.03)", // 호버 시 살짝 커짐
+                  backgroundColor: "#1565c0", // Darker color on hover
+                  transform: "scale(1.03)", // Slightly enlarge on hover
                 },
                 padding: { xs: "6px 14px", sm: "8px 16px", md: "10px 20px" },
                 fontWeight: "bold",

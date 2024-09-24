@@ -1,7 +1,7 @@
 
 [[redirects]]
   from = "/proxy/*"
-  to = "https://ruverse.snu.ac.kr/:splat"
+  to = "https://server.snuruverse.com/:splat"
   status = 200
   force = true
   headers = { "X-Forwarded-Host" = "main--ruverse.netlify.app" }

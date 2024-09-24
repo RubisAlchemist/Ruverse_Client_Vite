@@ -138,6 +138,7 @@ const AiConsultChannelPage = () => {
   // 종료 버튼 클릭 시 동작할 함수
   const handleEndConsultation = () => {
     navigate("/");
+    window.location.reload(); // 페이지 새로 고침
   };
 
   return (

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Box, Typography } from "@mui/material";
-import aiis from "@assets/images/aiis.png";
+import aiis from "@assets/images/snu_aiis.png";
 import threeR from "@assets/images/3r.png";
 import virnect from "@assets/images/virnect.png";
 import snuh from "@assets/images/snuh.png";

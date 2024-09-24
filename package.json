@@ -29,6 +29,7 @@
     "agora-rtc-react": "^2.1.0",
     "axios": "^1.7.7",
     "glob": "^11.0.0",
+    "hangul-romanization": "^1.0.1",
     "patch-package": "^8.0.0",
     "postinstall-postinstall": "^2.1.0",
     "prop-types": "^15.8.1",

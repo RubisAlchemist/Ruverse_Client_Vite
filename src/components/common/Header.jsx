@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Box, Grid } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import logo from "@assets/images/logo.png";
 // import aiisImage from "@assets/images/aiis.png";
-import aiisImage from "@assets/images/snu_aiis_below.png";
+import aiisImage from "@assets/images/snu_aiis.png";
 // import koreaImage from "@assets/images/korea.png";
 
 export const HEADER_HEIGHT = "calc(16vh + 30px)";
@@ -38,7 +38,7 @@ const Header = () => {
           src={logo}
           onClick={onClickLogo}
         />
-        <Box
+        {/* <Box
           component="img"
           sx={{
             height: { xs: "10vh", md: "18vh" },
@@ -47,7 +47,7 @@ const Header = () => {
           }}
           alt="AIIS"
           src={aiisImage}
-        />
+        /> */}
         {/* <Grid container sx={{ width: "100%", mt: 1 }}>
           <Grid item xs={6}>
             <Box

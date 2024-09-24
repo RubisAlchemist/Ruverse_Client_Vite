@@ -1,30 +1,4 @@
-// import React, { useEffect, useRef, useState, useCallback } from "react";
-
-// // for profiling
-// function saveTimestampsToCSV(timestamps) {
-//   const fields = ["requestSentTime", "firstVideoPlayedTime"];
-//   // Create CSV header and content
-//   const csvRows = [];
-//   csvRows.push(fields.join(",")); // Add header
-//   csvRows.push(
-//     [timestamps.requestSentTime, timestamps.firstVideoPlayedTime].join(",")
-//   ); // Add row
-//   // Convert CSV array to a Blob
-//   const csvContent = csvRows.join("\n");
-//   const blob = new Blob([csvContent], { type: "text/csv" });
-//   // Create a downloadable link for the CSV
-//   const url = window.URL.createObjectURL(blob);
-//   const link = document.createElement("a");
-//   link.href = url;
-//   link.download = "timestamps_profiling_0911_firstResponse.csv";
-//   // Programmatically click the link to trigger the download
-//   document.body.appendChild(link);
-//   link.click();
-//   // Cleanup
-//   document.body.removeChild(link);
-//   window.URL.revokeObjectURL(url);
-// }
-// //
+// import React, { useEffect, useRef, useState } from "react";
 
 // const SeamlessVideoPlayer = ({
 //   initialVideoUrl,
@@ -33,155 +7,163 @@
 //   onStart,
 //   onAllVideosEnded,
 // }) => {
-//   const PROXY = window.location.hostname === "localhost" ? "" : "/proxy";
 //   const videoRef = useRef(null);
 //   const mediaSourceRef = useRef(null);
 //   const sourceBufferRef = useRef(null);
-//   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 //   const queuedVideos = useRef([]);
-//   const [isLoading, setIsLoading] = useState(true);
 //   const [canPlay, setCanPlay] = useState(false);
 //   const baseUrl = useRef("");
 //   const initialUrlSet = useRef(false);
-//   const isEndOfStream = useRef(false);
-//   const numVideos = initialVideoUrl.numVideo;
-//   const videoIndexRef = useRef(0);
+//   const isStopped = useRef(false);
+//   const currentIndexRef = useRef(0);
+//   const fetchInProgress = useRef({});
+//   const retryCounts = useRef({});
+//   const MAX_RETRIES = 5;
+//   const RETRY_DELAY = 1000;
 
 //   useEffect(() => {
-//     console.log(initialVideoUrl.videoPath);
 //     if (!initialUrlSet.current && initialVideoUrl) {
 //       const urlPart = initialVideoUrl.videoPath
 //         .split("/video/")[1]
-//         .split("_0")[0];
+//         .split(/(_\d+)?\.webm$/)[0];
 //       baseUrl.current = `/video/${urlPart}`;
 //       // baseUrl.current = `/proxy/video/${urlPart}`;
 //       initialUrlSet.current = true;
-//       // baseUrl.current = initialVideoUrl.videoPath;
-//       // initialUrlSet.current = true;
 //     }
 //   }, [initialVideoUrl]);
 
 //   const getVideoUrl = (index) => {
-//     return `${baseUrl.current}${index}.webm`;
+//     if (index === "final") {
+//       return `${baseUrl.current}_final.webm`;
+//     } else {
+//       return `${baseUrl.current}_${index}.webm`;
+//     }
 //   };
 
-//   const sourceOpen = useCallback((e) => {
-//     console.log("sourceOpen()");
+//   const fetchAndAppendVideo = async (index) => {
+//     if (isStopped.current) return;
+//     if (fetchInProgress.current[index]) return; // Avoid overlapping fetches
+//     fetchInProgress.current[index] = true;
 
-//     const mediaSource = e.target;
-//     try {
-//       const mimeType = 'video/webm; codecs="vp8, vorbis"';
-//       sourceBufferRef.current = mediaSource.addSourceBuffer(mimeType);
-//       sourceBufferRef.current.mode = "sequence";
-//       sourceBufferRef.current.addEventListener("updateend", onUpdateEnd);
-
-//       sourceBufferRef.current.addEventListener("abort", () => {
-//         console.log("sourceBuffer event : abort");
-//       });
-//       sourceBufferRef.current.addEventListener("error", (e) => {
-//         console.log("sourceBuffer event : error");
-//         console.log(e);
-//       });
-//       sourceBufferRef.current.addEventListener("update", (e) => {
-//         console.log("sourceBuffer event : update");
-//         console.log(e);
-//       });
-//       sourceBufferRef.current.addEventListener("updatestart", () => {
-//         videoIndexRef.current = videoIndexRef.current + 1;
-//         console.log("sourceBuffer event : updatestart");
-//       });
-
-//       console.log(
-//         "MediaSource readyState after sourceOpen:",
-//         mediaSource.readyState
-//       );
-
-//       // Wait 1 second before starting the fetching process
-//       setTimeout(() => {
-//         console.log("time out");
-//       }, 1000); // Initial 1-second delay
-
-//       // Start fetching videos at 1-second intervals
-//       let videoIndex = 0;
-//       const fetchInterval = setInterval(() => {
-//         console.log("videoIndexRef.current: ", videoIndexRef.current);
-//         console.log("numVideos: ", numVideos);
-//         if (videoIndexRef.current < numVideos) {
-//           fetchAndAppendVideo(videoIndexRef.current);
-//           // videoIndex++;
-//         } else {
-//           setTimeout(() => {
-//             clearInterval(fetchInterval);
-//             setIsLoading(false);
-//             onEnded();
-//           }, 1000);
-//         }
-//       }, 1000);
-//     } catch (error) {
-//       console.error("Error during sourceOpen:", error);
-//     }
-//   }, []);
-
-//   const fetchAndAppendVideo = useCallback(async (index) => {
 //     const url = getVideoUrl(index);
-//     // const proxyUrl = `/api/fetch-video?url=${encodeURIComponent(url)}`;
-
-//     console.log("Current url with proxy: ", url);
 //     const mediaSource = mediaSourceRef.current;
 
-//     const fetchWithRetry = async (retryCount = 50) => {
-//       try {
-//         console.log(
-//           `Attempting to fetch video ${index}, Retry count: ${retryCount}`
+//     try {
+//       console.log(`Attempting to fetch video ${index}`);
+
+//       const response = await fetch(url);
+
+//       if (!response.ok) {
+//         throw new Error(`Failed to fetch video: ${response.statusText}`);
+//       }
+
+//       const arrayBuffer = await response.arrayBuffer();
+//       queuedVideos.current.push(arrayBuffer);
+
+//       fetchInProgress.current[index] = false;
+//       retryCounts.current[index] = 0; // Reset retry count on success
+
+//       if (
+//         mediaSource &&
+//         mediaSource.readyState === "open" &&
+//         sourceBufferRef.current &&
+//         !sourceBufferRef.current.updating
+//       ) {
+//         appendNextVideo();
+//       }
+
+//       // Prefetch the next video in the background
+//       if (index === 0) {
+//         // Fetch the second video before starting playback
+//         fetchAndAppendVideo(index + 1);
+//       } else if (index > 0) {
+//         // Continue fetching subsequent videos
+//         currentIndexRef.current = index + 1;
+//         fetchAndAppendVideo(currentIndexRef.current);
+//       }
+//     } catch (error) {
+//       console.error(`Error fetching video ${index}:`, error);
+//       fetchInProgress.current[index] = false;
+//       retryCounts.current[index] = (retryCounts.current[index] || 0) + 1;
+
+//       if (retryCounts.current[index] < MAX_RETRIES) {
+//         setTimeout(() => fetchAndAppendVideo(index), RETRY_DELAY);
+//       } else {
+//         console.error(
+//           `Max retries reached for video ${index}. Checking for final video.`
 //         );
+//         checkForFinalVideo(index);
+//       }
+//     }
+//   };
 
-//         const response = await fetch(url);
+//   const checkForFinalVideo = async (index) => {
+//     if (isStopped.current) return;
+//     if (fetchInProgress.current["final"]) return; // Avoid overlapping fetches
+//     fetchInProgress.current["final"] = true;
 
-//         if (!response.ok) {
-//           throw new Error(`Failed to fetch video: ${response.statusText}`);
-//         }
+//     const finalUrl = getVideoUrl("final");
 
-//         console.log("response, ", response);
-//         const arrayBuffer = await response.arrayBuffer();
-//         console.log("arrayBuffer, ", arrayBuffer);
-//         queuedVideos.current.push(arrayBuffer);
+//     try {
+//       const response = await fetch(finalUrl);
+//       if (response.ok) {
+//         // '_final' video exists, call onAllVideosEnded immediately
+//         console.log(`'_final' video exists. Ending playback.`);
+//         fetchInProgress.current["final"] = false;
+//         retryCounts.current["final"] = 0; // Reset retry count on success
 
-//         if (
-//           mediaSource &&
-//           mediaSource.readyState === "open" &&
-//           sourceBufferRef.current &&
-//           !sourceBufferRef.current.updating
-//         ) {
-//           appendNextVideo();
-//         }
-//       } catch (error) {
-//         console.error(`Error fetching video ${index}:`, error);
-//         console.error("Error details:", error.message, error.stack);
+//         onAllVideosEnded();
+//         isStopped.current = true;
+//       } else {
+//         // '_final' video does not exist, retry fetching the same index
+//         console.log(`'_final' video does not exist. Retrying video ${index}`);
+//         fetchInProgress.current["final"] = false;
+//         retryCounts.current[index] = (retryCounts.current[index] || 0) + 1;
 
-//         if (retryCount > 0) {
-//           console.log(`Retrying to fetch video ${index} in 1 seconds...`);
-//           setTimeout(() => fetchWithRetry(retryCount - 1), 300); // Retry after 1 second
+//         if (retryCounts.current[index] < MAX_RETRIES) {
+//           setTimeout(() => fetchAndAppendVideo(index), RETRY_DELAY);
 //         } else {
 //           console.error(
-//             `Failed to fetch video ${index} after multiple attempts.`
+//             `Max retries reached for video ${index}. Cannot proceed further.`
 //           );
-//           setIsLoading(false);
+//           // You may choose to call onAllVideosEnded() here or handle it differently
+//           onAllVideosEnded();
+//           isStopped.current = true;
 //         }
 //       }
-//     };
+//     } catch (error) {
+//       console.error("Error checking for '_final' video:", error);
+//       fetchInProgress.current["final"] = false;
+//       retryCounts.current["final"] = (retryCounts.current["final"] || 0) + 1;
 
-//     fetchWithRetry();
-//   }, []);
+//       if (retryCounts.current["final"] < MAX_RETRIES) {
+//         setTimeout(() => checkForFinalVideo(index), RETRY_DELAY);
+//       } else {
+//         console.error(
+//           `Max retries reached for '_final' video. Retrying video ${index}`
+//         );
+//         retryCounts.current[index] = (retryCounts.current[index] || 0) + 1;
 
-//   const appendNextVideo = useCallback(() => {
+//         if (retryCounts.current[index] < MAX_RETRIES) {
+//           setTimeout(() => fetchAndAppendVideo(index), RETRY_DELAY);
+//         } else {
+//           console.error(
+//             `Max retries reached for video ${index}. Cannot proceed further.`
+//           );
+//           onAllVideosEnded();
+//           isStopped.current = true;
+//         }
+//       }
+//     }
+//   };
+
+//   const appendNextVideo = () => {
+//     if (isStopped.current) return;
+
 //     const mediaSource = mediaSourceRef.current;
+
 //     console.log("appendNextVideo()");
 //     console.log("queuedVideos.current.length:", queuedVideos.current.length);
-
-//     console.log(
-//       "MediaSource readyState before append:",
-//       mediaSource ? mediaSource.readyState : "MediaSource not available"
-//     );
 
 //     if (
 //       queuedVideos.current.length > 0 &&
@@ -198,34 +180,45 @@
 //         console.log("Buffer appended successfully.");
 //       } catch (error) {
 //         console.error("Error appending buffer:", error);
+//         // In case of error, re-queue the video and retry later
+//         queuedVideos.current.unshift(nextVideo);
 //       }
-//     } else {
-//       console.log(
-//         "Cannot append: queue length:",
-//         queuedVideos.current.length,
-//         "MediaSource state:",
-//         mediaSource ? mediaSource.readyState : "MediaSource not available",
-//         "SourceBuffer updating:",
-//         sourceBufferRef.current
-//           ? sourceBufferRef.current.updating
-//           : "SourceBuffer not available"
-//       );
 //     }
-//   }, []);
+//   };
 
-//   const onUpdateEnd = useCallback(() => {
+//   const onUpdateEnd = () => {
+//     if (isStopped.current) return;
+
 //     console.log("onUpdateEnd()");
-//     console.log(
-//       "MediaSource readyState during onUpdateEnd:",
-//       mediaSourceRef.current
-//         ? mediaSourceRef.current.readyState
-//         : "MediaSource not available"
-//     );
 //     appendNextVideo();
+
+//     // Set canPlay to true after the first video is appended
 //     if (!canPlay) {
 //       setCanPlay(true);
 //     }
-//   }, [appendNextVideo, canPlay]);
+//   };
+
+//   const sourceOpen = (e) => {
+//     console.log("sourceOpen()");
+
+//     const mediaSource = e.target;
+//     try {
+//       const mimeType = 'video/webm; codecs="vp8, vorbis"';
+//       sourceBufferRef.current = mediaSource.addSourceBuffer(mimeType);
+//       sourceBufferRef.current.mode = "sequence";
+//       sourceBufferRef.current.addEventListener("updateend", onUpdateEnd);
+
+//       console.log(
+//         "MediaSource readyState after sourceOpen:",
+//         mediaSource.readyState
+//       );
+
+//       // Start by fetching the first two videos
+//       fetchAndAppendVideo(0);
+//     } catch (error) {
+//       console.error("Error during sourceOpen:", error);
+//     }
+//   };
 
 //   useEffect(() => {
 //     const video = videoRef.current;
@@ -250,7 +243,7 @@
 //         video.load();
 //       }
 //     };
-//   }, [sourceOpen]);
+//   }, []);
 
 //   useEffect(() => {
 //     if (isVisible && canPlay) {
@@ -259,13 +252,7 @@
 //         videoElement
 //           .play()
 //           .then(() => {
-//             const firstVideoPlayedTime = Date.now(); // profiling
-//             const timestamps = { requestSentTime: -1, firstVideoPlayedTime };
-//             // saveTimestampsToCSV(timestamps);
-//             console.log(
-//               "First video started playing at:",
-//               firstVideoPlayedTime
-//             );
+//             console.log("Video started playing.");
 //           })
 //           .catch((error) => {
 //             console.error("Playback failed:", error);
@@ -276,24 +263,10 @@
 //     }
 //   }, [isVisible, canPlay]);
 
-//   const handleVideoEnded = useCallback(() => {
-//     console.log(`Video ${videoIndexRef.current} ended`);
-//     if (videoIndexRef.current < numVideos - 1) {
-//       console.log("currentVideoIndex: ", videoIndexRef.current);
-//       videoIndexRef.current += 1;
-//       setCurrentVideoIndex(videoIndexRef.current);
-//       onEnded(); // Call onEnded for each video that ends
-//     } else {
-//       console.log("All videos have ended");
-//       onAllVideosEnded(); // Call the new callback when all videos have ended
-//     }
-//   }, [numVideos, onEnded, onAllVideosEnded]);
-
 //   return (
 //     <video
 //       ref={videoRef}
 //       style={{ width: "100%", height: "100%" }}
-//       onEnded={handleVideoEnded}
 //       onPlay={onStart}
 //     />
 //   );
@@ -319,14 +292,20 @@ const SeamlessVideoPlayer = ({
   const initialUrlSet = useRef(false);
   const isStopped = useRef(false);
   const currentIndexRef = useRef(0);
+  const fetchInProgress = useRef({});
+  const retryCounts = useRef({});
+  const MAX_RETRIES = 5;
+  const RETRY_DELAY = 1000;
+  const hasStarted = useRef(false); // 첫 번째 비디오 시작 여부 추적
+  const finalVideoFetched = useRef(false); // final 비디오가 추가되었는지 추적
 
   useEffect(() => {
     if (!initialUrlSet.current && initialVideoUrl) {
       const urlPart = initialVideoUrl.videoPath
         .split("/video/")[1]
         .split(/(_\d+)?\.webm$/)[0];
-      // baseUrl.current = `/video/${urlPart}`;
-      baseUrl.current = `/proxy/video/${urlPart}`;
+      baseUrl.current = `/video/${urlPart}`;
+      // baseUrl.current = `/proxy/video/${urlPart}`;
       initialUrlSet.current = true;
     }
   }, [initialVideoUrl]);
@@ -341,6 +320,8 @@ const SeamlessVideoPlayer = ({
 
   const fetchAndAppendVideo = async (index) => {
     if (isStopped.current) return;
+    if (fetchInProgress.current[index]) return; // 중복된 fetch 방지
+    fetchInProgress.current[index] = true;
 
     const url = getVideoUrl(index);
     const mediaSource = mediaSourceRef.current;
@@ -357,6 +338,9 @@ const SeamlessVideoPlayer = ({
       const arrayBuffer = await response.arrayBuffer();
       queuedVideos.current.push(arrayBuffer);
 
+      fetchInProgress.current[index] = false;
+      retryCounts.current[index] = 0; // 성공 시 retry count 초기화
+
       if (
         mediaSource &&
         mediaSource.readyState === "open" &&
@@ -366,24 +350,26 @@ const SeamlessVideoPlayer = ({
         appendNextVideo();
       }
 
-      // Prefetch the next video in the background
+      // 다음 비디오 가져오기
       if (index === 0) {
-        // Fetch the second video before starting playback
+        // 첫 번째 비디오 이후 두 번째 비디오 가져오기
         fetchAndAppendVideo(index + 1);
-      } else if (index > 0) {
-        // Continue fetching subsequent videos
+      } else if (index > 0 && !finalVideoFetched.current) {
+        // 이후 비디오 계속 가져오기, final 비디오가 추가되지 않은 경우
         currentIndexRef.current = index + 1;
         fetchAndAppendVideo(currentIndexRef.current);
       }
     } catch (error) {
       console.error(`Error fetching video ${index}:`, error);
-      // Implement retry logic or handle errors as needed
-      // For simplicity, we'll attempt to fetch the next video
-      if (index === 0) {
-        // If the first video fails, retry after a delay
-        setTimeout(() => fetchAndAppendVideo(index), 1000);
+      fetchInProgress.current[index] = false;
+      retryCounts.current[index] = (retryCounts.current[index] || 0) + 1;
+
+      if (retryCounts.current[index] < MAX_RETRIES) {
+        setTimeout(() => fetchAndAppendVideo(index), RETRY_DELAY);
       } else {
-        // Check for '_final' video if subsequent video fails
+        console.error(
+          `Max retries reached for video ${index}. Checking for final video.`
+        );
         checkForFinalVideo(index);
       }
     }
@@ -391,36 +377,88 @@ const SeamlessVideoPlayer = ({
 
   const checkForFinalVideo = async (index) => {
     if (isStopped.current) return;
+    if (fetchInProgress.current["final"]) return; // 중복된 fetch 방지
+    fetchInProgress.current["final"] = true;
 
     const finalUrl = getVideoUrl("final");
 
     try {
       const response = await fetch(finalUrl);
       if (response.ok) {
-        // '_final' video exists, but we don't append it
+        // '_final' 비디오가 존재하면 final 비디오를 가져와 버퍼에 추가하고 endOfStream 호출
         console.log(
-          `'_final' video exists. Waiting 1 second and calling onAllVideosEnded.`
+          `'_final' video exists. Preparing to end playback after buffer is exhausted.`
         );
 
-        // Wait 1 second and then call onAllVideosEnded
-        setTimeout(() => {
-          onAllVideosEnded();
-          isStopped.current = true;
-        }, 1000);
+        const arrayBuffer = await response.arrayBuffer();
+        queuedVideos.current.push(arrayBuffer);
+        finalVideoFetched.current = true;
+
+        fetchInProgress.current["final"] = false;
+        retryCounts.current["final"] = 0; // 성공 시 retry count 초기화
+
+        if (
+          mediaSourceRef.current &&
+          mediaSourceRef.current.readyState === "open" &&
+          sourceBufferRef.current &&
+          !sourceBufferRef.current.updating
+        ) {
+          appendNextVideo();
+          // 모든 비디오가 버퍼에 추가된 후 endOfStream 호출
+          sourceBufferRef.current.addEventListener(
+            "updateend",
+            onFinalUpdateEnd,
+            { once: true }
+          );
+        }
       } else {
-        // '_final' video does not exist, retry fetching the same index
+        // '_final' 비디오가 없으면 현재 비디오 재시도
         console.log(`'_final' video does not exist. Retrying video ${index}`);
-        setTimeout(() => fetchAndAppendVideo(index), 1000);
+        fetchInProgress.current["final"] = false;
+        retryCounts.current[index] = (retryCounts.current[index] || 0) + 1;
+
+        if (retryCounts.current[index] < MAX_RETRIES) {
+          setTimeout(() => fetchAndAppendVideo(index), RETRY_DELAY);
+        } else {
+          console.error(
+            `Max retries reached for video ${index}. Cannot proceed further.`
+          );
+          // 최종적으로 종료
+          isStopped.current = true;
+          onAllVideosEnded();
+        }
       }
     } catch (error) {
       console.error("Error checking for '_final' video:", error);
-      setTimeout(() => checkForFinalVideo(index), 1000);
+      fetchInProgress.current["final"] = false;
+      retryCounts.current["final"] = (retryCounts.current["final"] || 0) + 1;
+
+      if (retryCounts.current["final"] < MAX_RETRIES) {
+        setTimeout(() => checkForFinalVideo(index), RETRY_DELAY);
+      } else {
+        console.error(
+          `Max retries reached for '_final' video. Retrying video ${index}`
+        );
+        retryCounts.current[index] = (retryCounts.current[index] || 0) + 1;
+
+        if (retryCounts.current[index] < MAX_RETRIES) {
+          setTimeout(() => fetchAndAppendVideo(index), RETRY_DELAY);
+        } else {
+          console.error(
+            `Max retries reached for video ${index}. Cannot proceed further.`
+          );
+          // 최종적으로 종료
+          isStopped.current = true;
+          onAllVideosEnded();
+        }
+      }
     }
   };
 
   const appendNextVideo = () => {
-    const mediaSource = mediaSourceRef.current;
     if (isStopped.current) return;
+
+    const mediaSource = mediaSourceRef.current;
 
     console.log("appendNextVideo()");
     console.log("queuedVideos.current.length:", queuedVideos.current.length);
@@ -438,9 +476,40 @@ const SeamlessVideoPlayer = ({
       try {
         sourceBufferRef.current.appendBuffer(nextVideo);
         console.log("Buffer appended successfully.");
+
+        if (!hasStarted.current) {
+          // 첫 번째 비디오가 추가된 후 2초 딜레이 후 재생 시작
+          console.log(
+            "First video appended. Starting playback in 2 seconds..."
+          );
+          hasStarted.current = true;
+          setTimeout(() => {
+            setCanPlay(true);
+          }, 2000); // 2000 밀리초 = 2초
+        }
       } catch (error) {
         console.error("Error appending buffer:", error);
+        // 오류 발생 시 비디오를 다시 큐에 넣고 나중에 재시도
+        queuedVideos.current.unshift(nextVideo);
       }
+    } else if (queuedVideos.current.length === 0 && finalVideoFetched.current) {
+      // 모든 비디오가 추가되고 큐가 비어있으며 final 비디오가 추가된 경우 endOfStream 호출
+      try {
+        console.log("All videos appended. Calling endOfStream.");
+        mediaSourceRef.current.endOfStream();
+      } catch (e) {
+        console.warn("Error calling endOfStream:", e);
+      }
+    }
+  };
+
+  const onFinalUpdateEnd = () => {
+    if (isStopped.current) return;
+    console.log("Final video appended. Calling endOfStream.");
+    try {
+      mediaSourceRef.current.endOfStream();
+    } catch (e) {
+      console.warn("Error calling endOfStream after final video:", e);
     }
   };
 
@@ -449,11 +518,6 @@ const SeamlessVideoPlayer = ({
 
     console.log("onUpdateEnd()");
     appendNextVideo();
-
-    // Set canPlay to true after the first video is appended
-    if (!canPlay) {
-      setCanPlay(true);
-    }
   };
 
   const sourceOpen = (e) => {
@@ -471,7 +535,7 @@ const SeamlessVideoPlayer = ({
         mediaSource.readyState
       );
 
-      // Start by fetching the first two videos
+      // 첫 비디오를 가져오기 시작
       fetchAndAppendVideo(0);
     } catch (error) {
       console.error("Error during sourceOpen:", error);
@@ -504,6 +568,27 @@ const SeamlessVideoPlayer = ({
   }, []);
 
   useEffect(() => {
+    const videoElement = videoRef.current;
+
+    const handleEnded = () => {
+      console.log("Video playback ended.");
+      if (onAllVideosEnded) {
+        onAllVideosEnded();
+      }
+    };
+
+    if (videoElement) {
+      videoElement.addEventListener("ended", handleEnded);
+    }
+
+    return () => {
+      if (videoElement) {
+        videoElement.removeEventListener("ended", handleEnded);
+      }
+    };
+  }, [onAllVideosEnded]);
+
+  useEffect(() => {
     if (isVisible && canPlay) {
       const videoElement = videoRef.current;
       if (videoElement) {
@@ -511,6 +596,9 @@ const SeamlessVideoPlayer = ({
           .play()
           .then(() => {
             console.log("Video started playing.");
+            if (onStart) {
+              onStart();
+            }
           })
           .catch((error) => {
             console.error("Playback failed:", error);
@@ -519,14 +607,10 @@ const SeamlessVideoPlayer = ({
     } else {
       videoRef.current?.pause();
     }
-  }, [isVisible, canPlay]);
+  }, [isVisible, canPlay, onStart]);
 
   return (
-    <video
-      ref={videoRef}
-      style={{ width: "100%", height: "100%" }}
-      onPlay={onStart}
-    />
+    <video ref={videoRef} style={{ width: "100%", height: "100%" }} controls />
   );
 };
 
