@@ -651,6 +651,11 @@ const SeamlessVideoPlayer = ({
   const MAX_RETRIES = 5;
   const RETRY_DELAY = 1000;
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+<<<<<<< HEAD
+=======
+
+  const [isInitialLoading, setIsInitialLoading] = useState(true); // 로딩 스피너 대신 디폴트 영상 보이게
+>>>>>>> 5f0518ae9236204cff3180d8777f70c15020bae8
 
   useEffect(() => {
     if (!initialUrlSet.current && initialVideoUrl) {
@@ -680,27 +685,26 @@ const SeamlessVideoPlayer = ({
       console.log("sleeping...");
       await sleep(10000);
       console.log("sleep end");
+<<<<<<< HEAD
+=======
+
+      setIsInitialLoading(false); // 로딩 스피너 대신 디폴트 영상 보이게
+>>>>>>> 5f0518ae9236204cff3180d8777f70c15020bae8
     }
 
     const url = getVideoUrl(index);
     const mediaSource = mediaSourceRef.current;
-
     try {
       console.log("Fetching url: ", url);
       console.log(`Attempting to fetch video ${index}`);
-
       const response = await fetch(url);
-
       if (!response.ok) {
         throw new Error(`Failed to fetch video: ${response.statusText}`);
       }
-
       const arrayBuffer = await response.arrayBuffer();
       queuedVideos.current.push(arrayBuffer);
-
       fetchInProgress.current[index] = false;
       retryCounts.current[index] = 0; // Reset retry count on success
-
       if (
         mediaSource &&
         mediaSource.readyState === "open" &&
@@ -709,7 +713,6 @@ const SeamlessVideoPlayer = ({
       ) {
         appendNextVideo();
       }
-
       // Prefetch the next video in the background
       if (index === 0) {
         // Fetch the second video before starting playback
@@ -723,7 +726,6 @@ const SeamlessVideoPlayer = ({
       console.error(`Error fetching video ${index}:`, error);
       fetchInProgress.current[index] = false;
       retryCounts.current[index] = (retryCounts.current[index] || 0) + 1;
-
       if (retryCounts.current[index] < MAX_RETRIES) {
         setTimeout(() => fetchAndAppendVideo(index), RETRY_DELAY);
       } else {
@@ -739,22 +741,32 @@ const SeamlessVideoPlayer = ({
     if (isStopped.current) return;
     if (fetchInProgress.current[index]) return; // Avoid overlapping fetches
     fetchInProgress.current[index] = true;
+<<<<<<< HEAD
 
     const url = getVideoUrl(index);
     const mediaSource = mediaSourceRef.current;
 
+=======
+    const url = getVideoUrl(index);
+    const mediaSource = mediaSourceRef.current;
+>>>>>>> 5f0518ae9236204cff3180d8777f70c15020bae8
     try {
       console.log(
         `Attempting to fetch video fetchAndAppendVideoAfterFinal ${index}`
       );
+<<<<<<< HEAD
 
       const response = await fetch(url);
 
+=======
+      const response = await fetch(url);
+>>>>>>> 5f0518ae9236204cff3180d8777f70c15020bae8
       if (!response.ok) {
         // If the final video does not exist, end the stream
         console.log(`'_final' video does not exist. Ending stream.`);
         fetchInProgress.current["final"] = false;
         isStopped.current = true;
+<<<<<<< HEAD
 
         if (mediaSource && mediaSource.readyState === "open") {
           mediaSource.endOfStream();
@@ -769,6 +781,17 @@ const SeamlessVideoPlayer = ({
       fetchInProgress.current[index] = false;
       retryCounts.current[index] = 0; // Reset retry count on success
 
+=======
+        if (mediaSource && mediaSource.readyState === "open") {
+          mediaSource.endOfStream();
+        }
+        return;
+      }
+      const arrayBuffer = await response.arrayBuffer();
+      queuedVideos.current.push(arrayBuffer);
+      fetchInProgress.current[index] = false;
+      retryCounts.current[index] = 0; // Reset retry count on success
+>>>>>>> 5f0518ae9236204cff3180d8777f70c15020bae8
       if (
         mediaSource &&
         mediaSource.readyState === "open" &&
@@ -777,7 +800,10 @@ const SeamlessVideoPlayer = ({
       ) {
         appendNextVideo();
       }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f0518ae9236204cff3180d8777f70c15020bae8
       // Prefetch the next video in the background
       if (index === 0) {
         // Fetch the second video before starting playback
@@ -791,13 +817,19 @@ const SeamlessVideoPlayer = ({
       console.error(`Error fetching video ${index}:`, error);
       fetchInProgress.current[index] = false;
       retryCounts.current[index] = (retryCounts.current[index] || 0) + 1;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f0518ae9236204cff3180d8777f70c15020bae8
       if (retryCounts.current[index] < MAX_RETRIES) {
         setTimeout(() => fetchAndAppendVideoAfterFinal(index), RETRY_DELAY);
       } else {
         console.error(`Max retries reached for video ${index}. Ending stream.`);
         isStopped.current = true;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f0518ae9236204cff3180d8777f70c15020bae8
         if (mediaSource && mediaSource.readyState === "open") {
           mediaSource.endOfStream();
         }
@@ -809,9 +841,7 @@ const SeamlessVideoPlayer = ({
     if (isStopped.current) return;
     if (fetchInProgress.current["final"]) return; // Avoid overlapping fetches
     fetchInProgress.current["final"] = true;
-
     const finalUrl = getVideoUrl("final");
-
     try {
       const response = await fetch(finalUrl);
       if (response.ok) {
@@ -819,14 +849,20 @@ const SeamlessVideoPlayer = ({
         console.log(`'_final' video exists. Fetching final video.`);
         fetchInProgress.current["final"] = false;
         retryCounts.current["final"] = 0; // Reset retry count on success
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f0518ae9236204cff3180d8777f70c15020bae8
         fetchAndAppendVideoAfterFinal(index);
       } else {
         // '_final' video does not exist, end the stream
         console.log(`'_final' video does not exist. Ending stream.`);
         fetchInProgress.current["final"] = false;
         isStopped.current = true;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f0518ae9236204cff3180d8777f70c15020bae8
         if (mediaSource && mediaSource.readyState === "open") {
           mediaSource.endOfStream();
         }
@@ -835,13 +871,15 @@ const SeamlessVideoPlayer = ({
       console.error("Error checking for '_final' video:", error);
       fetchInProgress.current["final"] = false;
       retryCounts.current["final"] = (retryCounts.current["final"] || 0) + 1;
-
       if (retryCounts.current["final"] < MAX_RETRIES) {
         setTimeout(() => checkForFinalVideo(index), RETRY_DELAY);
       } else {
         console.error(`Max retries reached for '_final' video. Ending stream.`);
         isStopped.current = true;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f0518ae9236204cff3180d8777f70c15020bae8
         if (mediaSource && mediaSource.readyState === "open") {
           mediaSource.endOfStream();
         }
@@ -851,12 +889,9 @@ const SeamlessVideoPlayer = ({
 
   const appendNextVideo = () => {
     if (isStopped.current) return;
-
     const mediaSource = mediaSourceRef.current;
-
     console.log("appendNextVideo()");
     console.log("queuedVideos.current.length:", queuedVideos.current.length);
-
     if (
       queuedVideos.current.length > 0 &&
       mediaSource &&
@@ -866,7 +901,6 @@ const SeamlessVideoPlayer = ({
     ) {
       const nextVideo = queuedVideos.current.shift();
       console.log("Appending video segment, size:", nextVideo.byteLength);
-
       try {
         sourceBufferRef.current.appendBuffer(nextVideo);
         console.log("Buffer appended successfully.");
@@ -880,10 +914,8 @@ const SeamlessVideoPlayer = ({
 
   const onUpdateEnd = () => {
     if (isStopped.current) return;
-
     console.log("onUpdateEnd()");
     appendNextVideo();
-
     // Set canPlay to true after the first video is appended
     if (!canPlay) {
       setCanPlay(true);
@@ -892,19 +924,16 @@ const SeamlessVideoPlayer = ({
 
   const sourceOpen = (e) => {
     console.log("sourceOpen()");
-
     const mediaSource = e.target;
     try {
       const mimeType = 'video/webm; codecs="vp8, vorbis"';
       sourceBufferRef.current = mediaSource.addSourceBuffer(mimeType);
       sourceBufferRef.current.mode = "sequence";
       sourceBufferRef.current.addEventListener("updateend", onUpdateEnd);
-
       console.log(
         "MediaSource readyState after sourceOpen:",
         mediaSource.readyState
       );
-
       // Start by fetching the first two videos
       fetchAndAppendVideo(0);
     } catch (error) {
@@ -917,16 +946,21 @@ const SeamlessVideoPlayer = ({
     const mediaSource = new MediaSource();
     mediaSourceRef.current = mediaSource;
     video.src = URL.createObjectURL(mediaSource);
-
     const handleSourceOpen = (e) => sourceOpen(e);
     mediaSource.addEventListener("sourceopen", handleSourceOpen);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f0518ae9236204cff3180d8777f70c15020bae8
     const handleEnded = () => {
       console.log("Playback ended.");
       onAllVideosEnded();
     };
     video.addEventListener("ended", handleEnded);
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5f0518ae9236204cff3180d8777f70c15020bae8
     return () => {
       mediaSource.removeEventListener("sourceopen", handleSourceOpen);
       video.removeEventListener("ended", handleEnded);
@@ -934,7 +968,6 @@ const SeamlessVideoPlayer = ({
         mediaSource.removeSourceBuffer(sourceBufferRef.current);
       }
       URL.revokeObjectURL(video.src);
-
       // Cleanup function
       if (video) {
         video.pause();
@@ -961,14 +994,41 @@ const SeamlessVideoPlayer = ({
       videoRef.current?.pause();
     }
   }, [isVisible, canPlay]);
-
+  
   return (
-    <video
-      ref={videoRef}
-      style={{ width: "100%", height: "100%" }}
-      onPlay={onStart}
-    />
+    // 로딩 스피너 대신 디폴트 영상 보이게 하려고 주석시킨 원래 코드
+    // <video
+    //   ref={videoRef}
+    //   style={{ width: "100%", height: "100%" }}
+    //   onPlay={onStart}
+    // />
+
+    // 로딩 스피너 대신 디폴트 영상 보이게
+    <div style={{ position: "relative", width: "100%", height: "100%" }}>
+      <video
+        ref={videoRef}
+        style={{ width: "100%", height: "100%" }}
+        onPlay={onStart}
+      />
+      {isInitialLoading && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "transparent",
+            zIndex: 1, // 비디오 위에 오버레이 표시
+          }}
+        />
+      )}
+    </div>
   );
 };
+<<<<<<< HEAD
 
 export default SeamlessVideoPlayer;
+=======
+export default SeamlessVideoPlayer;
+>>>>>>> 5f0518ae9236204cff3180d8777f70c15020bae8
