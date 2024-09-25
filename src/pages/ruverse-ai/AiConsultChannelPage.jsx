@@ -16,6 +16,10 @@ import { useNavigate } from "react-router-dom";
 import Exit from "@assets/images/exit.png";
 import Describe1Image from "@assets/images/describe1.png";
 import Describe2Image from "@assets/images/describe2.png";
+
+// background image
+import BackgroundImage from "@assets/images/background.png";
+
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
 };
@@ -151,6 +155,26 @@ const AiConsultChannelPage = () => {
         alignItems="center"
         position="relative"
       >
+        {/* Background Image */}
+        <Box
+          component="img"
+          src={BackgroundImage}
+          alt="Background"
+          position="absolute"
+          //top={0}
+          //left={0}
+          //right={20}
+          //width="92%"
+          height="100%"
+          objectFit="cover" // 이미지가 박스 채우도록
+          zIndex={0} // 이미지가 비디오 뒤에 위치하도록
+          //transform="translate(-50%, -50%)" // 중앙 정렬 및 10% 축소
+          sx={{
+            display: { xs: "none", md: "block" }, // 모바일에서는 숨기고, md 이상에서 표시
+            border: "none",
+          }}
+        />
+
         {/* Background default video */}
         <Box
           component="video"
@@ -160,6 +184,9 @@ const AiConsultChannelPage = () => {
           loop
           autoPlay
           muted
+          // Background Image 위한 추가 코드
+          position="relative"
+          zIndex={1}
         />
 
         {/* Seamless video player */}
