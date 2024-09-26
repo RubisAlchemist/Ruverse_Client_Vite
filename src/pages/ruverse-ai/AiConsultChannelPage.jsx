@@ -51,6 +51,10 @@ const AiConsultChannelPage = () => {
     (state) => state.aiConsult.audio.upload.isLoading
   );
 
+  //////// AiConsultChannelPage에 알려주기 ///////
+  const [isSeamlessLoading, setIsSeamlessLoading] = useState(false);
+  ////////////////////////////////////////////
+
   useEffect(() => {
     console.log("AiConsultChannelPage: Component mounted");
     if (greetingsSrc && isGreetingsPlaying) {
@@ -69,6 +73,7 @@ const AiConsultChannelPage = () => {
       src,
       isSeamlessPlaying,
       overlayVideo,
+      isSeamlessLoading, // AiConsultChannelPage에 알려주기
     });
     if (isGreetingsPlaying && greetingsSrc && !overlayVideo) {
       console.log("Playing greeting video");
@@ -84,7 +89,14 @@ const AiConsultChannelPage = () => {
       setOverlayVideo(null);
       setIsSeamlessPlaying(false);
     }
-  }, [isGreetingsPlaying, src, greetingsSrc, isSeamlessPlaying, overlayVideo]);
+  }, [
+    isGreetingsPlaying,
+    src,
+    greetingsSrc,
+    isSeamlessPlaying,
+    overlayVideo,
+    isSeamlessLoading,
+  ]);
 
   const handleOverlayVideoEnd = useCallback(() => {
     console.log("Overlay video ended");
@@ -141,7 +153,7 @@ const AiConsultChannelPage = () => {
 
   // 종료 버튼 클릭 시 동작할 함수
   const handleEndConsultation = () => {
-    navigate("/");
+    navigate("/ai-consultEntry");
     window.location.reload(); // 페이지 새로 고침
   };
 
@@ -191,13 +203,21 @@ const AiConsultChannelPage = () => {
 
         {/* Seamless video player */}
         {isSeamlessPlaying && (
-          <Box position="absolute" top={0} left={0} width="100%" height="100%">
+          <Box
+            position="absolute"
+            top={0}
+            left={0}
+            width="100%"
+            height="100%"
+            zIndex={3}
+          >
             <SeamlessVideoPlayer
               initialVideoUrl={src}
               isVisible={isSeamlessPlaying}
               onEnded={handleAllVideosEnded}
               onStart={handleSeamlessVideoStart}
               onAllVideosEnded={handleAllVideosEnded}
+              // onLoadingChange={setIsSeamlessLoading} // AiConsultChannelPage에 알려주기
             />
           </Box>
         )}
@@ -218,6 +238,7 @@ const AiConsultChannelPage = () => {
               onEnded={handleOverlayVideoEnd}
               onPlay={handleGreetingsVideoPlay}
               onError={handleGreetingsVideoError}
+              zIndex={2}
             />
           </Fade>
         )}
@@ -233,10 +254,22 @@ const AiConsultChannelPage = () => {
             display="flex"
             justifyContent="center"
             alignItems="center"
-            bgcolor="rgba(0, 0, 0, 0.5)"
+            bgcolor="transparent"
           >
             <CircularProgress />
           </Box>
+        )}
+
+        {isSeamlessLoading && (
+          <Box
+            position="absolute"
+            top={0}
+            left={0}
+            width="100%"
+            height="100%"
+            bgcolor="transparent"
+            zIndex={5}
+          />
         )}
       </Box>
 

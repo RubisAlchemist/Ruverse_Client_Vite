@@ -13,7 +13,7 @@ import {
   DialogActions,
 } from "@mui/material";
 import { Header } from "@components/index";
-import avatarJiho from "@assets/images/avatar_jiho.png";
+import avatarSonny from "@assets/images/avatar_sonny.png";
 import avatarJennie from "@assets/images/avatar_jennie.png";
 import avatarJungkook from "@assets/images/avatar_jungkook.png";
 import { KlleonAvatar } from "..";
@@ -51,8 +51,8 @@ const AvatarChoosePage = () => {
     navigate(`/klleonAvatar`, { state: { uname: uname.value } });
 
   const handleAvatarClick = (avatar) => {
-    if (avatar === "jiho") {
-      setSelectedAvatar((prev) => (prev === "jiho" ? null : "jiho"));
+    if (avatar === "sonny") {
+      setSelectedAvatar((prev) => (prev === "sonny" ? null : "sonny"));
     } else {
       setOpenPopup(true);
     }
@@ -131,7 +131,7 @@ const AvatarChoosePage = () => {
 
           <Grid container spacing={{ xs: 2, md: 4 }} justifyContent="center">
             {[
-              { name: "jiho", src: avatarJiho },
+              { name: "sonny", src: avatarSonny },
               { name: "jennie", src: avatarJennie },
               { name: "jungkook", src: avatarJungkook },
             ].map((avatar) => (
@@ -161,7 +161,7 @@ const AvatarChoosePage = () => {
           <Button
             onClick={onClickStart}
             disabled={
-              uname.value === "" || uname.error || selectedAvatar !== "jiho"
+              uname.value === "" || uname.error || selectedAvatar !== "sonny"
             }
             sx={{
               fontSize: "clamp(14px, 2vw, 20px)",
