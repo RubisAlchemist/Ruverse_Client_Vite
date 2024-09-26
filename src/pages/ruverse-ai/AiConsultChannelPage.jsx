@@ -199,6 +199,7 @@ const AiConsultChannelPage = () => {
           // Background Image 위한 추가 코드
           position="relative"
           zIndex={1}
+          sx={{ border: "none" }} // 테두리 제거
         />
 
         {/* Seamless video player */}
@@ -210,6 +211,7 @@ const AiConsultChannelPage = () => {
             width="100%"
             height="100%"
             zIndex={3}
+            sx={{ border: "none" }} // 테두리 제거
           >
             <SeamlessVideoPlayer
               initialVideoUrl={src}
