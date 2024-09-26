@@ -681,7 +681,7 @@ const SeamlessVideoPlayer = ({
 
     if (index == 0) {
       console.log("sleeping...");
-      await sleep(5000);
+      await sleep(7000);
       console.log("sleep end");
 
       setIsInitialLoading(false); // 로딩 스피너 대신 디폴트 영상 보이게
