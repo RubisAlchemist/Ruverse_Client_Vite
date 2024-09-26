@@ -660,8 +660,8 @@ const SeamlessVideoPlayer = ({
       const urlPart = initialVideoUrl.videoPath
         .split("/video/")[1]
         .split(/(_\d+)?\.webm$/)[0];
-      // baseUrl.current = `/video/${urlPart}`;
-      baseUrl.current = `/proxy/video/${urlPart}`;
+      baseUrl.current = `/video/${urlPart}`;
+      // baseUrl.current = `/proxy/video/${urlPart}`;
       initialUrlSet.current = true;
     }
   }, [initialVideoUrl]);
@@ -681,7 +681,7 @@ const SeamlessVideoPlayer = ({
 
     if (index == 0) {
       console.log("sleeping...");
-      await sleep(3000);
+      await sleep(5000);
       console.log("sleep end");
 
       setIsInitialLoading(false); // 로딩 스피너 대신 디폴트 영상 보이게
