@@ -120,6 +120,7 @@ const AiConsultChannelPage = () => {
 
   const handleSeamlessVideoStart = useCallback(() => {
     console.log("Seamless video playback started");
+    console.log(src);
     setIsLoading(false);
     setIsAnswerButtonEnabled(false);
   }, []);

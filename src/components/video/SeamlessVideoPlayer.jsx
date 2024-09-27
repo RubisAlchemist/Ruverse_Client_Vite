@@ -658,6 +658,7 @@ const SeamlessVideoPlayer = ({
 
   useEffect(() => {
     if (!initialUrlSet.current && initialVideoUrl) {
+      console.log("initialVideoUrl: ", initialVideoUrl);
       const urlPart = initialVideoUrl.videoPath
         .split("/video/")[1]
         .split(/(_\d+)?\.webm$/)[0];
