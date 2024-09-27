@@ -17,9 +17,12 @@ import { convert } from "hangul-romanization";
 import { Header } from "@components/index";
 import avatarSonny from "@assets/images/avatar_sonny.png";
 import avatarJennie from "@assets/images/avatar_jennie.png";
+import { useDispatch, useSelector } from "react-redux";
+import { uploadNewSessionRequest } from "@store/ai/aiConsultSlice";
 // import avatarJungkook from "@assets/images/avatar_jungkook.png";
 
 const AiConsultEntryPage = () => {
+  const dispatch = useDispatch();
   const [selectedAvatar, setSelectedAvatar] = useState(null);
   const [openPopup, setOpenPopup] = useState(false);
   const [uname, setUname] = useState({
@@ -74,6 +77,13 @@ const AiConsultEntryPage = () => {
     if (containsKorean) {
       unameToUse = convert(uname.value).replace(/\s+/g, "");
     }
+    console.log("uname: ", unameToUse, ", phoneNum: ", phoneNumber.value);
+    const formData = new FormData();
+
+    formData.append("uname", unameToUse);
+    formData.append("phoneNumber", phoneNumber.value);
+
+    dispatch(uploadNewSessionRequest(formData));
 
     navigate(`/ai-consult/${unameToUse}?phoneNumber=${phoneNumber.value}`);
   };

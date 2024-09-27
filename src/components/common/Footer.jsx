@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { Box, Typography } from "@mui/material";
+import { keyframes } from "@emotion/react";
 import aiis from "@assets/images/snu_aiis.png";
 import threeR from "@assets/images/3r.png";
 import virnect from "@assets/images/virnect.png";
@@ -25,77 +26,82 @@ const Footer = () => {
     ifland,
   ];
 
-  const logoTrackRef = useRef(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
-    const logoTrack = logoTrackRef.current;
-    let animationFrameId;
-
-    const scrollLogos = () => {
-      if (logoTrack.scrollLeft >= logoTrack.scrollWidth / 2) {
-        logoTrack.scrollLeft = 0;
-      } else {
-        logoTrack.scrollLeft += 1;
-      }
-
-      animationFrameId = requestAnimationFrame(scrollLogos);
-    };
-
-    animationFrameId = requestAnimationFrame(scrollLogos);
-
-    return () => cancelAnimationFrame(animationFrameId);
+    const container = containerRef.current;
+    if (container) {
+      const scrollWidth = container.scrollWidth / 2;
+      const animationDuration = scrollWidth / 100; // Adjust speed here
+      container.style.setProperty("--scroll-width", `${scrollWidth}px`);
+      container.style.setProperty(
+        "--animation-duration",
+        `${animationDuration}s`
+      );
+    }
   }, []);
+
+  const scroll = keyframes`
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-1 * var(--scroll-width))); }
+  `;
 
   return (
     <Box
       sx={{
-        // backgroundColor: "#2E3B55",
         padding: "20px 0",
         textAlign: "center",
         color: "white",
         overflow: "hidden",
-        width: "100vw", // 뷰포트 너비로 설정
-        maxWidth: "100%", // 화면 너비를 초과하지 않도록 설정
+        width: "100%",
+        position: "relative",
       }}
     >
       <Typography variant="h6" sx={{ marginBottom: "10px" }}>
         클레온 스튜디오 고객사
       </Typography>
       <Box
-        ref={logoTrackRef}
         sx={{
-          display: "flex",
           overflow: "hidden",
           whiteSpace: "nowrap",
+          position: "relative",
+          "&::before, &::after": {
+            content: '""',
+            position: "absolute",
+            top: 0,
+            width: "100px",
+            height: "100%",
+            zIndex: 2,
+          },
+          "&::before": {
+            left: 0,
+            background: "linear-gradient(to right, white, transparent)",
+          },
+          "&::after": {
+            right: 0,
+            background: "linear-gradient(to left, white, transparent)",
+          },
         }}
       >
         <Box
+          ref={containerRef}
           sx={{
-            display: "flex",
+            display: "inline-block",
+            whiteSpace: "nowrap",
+            animation: `${scroll} var(--animation-duration) linear infinite`,
           }}
         >
-          {logos.map((logo, index) => (
+          {[...logos, ...logos].map((logo, index) => (
             <Box
               key={index}
               component="img"
               src={logo}
               sx={{
-                maxHeight: "60px",
-                marginRight: "30px",
+                height: "80px",
+                marginRight: "40px",
+                verticalAlign: "middle",
               }}
-              alt={`Logo ${index + 1}`}
-            />
-          ))}
-          {logos.map((logo, index) => (
-            <Box
-              key={index + logos.length}
-              component="img"
-              src={logo}
-              sx={{
-                maxHeight: "60px",
-                marginRight: "30px",
-              }}
-              alt={`Logo ${index + 1}`}
+              alt={`Logo ${(index % logos.length) + 1}`}
             />
           ))}
         </Box>

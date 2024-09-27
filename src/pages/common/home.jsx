@@ -25,7 +25,7 @@ const AnimatedText = styled.div`
   text-align: center;
   position: absolute;
   left: 50%;
-  top: 20vh;
+  top: 15vh;
   width: 100%;
   margin-bottom: 50px;
   margin-top: 30px;

@@ -40,6 +40,21 @@ export const uploadKlleonRequest = createAsyncThunk(
   }
 );
 
+export const uploadNewSessionRequest = createAsyncThunk(
+  "asyncThunk/uploadAudioRequest",
+  async (formData) => {
+    console.log(formData);
+    const response = await ruverseClient.post("/counseling/init", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    const data = response.data;
+    console.log("response data: ", response);
+    return data;
+  }
+);
+
 export const uploadRequest = createAsyncThunk(
   "asyncThunk/uploadAudioRequest",
   async (audioForm) => {
