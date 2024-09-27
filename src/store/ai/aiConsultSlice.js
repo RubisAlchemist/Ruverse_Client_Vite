@@ -4,7 +4,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const initialState = {
   audio: {
     defaultSrc: "https://server.snuruverse.com/video/default.mp4",
-    greetingsSrc: "https://server.snuruverse.com/video/greetings.mp4", // 추가: 인사 비디오 URL
+    greetingsSrc: "https://server.snuruverse.com/video/greetings.webm", // 추가: 인사 비디오 URL
     isGreetingsPlaying: true,
     src: "",
     upload: {
