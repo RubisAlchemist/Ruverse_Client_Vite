@@ -683,7 +683,7 @@ const SeamlessVideoPlayer = ({
 
     if (index == 0) {
       console.log("sleeping...");
-      await sleep(5000);
+      await sleep(6000);
       console.log("sleep end");
 
       setIsInitialLoading(false); // 로딩 스피너 대신 디폴트 영상 보이게
@@ -789,7 +789,7 @@ const SeamlessVideoPlayer = ({
       console.error(`Error fetching video ${index}:`, error);
       fetchInProgress.current[index] = false;
       retryCounts.current[index] = (retryCounts.current[index] || 0) + 1;
-      if (retryCounts.current[index] < MAX_RETRIES) {
+      if (retryCounts.current[index] < 5) {
         setTimeout(() => fetchAndAppendVideoAfterFinal(index), RETRY_DELAY);
       } else {
         console.error(`Max retries reached for video ${index}. Ending stream.`);
@@ -827,7 +827,7 @@ const SeamlessVideoPlayer = ({
       console.error("Error checking for '_final' video:", error);
       fetchInProgress.current["final"] = false;
       retryCounts.current["final"] = (retryCounts.current["final"] || 0) + 1;
-      if (retryCounts.current["final"] < MAX_RETRIES) {
+      if (retryCounts.current["final"] < 5) {
         setTimeout(() => checkForFinalVideo(index), RETRY_DELAY);
       } else {
         console.error(`Max retries reached for '_final' video. Ending stream.`);
