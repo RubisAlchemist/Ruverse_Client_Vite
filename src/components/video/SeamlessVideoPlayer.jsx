@@ -370,10 +370,10 @@ const SeamlessVideoPlayer = ({
   const initialUrlSet = useRef(false);
   const isStopped = useRef(false);
   const currentIndexRef = useRef(0);
-  const fetchInProgress = useRef({});
+  const fetchInProgress = useRef(false);
   const retryCounts = useRef({});
-  const MAX_RETRIES = 7;
-  const RETRY_DELAY = 1000;
+  const MAX_RETRIES = Infinity; // Set to Infinity for unlimited retries
+  const RETRY_DELAY = 1000; // 1 second delay between retries
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const [isInitialLoading, setIsInitialLoading] = useState(true);
@@ -384,9 +384,9 @@ const SeamlessVideoPlayer = ({
       const urlPart = initialVideoUrl.videoPath
         .split("/video/")[1]
         .split(/(_\d+)?\.webm$/)[0];
-      // baseUrl.current = `/video/${urlPart}`;
+      baseUrl.current = `/video/${urlPart}`;
       // baseUrl.current = urlPart;
-      baseUrl.current = `/proxy/video/${urlPart}`;
+      // baseUrl.current = `/proxy/video/${urlPart}`;
       initialUrlSet.current = true;
     }
     console.log("seamlessVideoPlayer: ", initialVideoUrl.videoPath);
@@ -402,18 +402,19 @@ const SeamlessVideoPlayer = ({
 
   const fetchAndAppendVideo = async (index) => {
     if (isStopped.current) return;
-    if (fetchInProgress.current[index]) return; // Avoid overlapping fetches
-    fetchInProgress.current[index] = true;
+    if (fetchInProgress.current) return; // Avoid overlapping fetches
+    fetchInProgress.current = true;
 
     if (index === 0) {
       console.log("sleeping...");
-      await sleep(6500);
+      await sleep(6000);
       console.log("sleep end");
       setIsInitialLoading(false);
     }
 
     const url = getVideoUrl(index);
     const mediaSource = mediaSourceRef.current;
+
     try {
       console.log(`Attempting to fetch video ${index}`);
       const response = await fetch(url, {
@@ -423,9 +424,10 @@ const SeamlessVideoPlayer = ({
         throw new Error(`Failed to fetch video: ${response.statusText}`);
       }
       const arrayBuffer = await response.arrayBuffer();
-      queuedVideos.current.push(arrayBuffer);
-      fetchInProgress.current[index] = false;
+      fetchInProgress.current = false;
       retryCounts.current[index] = 0;
+
+      queuedVideos.current.push(arrayBuffer);
 
       if (
         mediaSource &&
@@ -436,15 +438,19 @@ const SeamlessVideoPlayer = ({
         appendNextVideo();
       }
 
-      // After fetching and appending the current video, fetch the next video
+      // After successfully fetching and appending, proceed to the next segment
       currentIndexRef.current = index + 1;
       fetchAndAppendVideo(currentIndexRef.current);
     } catch (error) {
       console.error(`Error fetching video ${index}:`, error);
-      fetchInProgress.current[index] = false;
+      fetchInProgress.current = false;
       retryCounts.current[index] = (retryCounts.current[index] || 0) + 1;
       if (retryCounts.current[index] < MAX_RETRIES) {
-        setTimeout(() => fetchAndAppendVideo(index), RETRY_DELAY);
+        console.log(
+          `Retrying to fetch video ${index}. Attempt ${retryCounts.current[index]}`
+        );
+        await sleep(RETRY_DELAY);
+        fetchAndAppendVideo(index);
       } else {
         console.error(
           `Max retries reached for video ${index}. Checking for final video.`
@@ -457,8 +463,6 @@ const SeamlessVideoPlayer = ({
 
   const checkForFinalVideo = async () => {
     if (isStopped.current) return;
-    if (fetchInProgress.current["final"]) return;
-    fetchInProgress.current["final"] = true;
     const finalUrl = getVideoUrl("final");
     const mediaSource = mediaSourceRef.current;
     try {
@@ -466,7 +470,6 @@ const SeamlessVideoPlayer = ({
       const response = await fetch(finalUrl, {
         credentials: "include",
       });
-      fetchInProgress.current["final"] = false;
       if (response.ok) {
         // '_final' video exists
         console.log(
@@ -493,16 +496,10 @@ const SeamlessVideoPlayer = ({
       }
     } catch (error) {
       console.error("Error checking for '_final' video:", error);
-      fetchInProgress.current["final"] = false;
-      retryCounts.current["final"] = (retryCounts.current["final"] || 0) + 1;
-      if (retryCounts.current["final"] < 5) {
-        setTimeout(checkForFinalVideo, RETRY_DELAY);
-      } else {
-        console.error(`Max retries reached for '_final' video. Ending stream.`);
-        isStopped.current = true;
-        if (mediaSource && mediaSource.readyState === "open") {
-          mediaSource.endOfStream();
-        }
+      // If we cannot check for the final video, we can choose to end the stream or retry
+      isStopped.current = true;
+      if (mediaSource && mediaSource.readyState === "open") {
+        mediaSource.endOfStream();
       }
     }
   };
