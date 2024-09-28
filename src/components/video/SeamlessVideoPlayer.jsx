@@ -372,7 +372,7 @@ const SeamlessVideoPlayer = ({
   const currentIndexRef = useRef(0);
   const fetchInProgress = useRef(false);
   const retryCounts = useRef({});
-  const MAX_RETRIES = Infinity; // Set to Infinity for unlimited retries
+  const MAX_RETRIES = 7; // Set to Infinity for unlimited retries
   const RETRY_DELAY = 1000; // 1 second delay between retries
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
