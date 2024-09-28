@@ -16,9 +16,13 @@ const Header = () => {
   return (
     <AppBar
       position="fixed"
-      color="transparent"
+      //color="transparent"
       elevation={0}
-      sx={{ top: 30, height: HEADER_HEIGHT }}
+      sx={{ //top: 30,
+        // height: HEADER_HEIGHT,
+        backgroundColor:"#ffffff",
+        paddingTop: "30px"
+      }}
     >
       <Toolbar
         sx={{
@@ -26,6 +30,7 @@ const Header = () => {
           justifyContent: "space-between", // 좌우 끝에 고정
           alignItems: "center",
           minHeight: "16vh",
+          backgroundColor:"#cf9d329"
         }}
       >
         <Box

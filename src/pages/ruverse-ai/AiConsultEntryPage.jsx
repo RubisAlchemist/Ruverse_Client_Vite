@@ -103,6 +103,7 @@ const AiConsultEntryPage = () => {
         alignItems="center"
         justifyContent="center"
         height="100vh"
+        sx={{ paddingTop: { xs: '40px', md: '80px' } }}
       >
         <Header sx={{ zIndex: 1100 }} />
         <Stack spacing={{ xs: 3, md: 4 }} alignItems="center" width="100%">
@@ -124,7 +125,7 @@ const AiConsultEntryPage = () => {
               inputProps={{}}
               sx={{
                 fontSize: { xs: "14px", md: "16px" },
-                width: { xs: "100%", sm: "80%", md: "70%" },
+                width: { xs: "70%", sm: "70%", md: "70%" },
                 maxWidth: "400px",
                 mb: 2,
               }}
@@ -149,13 +150,13 @@ const AiConsultEntryPage = () => {
               placeholder="01012345678"
               sx={{
                 fontSize: { xs: "14px", md: "16px" },
-                width: { xs: "100%", sm: "80%", md: "70%" },
+                width: { xs: "70%", sm: "70%", md: "70%" },
                 maxWidth: "400px",
               }}
             />
           </Box>
 
-          <Grid container spacing={2} justifyContent="center">
+          <Grid container spacing={2} justifyContent="center" >
             {[
               { name: "sonny", src: avatarSonny },
               { name: "jennie", src: avatarJennie },
@@ -172,7 +173,7 @@ const AiConsultEntryPage = () => {
                     sx={{
                       width: "100%",
                       height: "auto",
-                      maxWidth: { xs: "150px", sm: "220px", md: "260px" },
+                      maxWidth: { xs: "150px", sm: "220px", md: "240px" },
                       cursor: "pointer",
                       border:
                         selectedAvatar === avatar.name
