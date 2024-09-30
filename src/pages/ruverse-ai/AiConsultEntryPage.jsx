@@ -10,16 +10,18 @@ import {
   Dialog,
   DialogContent,
   DialogActions,
+  Toolbar,
 } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { convert } from "hangul-romanization";
-import { Header } from "@components/index";
+import { Header, HEADER_HEIGHT } from "@components/index";
 import avatarSonny from "@assets/images/avatar_sonny.png";
 import avatarJennie from "@assets/images/avatar_jennie.png";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadNewSessionRequest } from "@store/ai/aiConsultSlice";
 // import avatarJungkook from "@assets/images/avatar_jungkook.png";
+
 
 const AiConsultEntryPage = () => {
   const dispatch = useDispatch();
@@ -97,15 +99,21 @@ const AiConsultEntryPage = () => {
   }, [uname, phoneNumber, selectedAvatar]);
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="md"
+    sx={{
+      paddingTop: HEADER_HEIGHT, // HEADER_HEIGHT만큼 상단 패딩 추가
+    }}
+    >
+      <Header sx={{ zIndex: 1100 }} />
+      {/* <Toolbar/> */}
       <Box
         display="flex"
         alignItems="center"
         justifyContent="center"
-        height="100vh"
-        sx={{ paddingTop: { xs: '40px', md: '80px' } }}
+        //height="100vh"
+        //sx={{ paddingTop: { xs: '40px', md: '80px' }, backgroundColor: "#b0e977t1" }}
       >
-        <Header sx={{ zIndex: 1100 }} />
+        {/* <Header sx={{ zIndex: 1100 }} /> */}
         <Stack spacing={{ xs: 3, md: 4 }} alignItems="center" width="100%">
           <Box
             width="100%"
