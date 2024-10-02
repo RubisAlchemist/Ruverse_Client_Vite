@@ -88,7 +88,7 @@ const Header = () => {
 const HeaderContainer = styled.header`
   width: 100%;
   
-  background-color: #f8f9fa; 
+  background-color: #ffffff; 
   display: flex;
   flex-direction: column;
   padding: 20px 20px;

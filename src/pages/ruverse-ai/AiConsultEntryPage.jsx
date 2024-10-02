@@ -104,6 +104,7 @@ const AiConsultEntryPage = () => {
       <Header />
       {/* <Toolbar/> */}
       <Box
+        flex="1"
         display="flex"
         alignItems="center"
         justifyContent="center"
@@ -160,12 +161,46 @@ const AiConsultEntryPage = () => {
             />
           </Box>
 
-          <Grid container justifyContent="center" >
+          <Box display="flex" justifyContent="center" gap={4}>
             {[
               { name: "sonny", src: avatarSonny },
               { name: "jennie", src: avatarJennie },
             ].map((avatar) => (
-              <Grid item xs={6} sm={5} md={3} key={avatar.name}>
+              <Box
+                key={avatar.name}
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                height="100%"
+              >
+                <Box
+                  component="img"
+                  sx={{
+                    width: "100%",
+                    height: "auto",
+                    maxWidth: { xs: "150px", sm: "220px", md: "240px" },
+                    cursor: "pointer",
+                    border:
+                      selectedAvatar === avatar.name
+                      ? "5px solid #3399FF"
+                      : "none",
+                    borderRadius: "8px",
+                    transition: "all 0.3s ease",
+                  }}
+                  alt={`Avatar ${avatar.name}`}
+                  src={avatar.src}
+                  onClick={() => handleAvatarClick(avatar.name)}
+                />
+              </Box>
+            ))}
+          </Box>
+
+          {/* <Grid container justifyContent="center" >
+            {[
+              { name: "sonny", src: avatarSonny },
+              { name: "jennie", src: avatarJennie },
+            ].map((avatar) => (
+              <Grid item xs={6} sm={5} md={2} key={avatar.name}>
                 <Box
                   display="flex"
                   justifyContent="center"
@@ -193,7 +228,7 @@ const AiConsultEntryPage = () => {
                 </Box>
               </Grid>
             ))}
-          </Grid>
+          </Grid> */}
 
           <Box display="flex" justifyContent="center">
             <Button
@@ -240,6 +275,7 @@ const Container= styled.div`
   //padding-top: HEADER_HEIGHT;
   height: 100vh;
   flex-direction: column;
+  
 `;
 
 export default AiConsultEntryPage;
