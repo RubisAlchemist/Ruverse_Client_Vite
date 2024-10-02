@@ -7,15 +7,6 @@ import styled, { keyframes } from "styled-components";
 //import { Container } from '@mui/material';
 
 const floatAnimation = keyframes`
-  /* 0% {
-    transform: translate(-50%, -50%);
-  }
-  50% {
-    transform: translate(-50%, -60%);
-  }
-  100% {
-    transform: translate(-50%, -50%);
-  } */
   0% {
     transform: translateY(0);
   }
