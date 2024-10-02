@@ -19,7 +19,7 @@ const Header = () => {
       //color="transparent"
       elevation={0}
       sx={{ //top: 30,
-        // height: HEADER_HEIGHT,
+        height: HEADER_HEIGHT,
         backgroundColor:"#ffffff",
         paddingTop: "30px"
       }}
@@ -29,7 +29,7 @@ const Header = () => {
           width: "100%",
           justifyContent: "space-between", // 좌우 끝에 고정
           alignItems: "center",
-          minHeight: "16vh",
+          minHeight: "calc(16vh)",
           backgroundColor:"#cf9d329"
         }}
       >

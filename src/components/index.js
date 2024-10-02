@@ -4,7 +4,7 @@ import AudioRecorder from "./recorder/AudioRecorder";
 
 import LocalUser from "./video/LocalUser";
 import Footer from "./common/Footer";
-import Header from "./common/Header";
+import Header, {HEADER_HEIGHT} from "./common/Header";
 import SeamlessVideoPlayer from "./video/SeamlessVideoPlayer";
 
 export {
@@ -14,4 +14,5 @@ export {
   Footer,
   Header,
   SeamlessVideoPlayer,
+  HEADER_HEIGHT,
 };
