@@ -2,7 +2,7 @@ import VideoCallImage from "@assets/images/videocallImage.png";
 import {
   Box,
   Button,
-  Container,
+  //Container,
   Stack,
   TextField,
   Typography,
@@ -20,6 +20,7 @@ import avatarSonny from "@assets/images/avatar_sonny.png";
 import avatarJennie from "@assets/images/avatar_jennie.png";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadNewSessionRequest } from "@store/ai/aiConsultSlice";
+import styled from "styled-components";
 // import avatarJungkook from "@assets/images/avatar_jungkook.png";
 
 
@@ -99,12 +100,8 @@ const AiConsultEntryPage = () => {
   }, [uname, phoneNumber, selectedAvatar]);
 
   return (
-    <Container maxWidth="md"
-    sx={{
-      paddingTop: HEADER_HEIGHT, // HEADER_HEIGHT만큼 상단 패딩 추가
-    }}
-    >
-      <Header sx={{ zIndex: 1100 }} />
+    <Container>
+      <Header />
       {/* <Toolbar/> */}
       <Box
         display="flex"
@@ -113,7 +110,6 @@ const AiConsultEntryPage = () => {
         //height="100vh"
         //sx={{ paddingTop: { xs: '40px', md: '80px' }, backgroundColor: "#b0e977t1" }}
       >
-        {/* <Header sx={{ zIndex: 1100 }} /> */}
         <Stack spacing={{ xs: 3, md: 4 }} alignItems="center" width="100%">
           <Box
             width="100%"
@@ -164,12 +160,12 @@ const AiConsultEntryPage = () => {
             />
           </Box>
 
-          <Grid container spacing={2} justifyContent="center" >
+          <Grid container justifyContent="center" >
             {[
               { name: "sonny", src: avatarSonny },
               { name: "jennie", src: avatarJennie },
             ].map((avatar) => (
-              <Grid item xs={6} sm={5} md={5} key={avatar.name}>
+              <Grid item xs={6} sm={5} md={3} key={avatar.name}>
                 <Box
                   display="flex"
                   justifyContent="center"
@@ -237,5 +233,13 @@ const AiConsultEntryPage = () => {
     </Container>
   );
 };
+
+const Container= styled.div`
+  display: flex;
+  //background-color: yellow;
+  //padding-top: HEADER_HEIGHT;
+  height: 100vh;
+  flex-direction: column;
+`;
 
 export default AiConsultEntryPage;
