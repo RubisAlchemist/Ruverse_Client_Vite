@@ -30,8 +30,8 @@ const SeamlessVideoPlayer = ({
       const urlPart = initialVideoUrl.videoPath
         .split("/video/")[1]
         .split(/(_\d+)?\.webm$/)[0];
-      baseUrl.current = `/video/${urlPart}`;
-      // baseUrl.current = `/proxy/video/${urlPart}`;
+      // baseUrl.current = `/video/${urlPart}`;
+      baseUrl.current = `/proxy/video/${urlPart}`;
       initialUrlSet.current = true;
     }
     console.log("seamlessVideoPlayer: ", initialVideoUrl.videoPath);
