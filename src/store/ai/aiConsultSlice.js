@@ -5,6 +5,7 @@ const initialState = {
   audio: {
     defaultSrc: "https://server.snuruverse.com/video/default.mp4",
     greetingsSrc: "https://server.snuruverse.com/video/greetings.webm", // 추가: 인사 비디오 URL
+    errorSrc: "https://server.snuruverse.com/video/pardon.webm",
     isGreetingsPlaying: true,
     src: "",
     upload: {
@@ -17,7 +18,6 @@ const initialState = {
   },
   modal: {
     open: false,
-    modalType: "",
     message: null,
   },
 };
@@ -121,6 +121,7 @@ export const aiConsultSlice = createSlice({
       state.audio.upload.isLoading = false;
       state.audio.upload.isError = true;
       state.audio.upload.error = action.error.message;
+      state.audio.src = "error"; // 📌 src를 'error'로 설정
       state.modal.message = "요청 실패";
       state.modal.open = true;
     });

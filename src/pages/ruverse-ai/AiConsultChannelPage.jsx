@@ -434,6 +434,7 @@ const AiConsultChannelPage = () => {
   const greetingsSrc = useSelector(
     (state) => state.aiConsult.audio.greetingsSrc
   );
+  const errorSrc = useSelector((state) => state.aiConsult.audio.errorSrc); // 📌 errorSrc 추가
   const isGreetingsPlaying = useSelector(
     (state) => state.aiConsult.audio.isGreetingsPlaying
   );
@@ -496,25 +497,45 @@ const AiConsultChannelPage = () => {
     };
   }, [greetingsSrc, isGreetingsPlaying]);
 
+  // 📌 src가 "error"일 때 errorSrc를 재생하도록 하는 useEffect 로직 수정
   useEffect(() => {
     console.log("State change detected", {
       isGreetingsPlaying,
       greetingsSrc,
       src,
+      errorSrc,
       isSeamlessPlaying,
       overlayVideo,
       isSeamlessLoading,
     });
-    if (isGreetingsPlaying && greetingsSrc && !overlayVideo) {
+
+    // src가 'error'일 때 errorSrc 비디오 재생
+    if (src === "error" && !overlayVideo) {
+      console.log("Playing error video due to error in src");
+      setOverlayVideo(errorSrc); // errorSrc를 overlayVideo로 설정
+      setIsSeamlessPlaying(false);
+      dispatch(setGreetingsPlayed());
+    }
+    // 인사말 비디오 재생
+    else if (isGreetingsPlaying && greetingsSrc && !overlayVideo) {
       console.log("Playing greeting video");
       setOverlayVideo(greetingsSrc);
       setIsSeamlessPlaying(false);
-    } else if (src && !isSeamlessPlaying && !isGreetingsPlaying) {
+    }
+    // 일반 비디오 재생
+    else if (
+      src &&
+      !isSeamlessPlaying &&
+      !isGreetingsPlaying &&
+      src !== "error"
+    ) {
       console.log("Starting seamless video playback");
       setOverlayVideo(null);
       setIsSeamlessPlaying(true);
       setIsLoading(true);
-    } else if (!src && !isGreetingsPlaying && !isSeamlessPlaying) {
+    }
+    // 초기 상태로 리셋
+    else if (!src && !isGreetingsPlaying && !isSeamlessPlaying) {
       console.log("Resetting to default state");
       setOverlayVideo(null);
       setIsSeamlessPlaying(false);
@@ -523,9 +544,11 @@ const AiConsultChannelPage = () => {
     isGreetingsPlaying,
     src,
     greetingsSrc,
+    errorSrc, // errorSrc를 의존성 배열에 추가
     isSeamlessPlaying,
     overlayVideo,
     isSeamlessLoading,
+    dispatch,
   ]);
 
   const handleOverlayVideoEnd = useCallback(() => {
