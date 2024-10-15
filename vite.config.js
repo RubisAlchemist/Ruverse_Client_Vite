@@ -16,7 +16,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/video": {
-        target: "https://server.snuruverse.com",
+        target: "https://ruverse-snu.com",
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/video/, "/video"),
