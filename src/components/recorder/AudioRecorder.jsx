@@ -36,7 +36,13 @@ function saveTimestampsToCSV(timestamps) {
 }
 //
 
-const AudioRecorder = ({ uname, phoneNumber, disabled, onRecordingStart }) => {
+const AudioRecorder = ({
+  uname,
+  phoneNumber,
+  selectedAvatar,
+  disabled,
+  onRecordingStart,
+}) => {
   const current = useSelector((state) => state.aiConsult.audio.current);
   const dispatch = useDispatch();
 
@@ -61,9 +67,11 @@ const AudioRecorder = ({ uname, phoneNumber, disabled, onRecordingStart }) => {
       formData.append("audio", blob, `${uname}_audio_${current}.wav`);
       formData.append("uname", uname);
       formData.append("phoneNumber", phoneNumber);
+      formData.append("selectedAvatar", selectedAvatar);
       console.log(formData.get("audio"));
       console.log(formData.get("uname"));
       console.log(formData.get("phoneNumber"));
+      console.log(formData.get("selectedAvatar"));
 
       dispatch(clearAudioSrc());
       dispatch(uploadRequest(formData));
@@ -140,6 +148,7 @@ const AudioRecorder = ({ uname, phoneNumber, disabled, onRecordingStart }) => {
 AudioRecorder.propTypes = {
   uname: PropTypes.string,
   phoneNumber: PropTypes.string,
+  selectedAvatar: PropTypes.string,
   disabled: PropTypes.bool,
   onRecordingStart: PropTypes.func,
 };

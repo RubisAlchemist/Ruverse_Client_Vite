@@ -3,9 +3,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   audio: {
-    defaultSrc: "https://ruverse-snu.com/video/default.mp4",
-    greetingsSrc: "https://ruverse-snu.com/video/greetings.webm", // 추가: 인사 비디오 URL
-    errorSrc: "https://ruverse-snu.com/video/pardon.webm",
+    sonny: {
+      defaultSrc: "https://ruverse-snu.com/video/default_sonny.mp4",
+      greetingsSrc: "https://ruverse-snu.com/video/greetings_sonny.webm",
+      errorSrc: "https://ruverse-snu.com/video/pardon_sonny.webm",
+    },
+    jennie: {
+      defaultSrc: "https://ruverse-snu.com/video/default_jennie.mp4",
+      greetingsSrc: "https://ruverse-snu.com/video/greetings_jennie.webm",
+      errorSrc: "https://ruverse-snu.com/video/pardon_jennie.webm",
+    },
     isGreetingsPlaying: true,
     src: "",
     upload: {
