@@ -13,6 +13,11 @@ export default defineConfig({
     //   requireReturnsDefault: "auto", // or 'preferred' if you're dealing with CJS interop issues
     // }),
   ],
+
+  // https://server.snuruverse.com/proxy/video/${urlPart}
+  // vercel : https://server.snuruverse.com/video/${urlPart} 로 프록시
+  // s3 : https://server.snuruverse.com/proxy/video/${urlPart}
+
   server: {
     proxy: {
       "/video": {
@@ -20,6 +25,12 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/video/, "/video"),
+      },
+      "/proxy/video": {
+        target: "https://server.snuruverse.com",
+        changeOrigin: true,
+        secure: false,
+        rewrite: (path) => path.replace(/^\/proxy\/video/, "/video"),
       },
     },
   },
