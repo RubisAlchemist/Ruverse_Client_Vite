@@ -15,7 +15,8 @@ import Describe1Image from "@assets/images/describe1.png";
 import Describe2Image from "@assets/images/describe2.png";
 
 // Background image
-import BackgroundImage from "@assets/images/background.png";
+import BackgroundImage_sonny from "@assets/images/background_sonny.png";
+import BackgroundImage_jennie from "@assets/images/background_jennie.png";
 
 const useQuery = () => {
   return new URLSearchParams(useLocation().search);
@@ -54,6 +55,16 @@ const AiConsultChannelPage = () => {
   const isUploading = useSelector(
     (state) => state.aiConsult.audio.upload.isLoading
   );
+
+  let BackgroundImage;
+  if (selectedAvatar === "sonny") {
+    BackgroundImage = BackgroundImage_sonny;
+  } else if (selectedAvatar === "jennie") {
+    BackgroundImage = BackgroundImage_jennie;
+  } else {
+    // Default background image
+    BackgroundImage = BackgroundImage_sonny;
+  }
 
   const handleEndConsultation = useCallback(() => {
     // 페이지 이동 전에 필요한 정리 작업 수행
