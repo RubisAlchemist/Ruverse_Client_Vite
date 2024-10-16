@@ -21,13 +21,13 @@ export default defineConfig({
   server: {
     proxy: {
       "/video": {
-        target: "https://ruverse-test.com",
+        target: "https://ruverse-snu.com",
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/video/, "/video"),
       },
       "/proxy/video": {
-        target: "https://ruverse-test.com",
+        target: "https://ruverse-snu.com",
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/proxy\/video/, "/video"),
