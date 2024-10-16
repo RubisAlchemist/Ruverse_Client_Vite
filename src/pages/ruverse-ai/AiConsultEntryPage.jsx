@@ -464,7 +464,7 @@ const AiConsultEntryPage = () => {
                       selectedAvatar === avatar.name
                         ? "5px solid #3399FF"
                         : "none",
-                    borderRadius: "8px",
+                    // borderRadius: "8px",
                     transition: "all 0.3s ease",
                   }}
                   alt={`Avatar ${avatar.name}`}
