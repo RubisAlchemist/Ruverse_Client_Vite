@@ -58,6 +58,7 @@ const SeamlessVideoPlayer = ({
     }
 
     const url = getVideoUrl(index);
+    console.log(url);
     const mediaSource = mediaSourceRef.current;
     retryCounts.current[index] = 0;
 

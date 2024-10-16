@@ -3,7 +3,7 @@
   "routes": [
     {
       "src": "/proxy/(.*)",
-      "dest": "https://ruverse-snu.com//$1"
+      "dest": "https://ruverse-test.com//$1"
     },
     {
       "src": "/[^.]+",
