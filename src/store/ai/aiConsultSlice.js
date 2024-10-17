@@ -7,12 +7,15 @@ const initialState = {
       defaultSrc: "https://ruverse-snu.com/video/default_sonny.mp4",
       greetingsSrc: "https://ruverse-snu.com/video/greetings_sonny.webm",
       errorSrc: "https://ruverse-snu.com/video/pardon_sonny.webm",
+      noteSrc: "https://ruverse-snu.com/video/note_sonny.mp4",
     },
     jennie: {
       defaultSrc: "https://ruverse-snu.com/video/default_jennie.mp4",
       greetingsSrc: "https://ruverse-snu.com/video/greetings_jennie.webm",
       errorSrc: "https://ruverse-snu.com/video/pardon_jennie.webm",
+      noteSrc: "https://ruverse-snu.com/video/note_jennie.mp4",
     },
+    isNotePlaying: false,
     isGreetingsPlaying: true,
     src: "",
     upload: {
@@ -107,6 +110,12 @@ export const aiConsultSlice = createSlice({
     setGreetingsPlayed: (state) => {
       state.audio.isGreetingsPlaying = false;
     },
+    setNotePlaying(state) {
+      state.audio.isNotePlaying = true;
+    },
+    clearNotePlaying(state) {
+      state.audio.isNotePlaying = false;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(uploadRequest.pending, (state) => {
@@ -135,7 +144,13 @@ export const aiConsultSlice = createSlice({
   },
 });
 
-export const { clearAudioSrc, closeModal, setAudioSrc, setGreetingsPlayed } =
-  aiConsultSlice.actions;
+export const {
+  clearAudioSrc,
+  closeModal,
+  setAudioSrc,
+  setGreetingsPlayed,
+  setNotePlaying,
+  clearNotePlaying,
+} = aiConsultSlice.actions;
 
 export default aiConsultSlice.reducer;

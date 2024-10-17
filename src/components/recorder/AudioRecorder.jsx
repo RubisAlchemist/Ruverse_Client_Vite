@@ -1,7 +1,11 @@
 // // 클레온 아바타 하단바 디자인 적용 버전
 
 import { Button, Typography } from "@mui/material";
-import { clearAudioSrc, uploadRequest } from "@store/ai/aiConsultSlice";
+import {
+  clearAudioSrc,
+  uploadRequest,
+  setNotePlaying,
+} from "@store/ai/aiConsultSlice";
 import PropTypes from "prop-types";
 import { useReactMediaRecorder } from "react-media-recorder";
 import { useDispatch, useSelector } from "react-redux";
@@ -75,6 +79,7 @@ const AudioRecorder = ({
 
       dispatch(clearAudioSrc());
       dispatch(uploadRequest(formData));
+      dispatch(setNotePlaying());
     },
   });
 
