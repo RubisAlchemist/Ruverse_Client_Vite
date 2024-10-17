@@ -111,7 +111,6 @@
 // };
 
 // export default Footer;
-
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import footerRow from "@assets/images/footer_row.png"; // footer_row 이미지 가져오기
@@ -135,7 +134,7 @@ const Footer = () => {
         sx={{
           display: "block",
           margin: "0 auto", // 가운데 정렬
-          width: { xs: "80%", sm: "70%", md: "60%", lg: "50%" }, // 화면 크기에 따라 너비 조절
+          width: { xs: "90%", sm: "80%", md: "70%", lg: "60%" }, // 화면 크기에 따라 너비 조절
           height: "auto", // 높이를 자동으로 설정하여 비율 유지
           maxWidth: "100%", // 이미지가 부모 요소를 넘어가지 않도록 제한
         }}
