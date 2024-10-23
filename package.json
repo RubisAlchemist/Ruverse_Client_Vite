@@ -41,6 +41,8 @@
     "redux-logger": "^3.0.6",
     "rimraf": "^6.0.1",
     "styled-components": "^6.1.12",
+    "sweetalert2": "^11.14.4",
+    "sweetalert2-react-content": "^5.0.7",
     "webgazer": "^3.3.0"
   },
   "devDependencies": {
