@@ -1486,11 +1486,10 @@ const AiConsultChannelPage = () => {
         if (result.isConfirmed) {
           // '예' 버튼 클릭 시 실행할 코드
           saveTimestampsToCSV(timestampsArray);
-          handleEndConsultation(); // 필요한 경우 유지
-
           window.open(
             "https://docs.google.com/forms/d/e/1FAIpQLScdd0osi9M_RWAnjnCEjaku49Cee7jMhkIpZF9VnUBfzQy2ZQ/viewform"
           );
+          handleEndConsultation(); // 필요한 경우 유지
         } else if (result.isDismissed) {
           if (result.dismiss === Swal.DismissReason.cancel) {
             // '아니오' 버튼 클릭 시 실행할 코드
