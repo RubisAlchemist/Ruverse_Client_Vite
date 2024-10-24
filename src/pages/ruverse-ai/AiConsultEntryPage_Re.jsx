@@ -78,7 +78,7 @@ const AiConsultEntryPageRe = () => {
   const onClickStart = () => {
     let unameToUse = uname;
 
-    const containsKorean = /[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(uname.value);
+    const containsKorean = /[ㄱ-ㅎㅏ-ㅣ가-힣]/.test(uname);
     if (containsKorean) {
       unameToUse = convert(uname).replace(/\s+/g, "");
     }
@@ -93,7 +93,7 @@ const AiConsultEntryPageRe = () => {
     const formData = new FormData();
 
     formData.append("uname", unameToUse);
-    formData.append("phoneNumber", phoneNumber.value);
+    formData.append("phoneNumber", phoneNumber);
     formData.append("selectedAvatar", selectedAvatar);
 
     dispatch(uploadNewSessionRequest(formData));
