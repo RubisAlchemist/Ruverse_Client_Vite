@@ -1494,8 +1494,10 @@ const AiConsultChannelPage = () => {
         } else if (result.isDismissed) {
           if (result.dismiss === Swal.DismissReason.cancel) {
             // '새로운 심리상담 받기' 버튼 클릭 시 실행할 코드
-            navigate("/ai-consultEntry", { replace: true });
-            window.location.reload();
+            saveTimestampsToCSV(timestampsArray);
+            window.location.href = `/ai-consultEntryRe?uname=${encodeURIComponent(
+              uname
+            )}&phoneNumber=${encodeURIComponent(phoneNumber)}`;
           }
           // 'X' 버튼 클릭 시에는 아무 동작도 하지 않음 (모달이 자동으로 닫힘)
         }
@@ -1516,6 +1518,18 @@ const AiConsultChannelPage = () => {
     }).then(() => {
       // 팝업 확인 후 아무 동작도 하지 않음 (새로고침 방지)
     });
+  }, []);
+
+  // Reload page once on first load
+  useEffect(() => {
+    const hasReloaded = sessionStorage.getItem("hasReloaded");
+    if (!hasReloaded) {
+      console.log("페이지가 처음 로드되어 리로드합니다.");
+      sessionStorage.setItem("hasReloaded", "true");
+      window.location.reload();
+    } else {
+      console.log("페이지가 이미 리로드되었습니다.");
+    }
   }, []);
 
   useEffect(() => {
@@ -1633,7 +1647,6 @@ const AiConsultChannelPage = () => {
     ]);
   }, []);
 
-  // 뒤로 가기 팝업 관련 상태 및 핸들러
   useEffect(() => {
     // 컴포넌트가 마운트될 때 현재 상태를 히스토리 스택에 추가
     window.history.pushState({ preventPop: true }, "");

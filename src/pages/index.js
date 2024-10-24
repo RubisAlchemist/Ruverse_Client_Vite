@@ -13,6 +13,7 @@ import AiConsultChannelPage from "./ruverse-ai/AiConsultChannelPage";
 import KlleonAvatar from "./ruverse-ai/klleonAvatar";
 import SeamlessVideoStreamer from "./test";
 import { SeamlessVideoPlayer } from "@components/index";
+import AiConsultEntryPageRe from "./ruverse-ai/AiConsultEntryPage_Re";
 
 export {
   LandingPage,
@@ -26,4 +27,5 @@ export {
   AvatarChoosePage,
   SeamlessVideoStreamer,
   SeamlessVideoPlayer,
+  AiConsultEntryPageRe,
 };
