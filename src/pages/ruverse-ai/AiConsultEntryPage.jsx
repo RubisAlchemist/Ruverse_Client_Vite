@@ -17,7 +17,7 @@
 // import { convert } from "hangul-romanization";
 // import { Header, HEADER_HEIGHT } from "@components/index";
 // import avatarSonny from "@assets/images/avatar_sonny.png";
-// import avatarJennie from "@assets/images/avatar_jennie.png";
+// import avatarJennie from "@assets/images/avatar_karina.png";
 // import { useDispatch, useSelector } from "react-redux";
 // import { uploadNewSessionRequest } from "@store/ai/aiConsultSlice";
 // import styled from "styled-components";
@@ -40,7 +40,7 @@
 //   const handleAvatarClick = (avatar) => {
 //     if (avatar === "sonny") {
 //       setSelectedAvatar((prev) => (prev === "sonny" ? null : "sonny"));
-//     } else if (avatar === "jennie") {
+//     } else if (avatar === "karina") {
 //       setOpenPopup(true);
 //     }
 //   };
@@ -163,7 +163,7 @@
 //           <Box display="flex" justifyContent="center" gap={4}>
 //             {[
 //               { name: "sonny", src: avatarSonny },
-//               { name: "jennie", src: avatarJennie },
+//               { name: "karina", src: avatarJennie },
 //             ].map((avatar) => (
 //               <Box
 //                 key={avatar.name}
@@ -197,7 +197,7 @@
 //           {/* <Grid container justifyContent="center" >
 //             {[
 //               { name: "sonny", src: avatarSonny },
-//               { name: "jennie", src: avatarJennie },
+//               { name: "karina", src: avatarJennie },
 //             ].map((avatar) => (
 //               <Grid item xs={6} sm={5} md={2} key={avatar.name}>
 //                 <Box
@@ -297,7 +297,7 @@ import { useNavigate } from "react-router-dom";
 import { convert } from "hangul-romanization";
 import { Header, HEADER_HEIGHT } from "@components/index";
 import avatarSonny from "@assets/images/avatar_sonny.png";
-import avatarJennie from "@assets/images/avatar_jennie.png";
+import avatarJennie from "@assets/images/avatar_karina.png";
 import { useDispatch, useSelector } from "react-redux";
 import { uploadNewSessionRequest } from "@store/ai/aiConsultSlice";
 import styled from "styled-components";
@@ -444,7 +444,7 @@ const AiConsultEntryPage = () => {
           <Box display="flex" justifyContent="center" gap={4}>
             {[
               { name: "sonny", src: avatarSonny },
-              { name: "jennie", src: avatarJennie },
+              { name: "karina", src: avatarJennie },
             ].map((avatar) => (
               <Box
                 key={avatar.name}

@@ -9,11 +9,11 @@ const initialState = {
       errorSrc: "https://ruverse-snu.com/video/pardon_sonny.webm",
       noteSrc: "https://ruverse-snu.com/video/note_sonny.mp4",
     },
-    jennie: {
-      defaultSrc: "https://ruverse-snu.com/video/default_jennie.mp4",
-      greetingsSrc: "https://ruverse-snu.com/video/greetings_jennie.webm",
-      errorSrc: "https://ruverse-snu.com/video/pardon_jennie.webm",
-      noteSrc: "https://ruverse-snu.com/video/note_jennie.mp4",
+    karina: {
+      defaultSrc: "https://ruverse-snu.com/video/default_karina.mp4",
+      greetingsSrc: "https://ruverse-snu.com/video/greetings_karina.webm",
+      errorSrc: "https://ruverse-snu.com/video/pardon_karina.webm",
+      noteSrc: "https://ruverse-snu.com/video/note_karina.mp4",
     },
     isNotePlaying: false,
     isGreetingsPlaying: true,

@@ -14,8 +14,8 @@ import {
 } from "@mui/material";
 import { Header } from "@components/index";
 import avatarSonny from "@assets/images/avatar_sonny.png";
-import avatarJennie from "@assets/images/avatar_jennie.png";
-import avatarJungkook from "@assets/images/avatar_jungkook.png";
+import avatarJennie from "@assets/images/avatar_karina.png";
+// import avatarJungkook from "@assets/images/avatar_jungkook.png";
 import { KlleonAvatar } from "..";
 
 const HEADER_HEIGHT = "64px";
@@ -132,7 +132,7 @@ const AvatarChoosePage = () => {
           <Grid container spacing={{ xs: 2, md: 4 }} justifyContent="center">
             {[
               { name: "sonny", src: avatarSonny },
-              { name: "jennie", src: avatarJennie },
+              { name: "karina", src: avatarJennie },
               { name: "jungkook", src: avatarJungkook },
             ].map((avatar) => (
               <Grid item xs={4} sm={4} md={4} key={avatar.name}>

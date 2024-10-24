@@ -21,7 +21,7 @@
 
 // // Background image
 // import BackgroundImage_sonny from "@assets/images/background_sonny.png";
-// import BackgroundImage_jennie from "@assets/images/background_jennie.png";
+// import BackgroundImage_karina from "@assets/images/background_karina.png";
 
 // const useQuery = () => {
 //   return new URLSearchParams(useLocation().search);
@@ -68,8 +68,8 @@
 //   let BackgroundImage;
 //   if (selectedAvatar === "sonny") {
 //     BackgroundImage = BackgroundImage_sonny;
-//   } else if (selectedAvatar === "jennie") {
-//     BackgroundImage = BackgroundImage_jennie;
+//   } else if (selectedAvatar === "karina") {
+//     BackgroundImage = BackgroundImage_karina;
 //   } else {
 //     // Default background image
 //     BackgroundImage = BackgroundImage_sonny;
@@ -489,7 +489,7 @@
 // import Describe1Image from "@assets/images/describe1.png";
 // import Describe2Image from "@assets/images/describe2.png";
 // import BackgroundImage_sonny from "@assets/images/background_sonny.png";
-// import BackgroundImage_jennie from "@assets/images/background_jennie.png";
+// import BackgroundImage_karina from "@assets/images/background_karina.png";
 
 // const useQuery = () => {
 //   return new URLSearchParams(useLocation().search);
@@ -536,8 +536,8 @@
 //   let BackgroundImage;
 //   if (selectedAvatar === "sonny") {
 //     BackgroundImage = BackgroundImage_sonny;
-//   } else if (selectedAvatar === "jennie") {
-//     BackgroundImage = BackgroundImage_jennie;
+//   } else if (selectedAvatar === "karina") {
+//     BackgroundImage = BackgroundImage_karina;
 //   } else {
 //     BackgroundImage = BackgroundImage_sonny;
 //   }
@@ -916,7 +916,7 @@
 // import Describe1Image from "@assets/images/describe1.png";
 // import Describe2Image from "@assets/images/describe2.png";
 // import BackgroundImage_sonny from "@assets/images/background_sonny.png";
-// import BackgroundImage_jennie from "@assets/images/background_jennie.png";
+// import BackgroundImage_karina from "@assets/images/background_karina.png";
 
 // const useQuery = () => {
 //   return new URLSearchParams(useLocation().search);
@@ -964,8 +964,8 @@
 //   let BackgroundImage;
 //   if (selectedAvatar === "sonny") {
 //     BackgroundImage = BackgroundImage_sonny;
-//   } else if (selectedAvatar === "jennie") {
-//     BackgroundImage = BackgroundImage_jennie;
+//   } else if (selectedAvatar === "karina") {
+//     BackgroundImage = BackgroundImage_karina;
 //   } else {
 //     BackgroundImage = BackgroundImage_sonny;
 //   }
@@ -1358,6 +1358,7 @@
 // };
 
 // export default AiConsultChannelPage;
+
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import {
   AudioRecorder,
@@ -1379,7 +1380,7 @@ import Exit from "@assets/images/exit.png";
 import Describe1Image from "@assets/images/describe1.png";
 import Describe2Image from "@assets/images/describe2.png";
 import BackgroundImage_sonny from "@assets/images/background_sonny.png";
-import BackgroundImage_jennie from "@assets/images/background_jennie.png";
+import BackgroundImage_karina from "@assets/images/background_karina.png";
 
 // SweetAlert2 임포트
 import Swal from "sweetalert2";
@@ -1433,8 +1434,8 @@ const AiConsultChannelPage = () => {
   let BackgroundImage;
   if (selectedAvatar === "sonny") {
     BackgroundImage = BackgroundImage_sonny;
-  } else if (selectedAvatar === "jennie") {
-    BackgroundImage = BackgroundImage_jennie;
+  } else if (selectedAvatar === "karina") {
+    BackgroundImage = BackgroundImage_karina;
   } else {
     BackgroundImage = BackgroundImage_sonny;
   }
@@ -1480,11 +1481,11 @@ const AiConsultChannelPage = () => {
         icon: "info",
         showCancelButton: true,
         showCloseButton: true, // 우측 상단 X 버튼 추가
-        confirmButtonText: "만족도조사 하러가기",
+        confirmButtonText: "만족도 조사 하러가기",
         cancelButtonText: "새로운 심리상담 받기",
       }).then((result) => {
         if (result.isConfirmed) {
-          // '예' 버튼 클릭 시 실행할 코드
+          // '만족도조사 하러가기' 버튼 클릭 시 실행할 코드
           saveTimestampsToCSV(timestampsArray);
           window.open(
             "https://docs.google.com/forms/d/e/1FAIpQLScdd0osi9M_RWAnjnCEjaku49Cee7jMhkIpZF9VnUBfzQy2ZQ/viewform"
@@ -1492,7 +1493,7 @@ const AiConsultChannelPage = () => {
           handleEndConsultation(); // 필요한 경우 유지
         } else if (result.isDismissed) {
           if (result.dismiss === Swal.DismissReason.cancel) {
-            // '아니오' 버튼 클릭 시 실행할 코드
+            // '새로운 심리상담 받기' 버튼 클릭 시 실행할 코드
             navigate("/ai-consultEntry", { replace: true });
             window.location.reload();
           }
@@ -1502,18 +1503,25 @@ const AiConsultChannelPage = () => {
     },
     [handleEndConsultation, timestampsArray, navigate]
   );
-  // 페이지 새로고침 방지 핸들러
+
+  // 페이지 새로고침 방지 핸들러(F5, Ctrl+R 용)
   const handleRefresh = useCallback((e) => {
     e.preventDefault();
-    const confirmRefresh = window.confirm("페이지를 새로고침하시겠습니까?");
-    if (confirmRefresh) {
-      window.location.reload();
-    }
+    MySwal.fire({
+      title: "알림",
+      html: "우측 하단의 나가기 버튼(문 모양)을 사용해<br>종료 후 처음부터 시작해주세요.",
+      icon: "warning",
+      confirmButtonText: "확인",
+      allowOutsideClick: false, // 팝업 외부 클릭 시 닫히지 않도록 설정
+    }).then(() => {
+      // 팝업 확인 후 아무 동작도 하지 않음 (새로고침 방지)
+    });
   }, []);
 
   useEffect(() => {
     const handleKeyPress = (e) => {
       if (e.key === "F5" || (e.ctrlKey && e.key === "r")) {
+        e.preventDefault();
         handleRefresh(e);
       }
     };
@@ -1624,6 +1632,51 @@ const AiConsultChannelPage = () => {
       { requestSentTime: timestamp, firstVideoPlayedTime: null },
     ]);
   }, []);
+
+  // 뒤로 가기 팝업 관련 상태 및 핸들러
+  useEffect(() => {
+    // 컴포넌트가 마운트될 때 현재 상태를 히스토리 스택에 추가
+    window.history.pushState({ preventPop: true }, "");
+
+    const handlePopState = (event) => {
+      // preventPop이 true인 경우, 사용자에게 확인 팝업을 표시
+      if (event.state && event.state.preventPop) {
+        // SweetAlert2를 사용한 팝업 표시
+        MySwal.fire({
+          title: "알림",
+          html: "우측 하단의 나가기 버튼(문 모양)을 사용해<br>종료 후 처음부터 시작해주세요.",
+          icon: "warning",
+          confirmButtonText: "확인",
+          allowOutsideClick: false, // 팝업 외부 클릭 시 닫히지 않도록 설정
+        }).then(() => {
+          // 사용자가 확인 버튼을 클릭하면 현재 상태를 다시 히스토리 스택에 추가
+          window.history.pushState({ preventPop: true }, "");
+        });
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, []);
+
+  // 페이지 새로고침 방지 핸들러(브라우저의 새로고침 버튼)
+  // useEffect(() => {
+  //   const handleBeforeUnload = (e) => {
+  //     e.preventDefault();
+  //     // Chrome requires returnValue to be set
+  //     e.returnValue = "";
+  //     // Note: Custom messages are not supported by most browsers
+  //   };
+
+  //   window.addEventListener("beforeunload", handleBeforeUnload);
+
+  //   return () => {
+  //     window.removeEventListener("beforeunload", handleBeforeUnload);
+  //   };
+  // }, []);
 
   return (
     <Box width="100%" height="100vh">
@@ -1740,7 +1793,7 @@ const AiConsultChannelPage = () => {
       {/* 로컬 유저 비디오 */}
       <Box
         position="absolute"
-        zIndex={2}
+        zIndex={999}
         right={0}
         bottom={"10%"}
         width={{ xs: "200px", md: "320px" }}
