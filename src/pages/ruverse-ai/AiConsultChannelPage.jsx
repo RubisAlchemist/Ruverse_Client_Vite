@@ -1640,7 +1640,9 @@ const AiConsultChannelPage = () => {
 
     const handlePopState = (event) => {
       // preventPop이 true인 경우, 사용자에게 확인 팝업을 표시
-      if (event.state && event.state.preventPop) {
+      console.log(event.state);
+      console.log(event.state.preventPop);
+      if (event.state || event.state.preventPop) {
         // SweetAlert2를 사용한 팝업 표시
         MySwal.fire({
           title: "알림",
