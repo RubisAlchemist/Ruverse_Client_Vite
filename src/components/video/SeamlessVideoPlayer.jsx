@@ -62,7 +62,7 @@ const SeamlessVideoPlayer = ({
     const mediaSource = mediaSourceRef.current;
     retryCounts.current[index] = 0;
 
-    const MAX_RETRIES_BEFORE_FINAL_CHECK = 5;
+    const MAX_RETRIES_BEFORE_FINAL_CHECK = 3;
 
     while (!isStopped.current) {
       try {
