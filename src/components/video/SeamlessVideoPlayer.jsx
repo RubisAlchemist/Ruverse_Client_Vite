@@ -52,7 +52,7 @@ const SeamlessVideoPlayer = ({
 
     if (index === 0) {
       console.log("sleeping...");
-      await sleep(5100);
+      await sleep(1400);
       console.log("sleep end");
       setIsInitialLoading(false);
     }
