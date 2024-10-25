@@ -50,12 +50,12 @@ const SeamlessVideoPlayer = ({
     if (fetchInProgress.current[index]) return; // Avoid overlapping fetches
     fetchInProgress.current[index] = true;
 
-    if (index === 0) {
-      console.log("sleeping...");
-      await sleep(2000);
-      console.log("sleep end");
-      setIsInitialLoading(false);
-    }
+    // if (index === 0) {
+    //   console.log("sleeping...");
+    //   await sleep(2000);
+    //   console.log("sleep end");
+    //   setIsInitialLoading(false);
+    // }
 
     const url = getVideoUrl(index);
     console.log(url);
