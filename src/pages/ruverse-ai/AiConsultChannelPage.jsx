@@ -1521,16 +1521,16 @@ const AiConsultChannelPage = () => {
   }, []);
 
   // Reload page once on first load
-  useEffect(() => {
-    const hasReloaded = sessionStorage.getItem("hasReloaded");
-    if (!hasReloaded) {
-      console.log("페이지가 처음 로드되어 리로드합니다.");
-      sessionStorage.setItem("hasReloaded", "true");
-      window.location.reload();
-    } else {
-      console.log("페이지가 이미 리로드되었습니다.");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const hasReloaded = sessionStorage.getItem("hasReloaded");
+  //   if (!hasReloaded) {
+  //     console.log("페이지가 처음 로드되어 리로드합니다.");
+  //     sessionStorage.setItem("hasReloaded", "true");
+  //     window.location.reload();
+  //   } else {
+  //     console.log("페이지가 이미 리로드되었습니다.");
+  //   }
+  // }, []);
 
   useEffect(() => {
     const handleKeyPress = (e) => {
