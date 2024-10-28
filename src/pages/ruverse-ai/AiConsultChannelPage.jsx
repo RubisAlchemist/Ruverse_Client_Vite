@@ -1486,7 +1486,7 @@ const AiConsultChannelPage = () => {
       }).then((result) => {
         if (result.isConfirmed) {
           // '만족도조사 하러가기' 버튼 클릭 시 실행할 코드
-          saveTimestampsToCSV(timestampsArray);
+          // saveTimestampsToCSV(timestampsArray);
           window.open(
             "https://docs.google.com/forms/d/e/1FAIpQLScdd0osi9M_RWAnjnCEjaku49Cee7jMhkIpZF9VnUBfzQy2ZQ/viewform"
           );
@@ -1494,7 +1494,7 @@ const AiConsultChannelPage = () => {
         } else if (result.isDismissed) {
           if (result.dismiss === Swal.DismissReason.cancel) {
             // '새로운 심리상담 받기' 버튼 클릭 시 실행할 코드
-            saveTimestampsToCSV(timestampsArray);
+            // saveTimestampsToCSV(timestampsArray);
             window.location.href = `/ai-consultEntryRe?uname=${encodeURIComponent(
               uname
             )}&phoneNumber=${encodeURIComponent(phoneNumber)}`;
