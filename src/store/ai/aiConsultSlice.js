@@ -4,16 +4,16 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 const initialState = {
   audio: {
     sonny: {
-      defaultSrc: `${import.meta.env.VITE_VIDEO_BASE_URL}/video/default_sonny.mp4`,
-      greetingsSrc: `${import.meta.env.VITE_VIDEO_BASE_URL}/video/greetings_sonny.webm`,
-      errorSrc: `${import.meta.env.VITE_VIDEO_BASE_URL}/video/pardon_sonny.webm`,
-      noteSrc: `${import.meta.env.VITE_VIDEO_BASE_URL}/video/note_sonny.mp4`,
+      defaultSrc: "https://ruverse-snu.com/video/default_sonny.mp4",
+      greetingsSrc: "https://ruverse-snu.com/video/greetings_sonny.webm",
+      errorSrc: "https://ruverse-snu.com/video/pardon_sonny.webm",
+      noteSrc: "https://ruverse-snu.com/video/note_sonny.mp4",
     },
     karina: {
-      defaultSrc: `${import.meta.env.VITE_VIDEO_BASE_URL}/video/default_karina.mp4`,
-      greetingsSrc: `${import.meta.env.VITE_VIDEO_BASE_URL}/video/greetings_karina.webm`,
-      errorSrc: `${import.meta.env.VITE_VIDEO_BASE_URL}/video/pardon_karina.webm`,
-      noteSrc: `${import.meta.env.VITE_VIDEO_BASE_URL}/video/note_karina.mp4`,
+      defaultSrc: "https://ruverse-snu.com/video/default_karina.mp4",
+      greetingsSrc: "https://ruverse-snu.com/video/greetings_karina.webm",
+      errorSrc: "https://ruverse-snu.com/video/pardon_karina.webm",
+      noteSrc: "https://ruverse-snu.com/video/note_karina.mp4",
     },
     isNotePlaying: false,
     isGreetingsPlaying: true,

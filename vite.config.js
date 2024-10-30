@@ -21,13 +21,13 @@ export default defineConfig({
   server: {
     proxy: {
       "/video": {
-        target: import.meta.env.VITE_VIDEO_BASE_URL,
+        target: "https://ruverse-snu.com",
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/video/, "/video"),
       },
       "/proxy/video": {
-        target: import.meta.env.VITE_VIDEO_BASE_URL,
+        target: "https://ruverse-snu.com",
         changeOrigin: true,
         secure: false,
         rewrite: (path) => path.replace(/^\/proxy\/video/, "/video"),
