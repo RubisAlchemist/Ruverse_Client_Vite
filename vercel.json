@@ -3,7 +3,7 @@
   "routes": [
     {
       "src": "/proxy/(.*)",
-      "dest": "${VITE_VIDEO_BASE_URL}/$1"
+      "dest": "https://ruverse-test.com//$1"
     },
     {
       "src": "/[^.]+",
